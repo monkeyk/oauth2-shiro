@@ -1,0 +1,113 @@
+
+
+
+以下是oauth2-shiro项目的一些规范，请大家自觉遵守。
+
+
+>> 1.开发使用软件及版本信息
+
+ * JDK     1.7.0_40
+ * Maven   3.1.0
+ * IDEA    11.1.3
+ * Tomcat  7.0.47
+ * MySQL   5.6
+ * Git  1.7.10
+
+ 开发平台: Win 7
+
+(更多开发软件及版本号在第一次使用到时再指定)
+[务必使用相同的软件版本]
+      
+
+
+
+>> 2.常用配置与要求
+
+ 电脑配置
+    * 中英文切换快捷键〈Ctrl+Shift+Home〉, 不能使用Ctrl + 空格 键来切换输入法
+    * IDEA所有快捷键不能任意更换
+
+ 数据库开发
+    *表(table)与字段(column)全小写，以下画线分隔，如user; user_detail; color_def
+    *所有SQL脚本必须手写，不能使用工具导出生成
+    *任何字段，除了明确要求外，不要添加任何约束。如非空约束
+    *项目数据库名后加上_test即测试数据库名; 如项目数据库为: wdcy 则测试数据库名为: wdcy_test
+
+ MyBatis配置
+    *MyBatis的所有配置在mybatis.xml文件中, domain的映射文件在mapper文件中, 若domain叫User, 则对应的映射文件叫: UserMapper.xml (不能随意修改文件名称)
+    *映射文件统一放置在相同的目录里, 每一个domain必须在mybatis.xml中配置一个typeAlias, 如: <typeAlias alias="User" type="cc.wdcy.domain.user.User"/>
+    *映射文件(如UserMapper.xml)中的resultMap命名默认为domain名称+Map, 如User的resultMap 叫 userMap
+    *映射文件(如UserMapper.xml)中的namespace配置必须是完整的类名, 如: cc.wdcy.infrastructure.mybatis.UserRepositoryMyBatis
+
+
+ IDEA配置
+    *代码自动缩进(快捷键Ctrl+Alt+L)
+    *更多配置参见intellij_templates.txt
+
+ SVN使用要求
+    *每次提交前先更新
+    *提交代码时必须写注释(Comment)，内容是关于提交或更改的功能的描述
+    *代码必须确保在本地编译通过；尽量在完成一个功能，测试通过，并在review后提交
+
+ Git使用要求
+    *不要使用IDEA自带的git程序, 修改依次点击菜单: File -> Settings... , 在打开的窗口中搜索git, 将 Path to Git Executable 的路径修改为机器安装的git.exe路径
+    *尽量在每次提交代码时同时Push代码到仓库
+    *提交代码时必须写注释(Comment)，内容是关于提交或更改的功能的描述
+    *代码必须确保在本地编译通过；尽量在完成一个功能，测试通过，并在review后提交
+
+
+>> 3.项目配置与要求
+
+	*所有代码,文件,数据库, request/response 等使用的字符编码都为 UTF-8
+	*浏览器支持：IE8及以上, Safari, Chrome, Firefox
+	*DTO不能传入到Domain中
+
+	*所有Service方法的参数与返回值必须是基础数据类型与DTO，不能是Domain
+	*service层不做任何业务处理
+	*方法或构造器的参数尽量控制到4过及以下
+
+	*方法名与属性名必须有意义，不能乱命名方法名。JSP文件与包(package)命名要求全小写，如：companyform.jsp；cc.wdcy.service ；
+	 类名，方法名，属性名遵守驼峰命名规则，如：CompanyController
+	*对于复杂的业务方法，Domain方法与数据库操作必须写单元测试（使用TestNG）
+	*使用Spring的注解开发, Controller层使用@Controller, Service层使用@Service, Validator使用@Component;相互之间的引入用@Autowired; 必要的bean可以配置在xml文件中
+
+	*项目事务添加到service中(如cc.wdcy.service包及其子包)；Service方法中以load, is开头的方法只有只读事务，其他方法支持写事务
+	*URL设置要求
+            1）.所有URL设置按模块划分目录，如Company模块的顶层目录为/company。所有Company的URL都在该目录下，如Company添加URL为：/company/add；
+	        编辑Company的URL为：/company/edit；删除的URL为：/company/delete；Overview的URL为：/company/overview 。
+		其他的URL按其功能命名，如导出为：/company/export。 若有参数的URL如：/company/edit?guid=1223-soed-d等。
+            2). 配置URL时分模块且结构清晰.
+            3). 页面上的URL使用相对路径或完整路径(包括contextPath)
+            4). URL的配置尽量简单清晰，一看就明白其功能
+
+	*对于获取Spring容器中的实例时，可使用BeanProvider.getBean(Class clazz)获取。在Domain中获取Repository的方法如下：
+	   
+          private transient BacklogRepository backlogRepository = BeanProvider.getBean(BacklogRepository.class);
+
+	  使用时如下：
+	    public void saveOrUpdate() {
+		    backlogRepository.save(this);
+	    }
+
+	*前台使用JQUERY及相关插件, 所有的静态资源(js, css, image, html等) 放置在resouces目录里.
+
+	*任何新建的Repository必须继承Repository接口；MyBatis使用的Repository必须继承具体的子接口。一个示例如下：
+
+	   public interface CompanyRepository extends Repository {
+	       //codes
+	   }
+
+	   public interface CompanyRepositoryMyBatis extends CompanyRepository {
+	       //codes
+	   }
+
+
+
+>> 4. 对于比较复杂的业务方法, 必须写一个辅助类去完成该业务方法. 如保存/更新 一个大的表单, 写一个XXXPersister的类去做保存/更新的事情.
+
+
+
+(若有不清楚或尚未明确的开发规范, 请提出来)
+
+
+

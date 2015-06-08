@@ -1,0 +1,124 @@
+-------------------IN 'TEMPLATES'-------------
+Class:
+
+/*
+ * Copyright (c) 2015 MONKEYK Information Technology Co. Ltd
+ * monkeyk.com
+ * All rights reserved.
+ *
+ * This software is the confidential and proprietary information of
+ * MONKEYK Information Technology Co. Ltd ("Confidential Information").
+ * You shall not disclose such Confidential Information and shall use
+ * it only in accordance with the terms of the license agreement you
+ * entered into with MONKEYK Information Technology Co. Ltd.
+ */
+package ${PACKAGE_NAME};
+
+#parse("File Header.java")
+public class ${NAME} {
+}
+
+
+
+Interface:
+
+/*
+ * Copyright (c) 2015 MONKEYK Information Technology Co. Ltd
+ * monkeyk.com
+ * All rights reserved.
+ *
+ * This software is the confidential and proprietary information of
+ * MONKEYK Information Technology Co. Ltd ("Confidential Information").
+ * You shall not disclose such Confidential Information and shall use
+ * it only in accordance with the terms of the license agreement you
+ * entered into with MONKEYK Information Technology Co. Ltd.
+ */
+package ${PACKAGE_NAME};
+
+#parse("File Header.java")
+
+public interface ${NAME} {
+}
+
+
+Enum:
+
+/*
+ * Copyright (c) 2015 MONKEYK Information Technology Co. Ltd
+ * monkeyk.com
+ * All rights reserved.
+ *
+ * This software is the confidential and proprietary information of
+ * MONKEYK Information Technology Co. Ltd ("Confidential Information").
+ * You shall not disclose such Confidential Information and shall use
+ * it only in accordance with the terms of the license agreement you
+ * entered into with MONKEYK Information Technology Co. Ltd.
+ */
+package ${PACKAGE_NAME};
+
+#parse("File Header.java")
+
+public enum ${NAME} {
+}
+
+
+AnnotationType:
+
+/*
+ * Copyright (c) 2015 MONKEYK Information Technology Co. Ltd
+ * monkeyk.com
+ * All rights reserved.
+ *
+ * This software is the confidential and proprietary information of
+ * MONKEYK Information Technology Co. Ltd ("Confidential Information").
+ * You shall not disclose such Confidential Information and shall use
+ * it only in accordance with the terms of the license agreement you
+ * entered into with MONKEYK Information Technology Co. Ltd.
+ */
+package ${PACKAGE_NAME};
+
+#parse("File Header.java")
+
+public @interface ${NAME} {
+}
+
+------------------IN 'CODE'-------------
+Implemented, New & Overridden method body:
+throw new UnsupportedOperationException("Not yet implemented");
+
+Catch Statement Body
+${EXCEPTION}.printStackTrace(); 
+
+
+
+-----------------IN 'INCLUDES'--------------------
+ActionScript File Header , File Header: please replace the author.
+
+/**
+ * 
+ * @author Shengzhao Li
+ */
+
+ 
+-----------------IN 'Java EE'--------------------
+Web -> Jsp files -> Jsp File.jsp
+Change the comment content as follow, change the author to self name.
+
+<%--
+ * Copyright (c) 2015 MONKEYK Information Technology Co. Ltd
+ * monkeyk.com
+ * All rights reserved.
+ *
+ * This software is the confidential and proprietary information of
+ * MONKEYK Information Technology Co. Ltd ("Confidential Information").
+ * You shall not disclose such Confidential Information and shall use
+ * it only in accordance with the terms of the license agreement you
+ * entered into with MONKEYK Information Technology Co. Ltd.
+--%>
+<%--
+ * 
+ * @author Shengzhao Li
+--%>
+
+
+
