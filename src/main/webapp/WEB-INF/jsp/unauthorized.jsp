@@ -14,28 +14,14 @@
  * @author Shengzhao Li
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ include file="comm-header.jsp" %>
-
 <!DOCTYPE HTML>
 <html>
 <head>
-    <title>Login</title>
+    <title>UnAuthorized</title>
 </head>
 <body>
-<h3>Login</h3>
-
-<div>
-    <form:form commandName="formDto" action="login">
-        Username: <form:input path="username" required="true"/>
-        <br/> <br/>
-        Password: <form:password path="password" required="true"/>
-        <br/> <br/>
-        <input type="submit" value="Login"/>
-        <br/>
-        <span style="color:red;"><form:errors path="*"/></span>
-    </form:form>
-</div>
-
-
+<h3>unauthorized</h3>
+<a href="${contextPath}/">Home</a>
+<a href="javascript:history.back();">Back</a>
 </body>
 </html>

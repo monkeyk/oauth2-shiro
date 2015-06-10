@@ -14,6 +14,7 @@ package com.monkeyk.os.web.controller;
 import com.monkeyk.os.service.dto.LoginDto;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -32,6 +33,28 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class ShiroController {
 
     private static final Logger LOG = LoggerFactory.getLogger(ShiroController.class);
+
+
+    @RequestMapping("index")
+    public String index() {
+        return "index";
+    }
+
+    @RequestMapping("unauthorized")
+    public String unauthorized() {
+        return "unauthorized";
+    }
+
+    /*
+     * Logout
+     */
+    @RequestMapping("logout")
+    public String logout() {
+        final Subject subject = SecurityUtils.getSubject();
+        LOG.debug("{} is logout", subject.getPrincipal());
+        subject.logout();
+        return "redirect:/";
+    }
 
     /*
      * Go login page
@@ -55,7 +78,7 @@ public class ShiroController {
             return "login";
         }
 
-        return "redirect:index.jsp";
+        return "redirect:index";
     }
 
 
