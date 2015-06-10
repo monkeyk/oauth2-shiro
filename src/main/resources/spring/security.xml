@@ -18,6 +18,7 @@
         <property name="name" value="jdbcRealm"/>
         <property name="dataSource" ref="dataSource"/>
         <property name="credentialsMatcher" ref="credentialsMatcher"/>
+        <property name="permissionsLookupEnabled" value="true"/>
     </bean>
 
     <bean class="org.apache.shiro.cache.MemoryConstrainedCacheManager" id="shiroCacheManager"/>
@@ -43,8 +44,8 @@
                 # admin role
                 /admin/** = authc, roles["Admin"]
                 #user permissions
-                /user/list = authc, perms["admin:list,test:list"]
-                /user/add = authc, perms["admin:create"]
+                /user/list = authc, perms["user:list"]
+                /user/create = authc, perms["user:create"]
                 # everything else requires authentication:
                 /** = authc
             </value>

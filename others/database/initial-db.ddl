@@ -24,11 +24,11 @@ values
 truncate roles_permissions;
 insert into roles_permissions(roles_id, permission)
 values
-(21,'admin:create'),
-(21,'admin:edit'),
-(21,'admin:list'),
-(21,'admin:delete'),
-(22,'test:list');
+(21,'user:create'),
+(21,'user:edit'),
+(21,'user:list'),
+(21,'user:delete'),
+(22,'user:list');
 
 
 -- user_roles
