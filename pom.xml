@@ -17,7 +17,7 @@
 
         <spring.version>3.2.2.RELEASE</spring.version>
         <aspectj.version>1.6.12</aspectj.version>
-        <hibernate.version>4.1.7.Final</hibernate.version>
+        <!--<hibernate.version>4.1.7.Final</hibernate.version>-->
         <mysql.version>5.1.35</mysql.version>
         <oltu.version>1.0.0</oltu.version>
         <shiro.version>1.2.3</shiro.version>
@@ -297,17 +297,17 @@
             <scope>compile</scope>
         </dependency>
 
-        <dependency>
-            <groupId>org.antlr</groupId>
-            <artifactId>antlr-runtime</artifactId>
-            <version>3.3</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.antlr</groupId>
-            <artifactId>stringtemplate</artifactId>
-            <version>3.2.1</version>
-        </dependency>
+        <!--<dependency>-->
+        <!--<groupId>org.antlr</groupId>-->
+        <!--<artifactId>antlr-runtime</artifactId>-->
+        <!--<version>3.3</version>-->
+        <!--<scope>compile</scope>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+        <!--<groupId>org.antlr</groupId>-->
+        <!--<artifactId>stringtemplate</artifactId>-->
+        <!--<version>3.2.1</version>-->
+        <!--</dependency>-->
 
 
         <!--log4j-->
@@ -326,18 +326,18 @@
 
 
         <!--google-->
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>17.0</version>
-        </dependency>
+        <!--<dependency>-->
+        <!--<groupId>com.google.guava</groupId>-->
+        <!--<artifactId>guava</artifactId>-->
+        <!--<version>17.0</version>-->
+        <!--</dependency>-->
 
         <!--hibernate-->
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
-            <version>${hibernate.version}</version>
-        </dependency>
+        <!--<dependency>-->
+        <!--<groupId>org.hibernate</groupId>-->
+        <!--<artifactId>hibernate-core</artifactId>-->
+        <!--<version>${hibernate.version}</version>-->
+        <!--</dependency>-->
 
 
         <dependency>
@@ -372,6 +372,12 @@
             <artifactId>testng</artifactId>
             <version>6.1.1</version>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>junit</groupId>
+                    <artifactId>junit</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 
