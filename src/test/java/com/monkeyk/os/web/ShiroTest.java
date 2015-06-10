@@ -40,8 +40,9 @@ public class ShiroTest {
         //init SecurityManager
         SimpleAccountRealm realm = new SimpleAccountRealm("simple-realm");
         realm.addAccount(username, "abc", "USER");
+
         SimpleAccountRealm realm2 = new SimpleAccountRealm("simple-realm2");
-        realm2.addAccount(username, "abc", "USER");
+        realm2.addAccount(username, "abc", "USER","ADMIN");
 
         List<Realm> realmList = new ArrayList<>();
         realmList.add(realm);
@@ -50,7 +51,7 @@ public class ShiroTest {
         SecurityManager securityManager = new DefaultSecurityManager(realmList);
         SecurityUtils.setSecurityManager(securityManager);
 
-        UsernamePasswordToken token = new UsernamePasswordToken(username, "abc");
+        UsernamePasswordToken token = new UsernamePasswordToken(username, "abcdd");
 
         final Subject subject = SecurityUtils.getSubject();
         subject.login(token);
@@ -60,7 +61,10 @@ public class ShiroTest {
         assertTrue(subject1.isAuthenticated());
 
         assertFalse(subject1.isPermitted("OK"));
-//        assertTrue(subject1.isPermitted("USER"));
+        assertTrue(subject1.hasRole("USER"));
+
+//        assertTrue(subject1.isPermitted("USER:c,u"));
+
 
     }
 
