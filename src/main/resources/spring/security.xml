@@ -20,8 +20,11 @@
         <property name="credentialsMatcher" ref="credentialsMatcher"/>
     </bean>
 
+    <bean class="org.apache.shiro.cache.MemoryConstrainedCacheManager" id="shiroCacheManager"/>
+
     <bean class="org.apache.shiro.web.mgt.DefaultWebSecurityManager" id="securityManager">
         <property name="realm" ref="jdbcRealm"/>
+        <property name="cacheManager" ref="shiroCacheManager"/>
     </bean>
 
 
@@ -35,10 +38,28 @@
                 /favicon.ico = anon
                 /resources/** = anon
                 /login = anon
+                /unauthorized = anon
+                /logout = logout
+                # admin role
+                /admin/** = authc, roles["Admin"]
+                #user permissions
+                /user/list = authc, perms["admin:list,test:list"]
+                /user/add = authc, perms["admin:create"]
                 # everything else requires authentication:
                 /** = authc
             </value>
         </property>
     </bean>
+
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+
+    <!-- Enable Shiro Annotations for Spring-configured beans.  Only run after
+         the lifecycleBeanProcessor has run: -->
+    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
+          depends-on="lifecycleBeanPostProcessor"/>
+    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+        <property name="securityManager" ref="securityManager"/>
+    </bean>
+
 
 </beans>
