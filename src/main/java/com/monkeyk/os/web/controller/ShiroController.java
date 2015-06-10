@@ -11,8 +11,15 @@
  */
 package com.monkeyk.os.web.controller;
 
+import com.monkeyk.os.service.dto.LoginDto;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -24,16 +31,31 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class ShiroController {
 
+    private static final Logger LOG = LoggerFactory.getLogger(ShiroController.class);
+
+    /*
+     * Go login page
+     */
+    @RequestMapping(value = "login", method = RequestMethod.GET)
+    public String login(Model model) {
+        model.addAttribute("formDto", new LoginDto());
+        return "login";
+    }
 
     @RequestMapping(value = "login", method = RequestMethod.POST)
-    public String login(String username, String password, Model model) {
+    public String login(@ModelAttribute("formDto") LoginDto formDto, BindingResult errors) {
 
-//        UsernamePasswordToken token = new UsernamePasswordToken(username, password);
-//
-//        final Subject subject = SecurityUtils.getSubject();
-//        subject.login(token);
+        UsernamePasswordToken token = formDto.token();
 
-        return "login";
+        try {
+            SecurityUtils.getSubject().login(token);
+        } catch (Exception e) {
+            LOG.debug("Error authenticating.", e);
+            errors.rejectValue("username", null, "The username or password was not correct.");
+            return "login";
+        }
+
+        return "redirect:index.jsp";
     }
 
 

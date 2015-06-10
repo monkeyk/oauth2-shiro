@@ -9,4 +9,36 @@
 		  http://www.springframework.org/schema/tx/spring-tx-3.0.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
 
 
+    <bean id="credentialsMatcher" class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+        <property name="hashAlgorithmName" value="MD5"/>
+        <!--<property name="storedCredentialsHexEncoded" value="false"/>-->
+    </bean>
+
+    <bean class="com.monkeyk.os.infrastructure.shiro.MkkJdbcRealm" id="jdbcRealm">
+        <property name="name" value="jdbcRealm"/>
+        <property name="dataSource" ref="dataSource"/>
+        <property name="credentialsMatcher" ref="credentialsMatcher"/>
+    </bean>
+
+    <bean class="org.apache.shiro.web.mgt.DefaultWebSecurityManager" id="securityManager">
+        <property name="realm" ref="jdbcRealm"/>
+    </bean>
+
+
+    <bean class="org.apache.shiro.spring.web.ShiroFilterFactoryBean" id="shiroFilter">
+        <property name="securityManager" ref="securityManager"/>
+        <property name="loginUrl" value="/login"/>
+        <property name="successUrl" value="/index.jsp"/>
+        <property name="unauthorizedUrl" value="/unauthorized"/>
+        <property name="filterChainDefinitions">
+            <value>
+                /favicon.ico = anon
+                /resources/** = anon
+                /login = anon
+                # everything else requires authentication:
+                /** = authc
+            </value>
+        </property>
+    </bean>
+
 </beans>

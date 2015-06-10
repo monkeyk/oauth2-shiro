@@ -13,6 +13,7 @@ package com.monkeyk.os.web;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.mgt.DefaultSecurityManager;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.realm.Realm;
@@ -42,7 +43,7 @@ public class ShiroTest {
         realm.addAccount(username, "abc", "USER");
 
         SimpleAccountRealm realm2 = new SimpleAccountRealm("simple-realm2");
-        realm2.addAccount(username, "abc", "USER","ADMIN");
+        realm2.addAccount(username, "abc", "USER", "ADMIN");
 
         List<Realm> realmList = new ArrayList<>();
         realmList.add(realm);
@@ -65,6 +66,17 @@ public class ShiroTest {
 
 //        assertTrue(subject1.isPermitted("USER:c,u"));
 
+
+    }
+
+
+    @Test
+    public void md5() {
+
+        Md5Hash md5Hash = new Md5Hash("admin");
+        System.out.println(md5Hash.toString());
+        System.out.println(md5Hash.toHex());
+        System.out.println(md5Hash.toBase64());
 
     }
 
