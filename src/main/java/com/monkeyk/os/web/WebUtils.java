@@ -2,16 +2,49 @@ package com.monkeyk.os.web;
 
 import net.sf.json.JSON;
 import org.apache.commons.lang.StringUtils;
+import org.apache.oltu.oauth2.common.message.OAuthResponse;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Map;
 
 /**
  * @author Shengzhao Li
  */
 public abstract class WebUtils {
+
+
+    private WebUtils() {
+    }
+
+
+    public static void writeOAuthResponse(HttpServletResponse response, OAuthResponse oAuthResponse) {
+
+        final int responseStatus = oAuthResponse.getResponseStatus();
+
+        final String locationUri = oAuthResponse.getLocationUri();
+        try {
+
+            final Map<String, String> headers = oAuthResponse.getHeaders();
+            for (String key : headers.keySet()) {
+                response.addHeader(key, headers.get(key));
+            }
+
+            if (locationUri != null) {
+                response.sendRedirect(locationUri);
+            } else {
+
+                response.setStatus(responseStatus);
+                final PrintWriter out = response.getWriter();
+                out.print(oAuthResponse.getBody());
+                out.flush();
+            }
+        } catch (IOException e) {
+            throw new IllegalStateException("Write OAuthResponse error", e);
+        }
+    }
 
 
     public static void writeJson(HttpServletResponse response, JSON json) {
@@ -39,8 +72,6 @@ public abstract class WebUtils {
         }
 
     }
-
-
 
 
     /**
