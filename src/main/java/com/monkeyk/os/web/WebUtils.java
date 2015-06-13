@@ -2,6 +2,7 @@ package com.monkeyk.os.web;
 
 import net.sf.json.JSON;
 import org.apache.commons.lang.StringUtils;
+import org.apache.oltu.oauth2.common.OAuth;
 import org.apache.oltu.oauth2.common.message.OAuthResponse;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,7 +37,9 @@ public abstract class WebUtils {
                 response.sendRedirect(locationUri);
             } else {
 
+                response.setContentType(OAuth.ContentType.JSON);    //json
                 response.setStatus(responseStatus);
+
                 final PrintWriter out = response.getWriter();
                 out.print(oAuthResponse.getBody());
                 out.flush();

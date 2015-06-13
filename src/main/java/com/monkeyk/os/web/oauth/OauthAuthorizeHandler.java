@@ -13,9 +13,14 @@ package com.monkeyk.os.web.oauth;
 
 import org.apache.oltu.oauth2.as.request.OAuthAuthzRequest;
 import org.apache.oltu.oauth2.common.OAuth;
+import org.apache.oltu.oauth2.common.error.OAuthError;
 import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
 import org.apache.oltu.oauth2.common.message.OAuthResponse;
 import org.apache.oltu.oauth2.common.message.types.ResponseType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * 15-6-13
@@ -23,6 +28,8 @@ import org.apache.oltu.oauth2.common.message.types.ResponseType;
  * @author Shengzhao Li
  */
 public class OauthAuthorizeHandler {
+
+    private static final Logger LOG = LoggerFactory.getLogger(OauthAuthorizeHandler.class);
 
     protected OAuthAuthzRequest oauthRequest;
 
@@ -33,6 +40,15 @@ public class OauthAuthorizeHandler {
     }
 
     public OAuthResponse handle() throws OAuthSystemException {
+
+        //If it is auth used
+        if (oauthRequest.isClientAuthHeaderUsed()) {
+            this.oAuthResponse = OAuthResponse.status(HttpServletResponse.SC_FOUND)
+                    .location(oauthRequest.getRedirectURI())
+                    .setParam("client_id", oauthRequest.getClientId())
+                    .buildQueryMessage();
+            return oAuthResponse;
+        }
 
         //validate client details
         if (!validateClientDetails()) {
@@ -54,7 +70,12 @@ public class OauthAuthorizeHandler {
         } else if (isToken()) {
             return validateTokenClientDetails();
         } else {
-            throw new IllegalStateException("Unsupport response_type: " + responseType());
+            LOG.debug("Unsupport response_type '{}' by client_id '{}'", responseType(), oauthRequest.getClientId());
+            this.oAuthResponse = OAuthResponse.errorResponse(HttpServletResponse.SC_BAD_REQUEST)
+                    .setError(OAuthError.CodeResponse.UNSUPPORTED_RESPONSE_TYPE)
+                    .setErrorDescription("Unsupport response_type '" + responseType() + "'")
+                    .buildQueryMessage();
+            return false;
         }
 
     }

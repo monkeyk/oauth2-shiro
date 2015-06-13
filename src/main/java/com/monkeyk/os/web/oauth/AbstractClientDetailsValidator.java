@@ -18,8 +18,11 @@ import org.apache.oltu.oauth2.as.request.OAuthAuthzRequest;
 import org.apache.oltu.oauth2.common.error.OAuthError;
 import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
 import org.apache.oltu.oauth2.common.message.OAuthResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.Set;
 
 /**
  * 15-6-13
@@ -27,6 +30,8 @@ import javax.servlet.http.HttpServletResponse;
  * @author Shengzhao Li
  */
 public abstract class AbstractClientDetailsValidator {
+
+    private static final Logger LOG = LoggerFactory.getLogger(AbstractClientDetailsValidator.class);
 
 
     protected OauthService oauthService = BeanProvider.getBean(OauthService.class);
@@ -44,10 +49,24 @@ public abstract class AbstractClientDetailsValidator {
 
 
     protected OAuthResponse invalidClientErrorResponse() throws OAuthSystemException {
-        return OAuthResponse.errorResponse(HttpServletResponse.SC_BAD_REQUEST)
+        return OAuthResponse.errorResponse(HttpServletResponse.SC_UNAUTHORIZED)
                 .setError(OAuthError.TokenResponse.INVALID_CLIENT)
-                .setErrorDescription("Invalid Client '" + oauthRequest.getClientId() + "'")
-                .buildQueryMessage();
+                .setErrorDescription("Invalid client_id '" + oauthRequest.getClientId() + "'")
+                .buildJSONMessage();
+    }
+
+    protected OAuthResponse invalidRedirectUriResponse() throws OAuthSystemException {
+        return OAuthResponse.errorResponse(HttpServletResponse.SC_BAD_REQUEST)
+                .setError(OAuthError.CodeResponse.INVALID_REQUEST)
+                .setErrorDescription("Invalid redirect_uri '" + oauthRequest.getRedirectURI() + "'")
+                .buildJSONMessage();
+    }
+
+    protected OAuthResponse invalidScopeResponse() throws OAuthSystemException {
+        return OAuthResponse.errorResponse(HttpServletResponse.SC_BAD_REQUEST)
+                .setError(OAuthError.CodeResponse.INVALID_SCOPE)
+                .setErrorDescription("Invalid scope '" + oauthRequest.getScopes() + "'")
+                .buildJSONMessage();
     }
 
 
@@ -59,6 +78,19 @@ public abstract class AbstractClientDetailsValidator {
 
         return validateSelf(details);
     }
+
+
+    protected boolean excludeScopes(Set<String> scopes, ClientDetails clientDetails) {
+        final String clientDetailsScope = clientDetails.scope();          //read,write
+        for (String scope : scopes) {
+            if (!clientDetailsScope.contains(scope)) {
+                LOG.debug("Invalid scope - ClientDetails scopes '{}' exclude '{}'", clientDetailsScope, scope);
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     protected abstract OAuthResponse validateSelf(ClientDetails clientDetails) throws OAuthSystemException;
 }

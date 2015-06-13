@@ -4,6 +4,8 @@ import com.monkeyk.os.service.OauthService;
 import com.monkeyk.os.web.WebUtils;
 import com.monkeyk.os.web.oauth.OauthAuthorizeHandler;
 import org.apache.oltu.oauth2.as.request.OAuthAuthzRequest;
+import org.apache.oltu.oauth2.as.response.OAuthASResponse;
+import org.apache.oltu.oauth2.common.exception.OAuthProblemException;
 import org.apache.oltu.oauth2.common.message.OAuthResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,12 +50,22 @@ public class OauthController {
     @RequestMapping("authorize")
     public void authorize(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        OAuthAuthzRequest oauthRequest = new OAuthAuthzRequest(request);
+        OAuthResponse oAuthResponse;
+        try {
+            OAuthAuthzRequest oauthRequest = new OAuthAuthzRequest(request);
 
-        OauthAuthorizeHandler oauthAuthorizeHandler = new OauthAuthorizeHandler(oauthRequest);
-        OAuthResponse oAuthResponse = oauthAuthorizeHandler.handle();
+            OauthAuthorizeHandler oauthAuthorizeHandler = new OauthAuthorizeHandler(oauthRequest);
+            oAuthResponse = oauthAuthorizeHandler.handle();
+
+        } catch (OAuthProblemException e) {
+            oAuthResponse = OAuthASResponse
+                    .errorResponse(HttpServletResponse.SC_FOUND)
+                    .location(e.getRedirectUri())
+                    .error(e)
+                    .buildJSONMessage();
+        }
+
         LOG.debug("OAuthResponse is {}", oAuthResponse);
-
         WebUtils.writeOAuthResponse(response, oAuthResponse);
 
 //        final String clientId = oauthRequest.getClientId();
