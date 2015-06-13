@@ -12,7 +12,6 @@
 package com.monkeyk.os.web.oauth;
 
 import org.apache.oltu.oauth2.as.request.OAuthAuthzRequest;
-import org.apache.oltu.oauth2.common.OAuth;
 import org.apache.oltu.oauth2.common.error.OAuthError;
 import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
 import org.apache.oltu.oauth2.common.message.OAuthResponse;
@@ -27,19 +26,19 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Shengzhao Li
  */
-public class OauthAuthorizeHandler {
+public class OauthAuthorizeValidator {
 
-    private static final Logger LOG = LoggerFactory.getLogger(OauthAuthorizeHandler.class);
+    private static final Logger LOG = LoggerFactory.getLogger(OauthAuthorizeValidator.class);
 
     protected OAuthAuthzRequest oauthRequest;
 
     protected OAuthResponse oAuthResponse;
 
-    public OauthAuthorizeHandler(OAuthAuthzRequest oauthRequest) {
+    public OauthAuthorizeValidator(OAuthAuthzRequest oauthRequest) {
         this.oauthRequest = oauthRequest;
     }
 
-    public OAuthResponse handle() throws OAuthSystemException {
+    public OAuthResponse validate() throws OAuthSystemException {
 
         //If it is auth used
         if (oauthRequest.isClientAuthHeaderUsed()) {
@@ -48,11 +47,17 @@ public class OauthAuthorizeHandler {
         }
 
         //validate client details
-        if (!validateClientDetails()) {
-            return oAuthResponse;
+        if (isCode()) {
+            validateCodeClientDetails();
+        } else if (isToken()) {
+            validateTokenClientDetails();
+        } else {
+            LOG.debug("Unsupport response_type '{}' by client_id '{}'", responseType(), oauthRequest.getClientId());
+            this.oAuthResponse = OAuthResponse.errorResponse(HttpServletResponse.SC_BAD_REQUEST)
+                    .setError(OAuthError.CodeResponse.UNSUPPORTED_RESPONSE_TYPE)
+                    .setErrorDescription("Unsupport response_type '" + responseType() + "'")
+                    .buildJSONMessage();
         }
-
-        //
 
         return oAuthResponse;
     }
@@ -64,37 +69,15 @@ public class OauthAuthorizeHandler {
                 .buildJSONMessage();
     }
 
-    /**
-     * Validate client details
-     *
-     * @return True is validate successful, otherwise false
-     */
-    protected boolean validateClientDetails() throws OAuthSystemException {
-        if (isCode()) {
-            return validateCodeClientDetails();
-        } else if (isToken()) {
-            return validateTokenClientDetails();
-        } else {
-            LOG.debug("Unsupport response_type '{}' by client_id '{}'", responseType(), oauthRequest.getClientId());
-            this.oAuthResponse = OAuthResponse.errorResponse(HttpServletResponse.SC_BAD_REQUEST)
-                    .setError(OAuthError.CodeResponse.UNSUPPORTED_RESPONSE_TYPE)
-                    .setErrorDescription("Unsupport response_type '" + responseType() + "'")
-                    .buildQueryMessage();
-            return false;
-        }
 
-    }
-
-    protected boolean validateTokenClientDetails() throws OAuthSystemException {
+    protected void validateTokenClientDetails() throws OAuthSystemException {
         TokenClientDetailsValidator validator = new TokenClientDetailsValidator(oauthRequest);
         this.oAuthResponse = validator.validate();
-        return this.oAuthResponse == null;
     }
 
-    protected boolean validateCodeClientDetails() throws OAuthSystemException {
+    protected void validateCodeClientDetails() throws OAuthSystemException {
         CodeClientDetailsValidator validator = new CodeClientDetailsValidator(oauthRequest);
         this.oAuthResponse = validator.validate();
-        return this.oAuthResponse == null;
     }
 
 
@@ -103,9 +86,9 @@ public class OauthAuthorizeHandler {
    * authorization_code
    * implicit
    * */
-    protected String grantType() {
-        return oauthRequest.getParam(OAuth.OAUTH_GRANT_TYPE);
-    }
+//    protected String grantType() {
+//        return oauthRequest.getParam(OAuth.OAUTH_GRANT_TYPE);
+//    }
 
     /*
     * Available values:

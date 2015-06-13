@@ -25,7 +25,7 @@ public abstract class WebUtils {
 
         final int responseStatus = oAuthResponse.getResponseStatus();
 
-        final String locationUri = oAuthResponse.getLocationUri();
+//        final String locationUri = oAuthResponse.getLocationUri();
         try {
 
             final Map<String, String> headers = oAuthResponse.getHeaders();
@@ -33,17 +33,17 @@ public abstract class WebUtils {
                 response.addHeader(key, headers.get(key));
             }
 
-            if (locationUri != null) {
-                response.sendRedirect(locationUri);
-            } else {
+//            if (locationUri != null) {
+//                response.sendRedirect(locationUri);
+//            } else {
 
-                response.setContentType(OAuth.ContentType.JSON);    //json
-                response.setStatus(responseStatus);
+            response.setContentType(OAuth.ContentType.JSON);    //json
+            response.setStatus(responseStatus);
 
-                final PrintWriter out = response.getWriter();
-                out.print(oAuthResponse.getBody());
-                out.flush();
-            }
+            final PrintWriter out = response.getWriter();
+            out.print(oAuthResponse.getBody());
+            out.flush();
+//            }
         } catch (IOException e) {
             throw new IllegalStateException("Write OAuthResponse error", e);
         }

@@ -1,15 +1,19 @@
 package com.monkeyk.os.web.controller;
 
 import com.monkeyk.os.web.WebUtils;
-import com.monkeyk.os.web.oauth.OauthAuthorizeHandler;
+import com.monkeyk.os.web.oauth.OauthAuthorizeValidator;
 import org.apache.oltu.oauth2.as.request.OAuthAuthzRequest;
 import org.apache.oltu.oauth2.as.response.OAuthASResponse;
 import org.apache.oltu.oauth2.common.exception.OAuthProblemException;
 import org.apache.oltu.oauth2.common.message.OAuthResponse;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -52,8 +56,44 @@ public class OauthController {
         try {
             OAuthAuthzRequest oauthRequest = new OAuthAuthzRequest(request);
 
-            OauthAuthorizeHandler oauthAuthorizeHandler = new OauthAuthorizeHandler(oauthRequest);
-            oAuthResponse = oauthAuthorizeHandler.handle();
+            // Validating
+            OauthAuthorizeValidator oauthAuthorizeValidator = new OauthAuthorizeValidator(oauthRequest);
+            oAuthResponse = oauthAuthorizeValidator.validate();
+            if (oAuthResponse != null) {
+                LOG.debug("Validate OAuthAuthzRequest(client_id={}) failed", oauthRequest.getClientId());
+                WebUtils.writeOAuthResponse(response, oAuthResponse);
+                return;
+            }
+
+            //Checking login
+            final Subject subject = SecurityUtils.getSubject();
+            if (!subject.isAuthenticated()) {
+                if (isPost(request)) {
+                    //login flow
+                    try {
+                        UsernamePasswordToken token = createToken(request);
+                        subject.login(token);
+                        LOG.debug("Submit login successful");
+                    } catch (Exception ex) {
+                        //login failed
+                        LOG.debug("Login failed, back to login page too");
+                        request.setAttribute("oauth_login_error", true);
+                        request.getRequestDispatcher("oauth_login")
+                                .forward(request, response);
+                        return;
+                    }
+                } else {
+                    //go to login
+                    LOG.debug("Forward to Oauth login by client_id '{}'", oauthRequest.getClientId());
+                    request.getRequestDispatcher("oauth_login")
+                            .forward(request, response);
+                    return;
+                }
+            }
+
+            // Dispatch to  'code' or 'token'
+            LOG.debug("Generate code or token");
+
 
         } catch (OAuthProblemException e) {
             oAuthResponse = OAuthASResponse
@@ -61,10 +101,9 @@ public class OauthController {
                     .location(e.getRedirectUri())
                     .error(e)
                     .buildJSONMessage();
+            WebUtils.writeOAuthResponse(response, oAuthResponse);
         }
 
-        LOG.debug("OAuthResponse is {}", oAuthResponse);
-        WebUtils.writeOAuthResponse(response, oAuthResponse);
 
 //        final String clientId = oauthRequest.getClientId();
 //        final String clientSecret = oauthRequest.getClientSecret();
@@ -86,6 +125,22 @@ public class OauthController {
 //                .buildJSONMessage();
 
 
+    }
+
+    private UsernamePasswordToken createToken(HttpServletRequest request) {
+        final String username = request.getParameter("username");
+        final String password = request.getParameter("password");
+        return new UsernamePasswordToken(username, password);
+    }
+
+    private boolean isPost(HttpServletRequest request) {
+        return RequestMethod.POST.name().equalsIgnoreCase(request.getMethod());
+    }
+
+
+    @RequestMapping(value = "oauth_login")
+    public String oauthLogin() {
+        return "oauth/oauth_login";
     }
 
 
