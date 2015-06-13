@@ -46,7 +46,7 @@ public class OauthAuthorizeHandler {
             this.oAuthResponse = OAuthResponse.status(HttpServletResponse.SC_FOUND)
                     .location(oauthRequest.getRedirectURI())
                     .setParam("client_id", oauthRequest.getClientId())
-                    .buildQueryMessage();
+                    .buildJSONMessage();
             return oAuthResponse;
         }
 
