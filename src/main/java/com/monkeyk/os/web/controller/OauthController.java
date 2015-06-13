@@ -1,5 +1,7 @@
 package com.monkeyk.os.web.controller;
 
+import com.monkeyk.os.domain.oauth.ClientDetails;
+import com.monkeyk.os.service.OauthService;
 import com.monkeyk.os.web.WebUtils;
 import com.monkeyk.os.web.oauth.OauthAuthorizeValidator;
 import org.apache.oltu.oauth2.as.request.OAuthAuthzRequest;
@@ -11,6 +13,7 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -29,8 +32,8 @@ public class OauthController {
     private static final Logger LOG = LoggerFactory.getLogger(OauthController.class);
 
 
-//    @Autowired
-//    private OauthService oauthService;
+    @Autowired
+    private OauthService oauthService;
 
     /**
      * Must handle the grant_type as follow:
@@ -65,6 +68,7 @@ public class OauthController {
                 return;
             }
 
+            boolean oauthApproval = false;
             //Checking login
             final Subject subject = SecurityUtils.getSubject();
             if (!subject.isAuthenticated()) {
@@ -74,6 +78,7 @@ public class OauthController {
                         UsernamePasswordToken token = createToken(request);
                         subject.login(token);
                         LOG.debug("Submit login successful");
+                        oauthApproval = true;
                     } catch (Exception ex) {
                         //login failed
                         LOG.debug("Login failed, back to login page too");
@@ -89,6 +94,14 @@ public class OauthController {
                             .forward(request, response);
                     return;
                 }
+            }
+
+
+            final ClientDetails clientDetails = oauthService.loadClientDetails(oauthRequest.getClientId());
+            //Checking approval
+            if (oauthApproval && !clientDetails.trusted()) {
+                //go to approval
+
             }
 
             // Dispatch to  'code' or 'token'
