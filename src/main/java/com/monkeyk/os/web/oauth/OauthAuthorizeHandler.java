@@ -43,10 +43,7 @@ public class OauthAuthorizeHandler {
 
         //If it is auth used
         if (oauthRequest.isClientAuthHeaderUsed()) {
-            this.oAuthResponse = OAuthResponse.status(HttpServletResponse.SC_FOUND)
-                    .location(oauthRequest.getRedirectURI())
-                    .setParam("client_id", oauthRequest.getClientId())
-                    .buildJSONMessage();
+            buildAuthHeaderUsedResponse();
             return oAuthResponse;
         }
 
@@ -55,8 +52,16 @@ public class OauthAuthorizeHandler {
             return oAuthResponse;
         }
 
+        //
 
         return oAuthResponse;
+    }
+
+    private void buildAuthHeaderUsedResponse() throws OAuthSystemException {
+        this.oAuthResponse = OAuthResponse.status(HttpServletResponse.SC_FOUND)
+                .location(oauthRequest.getRedirectURI())
+                .setParam("client_id", oauthRequest.getClientId())
+                .buildJSONMessage();
     }
 
     /**

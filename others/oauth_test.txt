@@ -1,0 +1,11 @@
+
+
+
+http://localhost:8080/os/oauth/authorize?response_type=code&scope=read,write&client_id=test&redirect_uri=http%3a%2f%2fandaily.com%2foauth_callback&state=
+
+http://localhost:8080/os/oauth/authorize?response_type=code&scope=read,write&client_id=test&redirect_uri=http%3a%2f%2fandaily.com%2foauth_callback&state=sedddd
+
+
+
+
+

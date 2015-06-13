@@ -38,3 +38,18 @@ values
 (21,21),
 (22,22);
 
+
+
+
+--  Initial Oauth
+--  oauth_client_details
+truncate oauth_client_details;
+insert into oauth_client_details(client_id, client_secret, client_name, client_uri,
+client_icon_uri, resource_ids, scope, grant_types,
+redirect_uri, roles)
+values
+('test','test','Test Client','http://andaily.com',
+'http://andaily.com/favicon.ico','unity-resource,mobile-resource','read,write','authorization_code,password,refresh_token,client_credentials',
+'http://andaily.com/oauth_callback','22');
+
+

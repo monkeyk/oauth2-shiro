@@ -68,10 +68,9 @@ public class CodeClientDetailsValidator extends AbstractClientDetailsValidator {
     private OAuthResponse invalidStateResponse() throws OAuthSystemException {
         return OAuthResponse.errorResponse(HttpServletResponse.SC_BAD_REQUEST)
                 .setError(OAuthError.CodeResponse.INVALID_REQUEST)
-                .setErrorDescription("Invalid request: 'state' parameter is required")
+                .setErrorDescription("Parameter 'state'  is required")
                 .buildJSONMessage();
     }
-
 
 
 }

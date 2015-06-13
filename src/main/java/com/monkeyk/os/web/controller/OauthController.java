@@ -1,6 +1,5 @@
 package com.monkeyk.os.web.controller;
 
-import com.monkeyk.os.service.OauthService;
 import com.monkeyk.os.web.WebUtils;
 import com.monkeyk.os.web.oauth.OauthAuthorizeHandler;
 import org.apache.oltu.oauth2.as.request.OAuthAuthzRequest;
@@ -9,7 +8,6 @@ import org.apache.oltu.oauth2.common.exception.OAuthProblemException;
 import org.apache.oltu.oauth2.common.message.OAuthResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -27,8 +25,8 @@ public class OauthController {
     private static final Logger LOG = LoggerFactory.getLogger(OauthController.class);
 
 
-    @Autowired
-    private OauthService oauthService;
+//    @Autowired
+//    private OauthService oauthService;
 
     /**
      * Must handle the grant_type as follow:
