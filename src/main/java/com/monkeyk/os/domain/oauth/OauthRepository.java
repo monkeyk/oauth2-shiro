@@ -9,16 +9,19 @@
  * it only in accordance with the terms of the license agreement you
  * entered into with Andaily Information Technology Co. Ltd.
  */
-package com.monkeyk.os.service;
+package com.monkeyk.os.domain.oauth;
 
-import com.monkeyk.os.domain.oauth.ClientDetails;
+import com.monkeyk.os.domain.shared.Repository;
 
 /**
- * 15-6-10
+ * 15-6-13
  *
  * @author Shengzhao Li
  */
-public interface OauthService {
+public interface OauthRepository extends Repository {
 
-    ClientDetails loadClientDetails(String clientId);
+    ClientDetails findClientDetails(String clientId);
+
+    int saveClientDetails(ClientDetails clientDetails);
+
 }

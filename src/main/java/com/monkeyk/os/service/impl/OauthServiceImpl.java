@@ -11,7 +11,10 @@
  */
 package com.monkeyk.os.service.impl;
 
+import com.monkeyk.os.domain.oauth.ClientDetails;
+import com.monkeyk.os.domain.oauth.OauthRepository;
 import com.monkeyk.os.service.OauthService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -21,4 +24,13 @@ import org.springframework.stereotype.Service;
  */
 @Service("oauthService")
 public class OauthServiceImpl implements OauthService {
+
+
+    @Autowired
+    private OauthRepository oauthRepository;
+
+    @Override
+    public ClientDetails loadClientDetails(String clientId) {
+        return oauthRepository.findClientDetails(clientId);
+    }
 }

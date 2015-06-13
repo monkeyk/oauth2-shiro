@@ -51,4 +51,84 @@ public class ClientDetails extends BasicClientInfo {
     }
 
 
+    public String resourceIds() {
+        return resourceIds;
+    }
+
+    public ClientDetails resourceIds(String resourceIds) {
+        this.resourceIds = resourceIds;
+        return this;
+    }
+
+    public String scope() {
+        return scope;
+    }
+
+    public ClientDetails scope(String scope) {
+        this.scope = scope;
+        return this;
+    }
+
+    public String grantTypes() {
+        return grantTypes;
+    }
+
+    public ClientDetails grantTypes(String grantTypes) {
+        this.grantTypes = grantTypes;
+        return this;
+    }
+
+    public String roles() {
+        return roles;
+    }
+
+    public ClientDetails roles(String roles) {
+        this.roles = roles;
+        return this;
+    }
+
+    public Integer accessTokenValidity() {
+        return accessTokenValidity;
+    }
+
+    public ClientDetails accessTokenValidity(Integer accessTokenValidity) {
+        this.accessTokenValidity = accessTokenValidity;
+        return this;
+    }
+
+    public Integer refreshTokenValidity() {
+        return refreshTokenValidity;
+    }
+
+    public ClientDetails refreshTokenValidity(Integer refreshTokenValidity) {
+        this.refreshTokenValidity = refreshTokenValidity;
+        return this;
+    }
+
+    public boolean trusted() {
+        return trusted;
+    }
+
+    public ClientDetails trusted(boolean trusted) {
+        this.trusted = trusted;
+        return this;
+    }
+
+    public boolean archived() {
+        return archived;
+    }
+
+    public ClientDetails archived(boolean archived) {
+        this.archived = archived;
+        return this;
+    }
+
+    public Date createTime() {
+        return createTime;
+    }
+
+    public ClientDetails createTime(Date createTime) {
+        this.createTime = createTime;
+        return this;
+    }
 }
