@@ -109,7 +109,8 @@ create table oauth_code (
   create_time timestamp default now(),
   code VARCHAR(256),
   username VARCHAR(256),
-  client_id VARCHAR(256)
+  client_id VARCHAR(256),
+  expired_seconds INTEGER default -1
 );
 
 

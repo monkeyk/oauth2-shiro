@@ -57,13 +57,14 @@ public class OauthJdbcRepository extends AbstractJdbcRepository implements Oauth
 
     @Override
     public int saveOauthCode(final OauthCode oauthCode) {
-        final String sql = " insert into oauth_code(code,username,client_id) values (?,?,?)";
+        final String sql = " insert into oauth_code(code,username,client_id,expired_seconds) values (?,?,?,?)";
         return jdbcTemplate.update(sql, new PreparedStatementSetter() {
             @Override
             public void setValues(PreparedStatement ps) throws SQLException {
                 ps.setString(1, oauthCode.code());
                 ps.setString(2, oauthCode.username());
                 ps.setString(3, oauthCode.clientId());
+                ps.setInt(4, oauthCode.expiredSeconds());
             }
         });
     }
@@ -73,5 +74,25 @@ public class OauthJdbcRepository extends AbstractJdbcRepository implements Oauth
         final String sql = " select * from oauth_code where code = ? and client_id = ? ";
         final List<OauthCode> list = jdbcTemplate.query(sql, oauthCodeRowMapper, code, clientId);
         return list.isEmpty() ? null : list.get(0);
+    }
+
+    @Override
+    public OauthCode findOauthCodeByUsernameClientId(String username, String clientId) {
+        final String sql = " select * from oauth_code where username = ? and client_id = ? ";
+        final List<OauthCode> list = jdbcTemplate.query(sql, oauthCodeRowMapper, username, clientId);
+        return list.isEmpty() ? null : list.get(0);
+    }
+
+    @Override
+    public int deleteOauthCode(final OauthCode oauthCode) {
+        final String sql = " delete from oauth_code where code = ? and client_id = ? and username = ?";
+        return jdbcTemplate.update(sql, new PreparedStatementSetter() {
+            @Override
+            public void setValues(PreparedStatement ps) throws SQLException {
+                ps.setString(1, oauthCode.code());
+                ps.setString(2, oauthCode.clientId());
+                ps.setString(3, oauthCode.username());
+            }
+        });
     }
 }

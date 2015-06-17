@@ -30,10 +30,15 @@ public class OauthCodeRowMapper implements RowMapper<OauthCode> {
 
     @Override
     public OauthCode mapRow(ResultSet rs, int rowNum) throws SQLException {
-        return new OauthCode()
+        final OauthCode oauthCode = new OauthCode()
                 .clientId(rs.getString("client_id"))
                 .username(rs.getString("username"))
                 .code(rs.getString("code"));
+
+        oauthCode.createTime(rs.getTimestamp("create_time"));
+        oauthCode.expiredSeconds(rs.getInt("expired_seconds"));
+
+        return oauthCode;
 
     }
 }

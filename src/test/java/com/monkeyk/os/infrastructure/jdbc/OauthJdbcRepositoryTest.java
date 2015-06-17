@@ -68,5 +68,14 @@ public class OauthJdbcRepositoryTest extends ContextTest {
         assertNotNull(oauthCode1.username());
         System.out.println(oauthCode1.code());
 
+        final OauthCode oauthCode2 = oauthJdbcRepository.findOauthCodeByUsernameClientId(oauthCode.username(), oauthCode.clientId());
+        assertNotNull(oauthCode2);
+
+
+        final int i = oauthJdbcRepository.deleteOauthCode(oauthCode);
+        assertEquals(i, 1);
+
+        final OauthCode oauthCode3 = oauthJdbcRepository.findOauthCodeByUsernameClientId("add", "ddood");
+        assertNull(oauthCode3);
     }
 }

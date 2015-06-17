@@ -12,6 +12,8 @@
 package com.monkeyk.os.service;
 
 import com.monkeyk.os.domain.oauth.ClientDetails;
+import com.monkeyk.os.domain.oauth.OauthCode;
+import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
 
 /**
  * 15-6-10
@@ -22,5 +24,7 @@ public interface OauthService {
 
     ClientDetails loadClientDetails(String clientId);
 
-    void saveAuthorizationCode(String authCode, ClientDetails clientDetails);
+    OauthCode saveAuthorizationCode(String authCode, ClientDetails clientDetails);
+
+    String retrieveAuthCode(ClientDetails clientDetails) throws OAuthSystemException;
 }

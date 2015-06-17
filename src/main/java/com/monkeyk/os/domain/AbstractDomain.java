@@ -24,4 +24,10 @@ public abstract class AbstractDomain implements Serializable {
         return createTime;
     }
 
+    @SuppressWarnings("unchecked")
+    public <T extends AbstractDomain> T createTime(Date createTime) {
+        this.createTime = createTime;
+        return (T) this;
+    }
+
 }

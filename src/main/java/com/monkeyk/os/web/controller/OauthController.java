@@ -5,9 +5,6 @@ import com.monkeyk.os.service.OauthService;
 import com.monkeyk.os.web.WebUtils;
 import com.monkeyk.os.web.oauth.OAuthAuthxRequest;
 import com.monkeyk.os.web.oauth.OauthAuthorizeValidator;
-import org.apache.oltu.oauth2.as.issuer.MD5Generator;
-import org.apache.oltu.oauth2.as.issuer.OAuthIssuer;
-import org.apache.oltu.oauth2.as.issuer.OAuthIssuerImpl;
 import org.apache.oltu.oauth2.as.response.OAuthASResponse;
 import org.apache.oltu.oauth2.common.error.OAuthError;
 import org.apache.oltu.oauth2.common.exception.OAuthProblemException;
@@ -151,11 +148,7 @@ public class OauthController {
 
 
     private void responseCode(ClientDetails clientDetails, OAuthAuthxRequest oauthRequest, HttpServletResponse response) throws OAuthSystemException, IOException {
-        OAuthIssuer oAuthIssuer = retrieveOAuthIssuer();
-        final String authCode = oAuthIssuer.authorizationCode();
-
-        LOG.debug("Save authorizationCode '{}' of ClientDetails '{}'", authCode, clientDetails);
-        oauthService.saveAuthorizationCode(authCode, clientDetails);
+        final String authCode = oauthService.retrieveAuthCode(clientDetails);
 
         final OAuthResponse oAuthResponse = OAuthASResponse
                 .authorizationResponse(oauthRequest.request(), HttpServletResponse.SC_OK)
@@ -167,9 +160,6 @@ public class OauthController {
         WebUtils.writeOAuthQueryResponse(response, oAuthResponse);
     }
 
-    private OAuthIssuerImpl retrieveOAuthIssuer() {
-        return new OAuthIssuerImpl(new MD5Generator());
-    }
 
     private void responseApprovalDeny(ClientDetails clientDetails, OAuthAuthxRequest oauthRequest, HttpServletResponse response) throws IOException, OAuthSystemException {
 
