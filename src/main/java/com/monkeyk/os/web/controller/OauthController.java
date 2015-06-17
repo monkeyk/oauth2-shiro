@@ -176,7 +176,7 @@ public class OauthController {
         final OAuthResponse oAuthResponse = OAuthASResponse.errorResponse(HttpServletResponse.SC_FOUND)
                 .setError(OAuthError.CodeResponse.ACCESS_DENIED)
                 .setErrorDescription("User denied access")
-                .setErrorUri(clientDetails.getRedirectUri())
+                .location(clientDetails.getRedirectUri())
                 .setState(oauthRequest.getState())
                 .buildQueryMessage();
         LOG.debug("Response 'ACCESS_DENIED' is: {}", oAuthResponse);

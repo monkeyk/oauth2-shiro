@@ -30,7 +30,7 @@
         <br/> <br/>
         Password: <form:password path="password" required="true"/>
         <br/> <br/>
-        <input type="submit" value="Login"/>
+        <input type="submit" value="Login" class="btn btn-primary"/>
         <br/>
         <span style="color:red;"><form:errors path="*"/></span>
     </form:form>
