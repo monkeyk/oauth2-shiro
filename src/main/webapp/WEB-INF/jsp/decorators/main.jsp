@@ -17,11 +17,13 @@
     <link rel="shortcut icon" href="${contextPath}/favicon.ico"/>
 
     <title><decorator:title default=""/> | Oauth2-Shiro</title>
+
+    <link href="${contextPath}/resources/bootstrap.min.css" rel="stylesheet"/>
     <decorator:head/>
 
 </head>
 <body>
-<div>
+<div class="container">
     <decorator:body/>
 </div>
 </body>

@@ -41,7 +41,7 @@
         <br/> <br/>
         Password: <input type="password" name="password" required="required"/>
         <br/> <br/>
-        <input type="submit" value="Login"/>
+        <input type="submit" value="Login" class="btn btn-primary"/>
         <br/>
         <span style="color:red;"><c:if test="${not empty oauth_login_error}">Login failed</c:if></span>
     </form>

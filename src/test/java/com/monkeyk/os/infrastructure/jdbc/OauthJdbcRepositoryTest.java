@@ -13,12 +13,13 @@ package com.monkeyk.os.infrastructure.jdbc;
 
 import com.monkeyk.os.ContextTest;
 import com.monkeyk.os.domain.oauth.ClientDetails;
+import com.monkeyk.os.domain.oauth.OauthCode;
+import org.apache.oltu.oauth2.as.issuer.MD5Generator;
+import org.apache.oltu.oauth2.as.issuer.OAuthIssuerImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertNull;
+import static org.testng.Assert.*;
 
 /**
  * 15-6-13
@@ -46,6 +47,26 @@ public class OauthJdbcRepositoryTest extends ContextTest {
         final ClientDetails clientDetails2 = oauthJdbcRepository.findClientDetails(clientId);
         assertNotNull(clientDetails2);
         assertNotNull(clientDetails2.getClientId());
+
+    }
+
+
+    @Test
+    public void saveOauthCode() throws Exception {
+
+        final OAuthIssuerImpl oAuthIssuer = new OAuthIssuerImpl(new MD5Generator());
+        OauthCode oauthCode = new OauthCode()
+                .username("test")
+                .code(oAuthIssuer.authorizationCode())
+                .clientId("client+id");
+        oauthJdbcRepository.saveOauthCode(oauthCode);
+
+
+        final OauthCode oauthCode1 = oauthJdbcRepository.findOauthCode(oauthCode.code(), oauthCode.clientId());
+        assertNotNull(oauthCode1);
+        assertNotNull(oauthCode1.code());
+        assertNotNull(oauthCode1.username());
+        System.out.println(oauthCode1.code());
 
     }
 }

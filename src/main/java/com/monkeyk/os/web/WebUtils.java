@@ -21,11 +21,9 @@ public abstract class WebUtils {
     }
 
 
-    public static void writeOAuthResponse(HttpServletResponse response, OAuthResponse oAuthResponse) {
+    public static void writeOAuthJsonResponse(HttpServletResponse response, OAuthResponse oAuthResponse) {
 
         final int responseStatus = oAuthResponse.getResponseStatus();
-
-//        final String locationUri = oAuthResponse.getLocationUri();
         try {
 
             final Map<String, String> headers = oAuthResponse.getHeaders();
@@ -33,17 +31,30 @@ public abstract class WebUtils {
                 response.addHeader(key, headers.get(key));
             }
 
-//            if (locationUri != null) {
-//                response.sendRedirect(locationUri);
-//            } else {
-
             response.setContentType(OAuth.ContentType.JSON);    //json
             response.setStatus(responseStatus);
 
             final PrintWriter out = response.getWriter();
             out.print(oAuthResponse.getBody());
             out.flush();
-//            }
+        } catch (IOException e) {
+            throw new IllegalStateException("Write OAuthResponse error", e);
+        }
+    }
+
+
+    public static void writeOAuthQueryResponse(HttpServletResponse response, OAuthResponse oAuthResponse) {
+        final String locationUri = oAuthResponse.getLocationUri();
+        try {
+
+            final Map<String, String> headers = oAuthResponse.getHeaders();
+            for (String key : headers.keySet()) {
+                response.addHeader(key, headers.get(key));
+            }
+
+            response.setStatus(oAuthResponse.getResponseStatus());
+            response.sendRedirect(locationUri);
+
         } catch (IOException e) {
             throw new IllegalStateException("Write OAuthResponse error", e);
         }

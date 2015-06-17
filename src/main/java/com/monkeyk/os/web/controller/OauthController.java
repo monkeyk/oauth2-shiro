@@ -3,10 +3,15 @@ package com.monkeyk.os.web.controller;
 import com.monkeyk.os.domain.oauth.ClientDetails;
 import com.monkeyk.os.service.OauthService;
 import com.monkeyk.os.web.WebUtils;
+import com.monkeyk.os.web.oauth.OAuthAuthxRequest;
 import com.monkeyk.os.web.oauth.OauthAuthorizeValidator;
-import org.apache.oltu.oauth2.as.request.OAuthAuthzRequest;
+import org.apache.oltu.oauth2.as.issuer.MD5Generator;
+import org.apache.oltu.oauth2.as.issuer.OAuthIssuer;
+import org.apache.oltu.oauth2.as.issuer.OAuthIssuerImpl;
 import org.apache.oltu.oauth2.as.response.OAuthASResponse;
+import org.apache.oltu.oauth2.common.error.OAuthError;
 import org.apache.oltu.oauth2.common.exception.OAuthProblemException;
+import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
 import org.apache.oltu.oauth2.common.message.OAuthResponse;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -20,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * @author Shengzhao Li
@@ -57,18 +63,18 @@ public class OauthController {
 
         OAuthResponse oAuthResponse;
         try {
-            OAuthAuthzRequest oauthRequest = new OAuthAuthzRequest(request);
+            OAuthAuthxRequest oauthRequest = new OAuthAuthxRequest(request);
 
             // Validating
             OauthAuthorizeValidator oauthAuthorizeValidator = new OauthAuthorizeValidator(oauthRequest);
             oAuthResponse = oauthAuthorizeValidator.validate();
             if (oAuthResponse != null) {
                 LOG.debug("Validate OAuthAuthzRequest(client_id={}) failed", oauthRequest.getClientId());
-                WebUtils.writeOAuthResponse(response, oAuthResponse);
+                WebUtils.writeOAuthJsonResponse(response, oAuthResponse);
                 return;
             }
 
-            boolean oauthApproval = false;
+            boolean needApproval = false;
             //Checking login
             final Subject subject = SecurityUtils.getSubject();
             if (!subject.isAuthenticated()) {
@@ -78,7 +84,7 @@ public class OauthController {
                         UsernamePasswordToken token = createToken(request);
                         subject.login(token);
                         LOG.debug("Submit login successful");
-                        oauthApproval = true;
+                        needApproval = true;
                     } catch (Exception ex) {
                         //login failed
                         LOG.debug("Login failed, back to login page too");
@@ -98,14 +104,37 @@ public class OauthController {
 
 
             final ClientDetails clientDetails = oauthService.loadClientDetails(oauthRequest.getClientId());
-            //Checking approval
-            if (oauthApproval && !clientDetails.trusted()) {
-                //go to approval
 
+            //Checking approval
+            if (needApproval && !clientDetails.trusted()) {
+                //go to approval
+                LOG.debug("Go to oauth_approval, clientId: '{}'", clientDetails.getClientId());
+
+                request.getRequestDispatcher("oauth_approval")
+                        .forward(request, response);
+                return;
+            }
+
+            if (isPost(request) && !clientDetails.trusted()) {
+                //submit approval
+                final String oauthApproval = request.getParameter("user_oauth_approval");
+                if (!"true".equalsIgnoreCase(oauthApproval)) {
+                    //Deny action
+                    LOG.debug("User '{}' deny access", subject.getPrincipal());
+                    responseApprovalDeny(clientDetails, oauthRequest, response);
+                    return;
+                }
             }
 
             // Dispatch to  'code' or 'token'
-            LOG.debug("Generate code or token");
+            if (oauthRequest.isCode()) {
+                LOG.debug("Response to 'code' response_type");
+                responseCode(clientDetails, oauthRequest, response);
+            } else if (oauthRequest.isToken()) {
+                LOG.debug("Response to 'token' response_type");
+            } else {
+                throw new IllegalStateException("Unsupport 'response_type': " + oauthRequest.getResponseType());
+            }
 
 
         } catch (OAuthProblemException e) {
@@ -114,30 +143,45 @@ public class OauthController {
                     .location(e.getRedirectUri())
                     .error(e)
                     .buildJSONMessage();
-            WebUtils.writeOAuthResponse(response, oAuthResponse);
+            WebUtils.writeOAuthJsonResponse(response, oAuthResponse);
         }
 
 
-//        final String clientId = oauthRequest.getClientId();
-//        final String clientSecret = oauthRequest.getClientSecret();
-//        final Set<String> scopes = oauthRequest.getScopes();
-//
-//
-//        final String grantType = oauthRequest.getParam(OAuth.OAUTH_GRANT_TYPE);
-//        String responseType = oauthRequest.getParam(OAuth.OAUTH_RESPONSE_TYPE);
-//
-//
-////            validateRedirectionURI(oauthRequest);
-//
-//        OAuthIssuerImpl oauthIssuerImpl = new OAuthIssuerImpl(new MD5Generator());
-//        //build OAuth response
-//        OAuthResponse resp = OAuthASResponse
-//                .errorResponse(HttpServletResponse.SC_BAD_REQUEST)
-//                .setError(OAuthError.TokenResponse.INVALID_CLIENT)
-//                .setErrorDescription(String.format("Invalid Client '%s'", oauthRequest.getClientId()))
-//                .buildJSONMessage();
+    }
 
 
+    private void responseCode(ClientDetails clientDetails, OAuthAuthxRequest oauthRequest, HttpServletResponse response) throws OAuthSystemException, IOException {
+        OAuthIssuer oAuthIssuer = retrieveOAuthIssuer();
+        final String authCode = oAuthIssuer.authorizationCode();
+
+        LOG.debug("Save authorizationCode '{}' of ClientDetails '{}'", authCode, clientDetails);
+        oauthService.saveAuthorizationCode(authCode, clientDetails);
+
+        final OAuthResponse oAuthResponse = OAuthASResponse
+                .authorizationResponse(oauthRequest.request(), HttpServletResponse.SC_OK)
+                .location(clientDetails.getRedirectUri())
+                .setCode(authCode)
+                .buildQueryMessage();
+        LOG.debug("Response 'code' is: {}", oAuthResponse);
+
+        WebUtils.writeOAuthQueryResponse(response, oAuthResponse);
+    }
+
+    private OAuthIssuerImpl retrieveOAuthIssuer() {
+        return new OAuthIssuerImpl(new MD5Generator());
+    }
+
+    private void responseApprovalDeny(ClientDetails clientDetails, OAuthAuthxRequest oauthRequest, HttpServletResponse response) throws IOException, OAuthSystemException {
+
+        final OAuthResponse oAuthResponse = OAuthASResponse.errorResponse(HttpServletResponse.SC_FOUND)
+                .setError(OAuthError.CodeResponse.ACCESS_DENIED)
+                .setErrorDescription("User denied access")
+                .setErrorUri(clientDetails.getRedirectUri())
+                .setState(oauthRequest.getState())
+                .buildQueryMessage();
+        LOG.debug("Response 'ACCESS_DENIED' is: {}", oAuthResponse);
+
+        WebUtils.writeOAuthQueryResponse(response, oAuthResponse);
     }
 
     private UsernamePasswordToken createToken(HttpServletRequest request) {
@@ -154,6 +198,12 @@ public class OauthController {
     @RequestMapping(value = "oauth_login")
     public String oauthLogin() {
         return "oauth/oauth_login";
+    }
+
+
+    @RequestMapping(value = "oauth_approval")
+    public String oauthApproval() {
+        return "oauth/oauth_approval";
     }
 
 

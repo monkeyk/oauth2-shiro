@@ -24,4 +24,7 @@ public interface OauthRepository extends Repository {
 
     int saveClientDetails(ClientDetails clientDetails);
 
+    int saveOauthCode(OauthCode oauthCode);
+
+    OauthCode findOauthCode(String code, String clientId);
 }

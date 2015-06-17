@@ -12,6 +12,7 @@
 package com.monkeyk.os.infrastructure.jdbc;
 
 import com.monkeyk.os.domain.oauth.ClientDetails;
+import com.monkeyk.os.domain.oauth.OauthCode;
 import com.monkeyk.os.domain.oauth.OauthRepository;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.stereotype.Repository;
@@ -30,6 +31,7 @@ public class OauthJdbcRepository extends AbstractJdbcRepository implements Oauth
 
 
     private static ClientDetailsRowMapper clientDetailsRowMapper = new ClientDetailsRowMapper();
+    private static OauthCodeRowMapper oauthCodeRowMapper = new OauthCodeRowMapper();
 
 
     @Override
@@ -51,5 +53,25 @@ public class OauthJdbcRepository extends AbstractJdbcRepository implements Oauth
                 //more setter
             }
         });
+    }
+
+    @Override
+    public int saveOauthCode(final OauthCode oauthCode) {
+        final String sql = " insert into oauth_code(code,username,client_id) values (?,?,?)";
+        return jdbcTemplate.update(sql, new PreparedStatementSetter() {
+            @Override
+            public void setValues(PreparedStatement ps) throws SQLException {
+                ps.setString(1, oauthCode.code());
+                ps.setString(2, oauthCode.username());
+                ps.setString(3, oauthCode.clientId());
+            }
+        });
+    }
+
+    @Override
+    public OauthCode findOauthCode(String code, String clientId) {
+        final String sql = " select * from oauth_code where code = ? and client_id = ? ";
+        final List<OauthCode> list = jdbcTemplate.query(sql, oauthCodeRowMapper, code, clientId);
+        return list.isEmpty() ? null : list.get(0);
     }
 }

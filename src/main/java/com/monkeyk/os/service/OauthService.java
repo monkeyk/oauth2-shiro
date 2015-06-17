@@ -21,4 +21,6 @@ import com.monkeyk.os.domain.oauth.ClientDetails;
 public interface OauthService {
 
     ClientDetails loadClientDetails(String clientId);
+
+    void saveAuthorizationCode(String authCode, ClientDetails clientDetails);
 }

@@ -12,8 +12,10 @@
 package com.monkeyk.os.service.impl;
 
 import com.monkeyk.os.domain.oauth.ClientDetails;
+import com.monkeyk.os.domain.oauth.OauthCode;
 import com.monkeyk.os.domain.oauth.OauthRepository;
 import com.monkeyk.os.service.OauthService;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,5 +34,14 @@ public class OauthServiceImpl implements OauthService {
     @Override
     public ClientDetails loadClientDetails(String clientId) {
         return oauthRepository.findClientDetails(clientId);
+    }
+
+    @Override
+    public void saveAuthorizationCode(String authCode, ClientDetails clientDetails) {
+        final String username = (String) SecurityUtils.getSubject().getPrincipal();
+        OauthCode oauthCode = new OauthCode()
+                .code(authCode).username(username)
+                .clientId(clientDetails.getClientId());
+        oauthRepository.saveOauthCode(oauthCode);
     }
 }
