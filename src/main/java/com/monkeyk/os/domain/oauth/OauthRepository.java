@@ -31,4 +31,8 @@ public interface OauthRepository extends Repository {
     OauthCode findOauthCodeByUsernameClientId(String username, String clientId);
 
     int deleteOauthCode(OauthCode oauthCode);
+
+    AccessToken findAccessToken(String clientId, String username, String authenticationId);
+
+    int deleteAccessToken(AccessToken accessToken);
 }

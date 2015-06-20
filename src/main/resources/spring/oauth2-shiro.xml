@@ -68,6 +68,15 @@
     </tx:advice>
 
 
+    <bean id="authenticationIdGenerator" class="com.monkeyk.os.domain.oauth.DefaultAuthenticationIdGenerator"/>
+
+
+    <bean id="oAuthIssuer" class="org.apache.oltu.oauth2.as.issuer.OAuthIssuerImpl">
+        <constructor-arg>
+            <bean class="org.apache.oltu.oauth2.as.issuer.MD5Generator"/>
+        </constructor-arg>
+    </bean>
+
     <!--more bean configuration in here-->
 
 </beans>

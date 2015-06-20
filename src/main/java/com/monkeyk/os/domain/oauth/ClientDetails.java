@@ -13,6 +13,7 @@ package com.monkeyk.os.domain.oauth;
 
 import com.monkeyk.os.infrastructure.DateUtils;
 import org.apache.oltu.oauth2.common.domain.client.BasicClientInfo;
+import org.apache.oltu.oauth2.common.message.types.GrantType;
 
 import java.util.Date;
 
@@ -130,5 +131,9 @@ public class ClientDetails extends BasicClientInfo {
     public ClientDetails createTime(Date createTime) {
         this.createTime = createTime;
         return this;
+    }
+
+    public boolean supportRefreshToken() {
+        return this.grantTypes != null && this.grantTypes.contains(GrantType.REFRESH_TOKEN.toString());
     }
 }

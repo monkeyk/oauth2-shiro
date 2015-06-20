@@ -11,6 +11,7 @@
  */
 package com.monkeyk.os.infrastructure.jdbc;
 
+import com.monkeyk.os.domain.oauth.AccessToken;
 import com.monkeyk.os.domain.oauth.ClientDetails;
 import com.monkeyk.os.domain.oauth.OauthCode;
 import com.monkeyk.os.domain.oauth.OauthRepository;
@@ -32,6 +33,8 @@ public class OauthJdbcRepository extends AbstractJdbcRepository implements Oauth
 
     private static ClientDetailsRowMapper clientDetailsRowMapper = new ClientDetailsRowMapper();
     private static OauthCodeRowMapper oauthCodeRowMapper = new OauthCodeRowMapper();
+
+    private AccessTokenRowMapper accessTokenRowMapper = new AccessTokenRowMapper();
 
 
     @Override
@@ -92,6 +95,26 @@ public class OauthJdbcRepository extends AbstractJdbcRepository implements Oauth
                 ps.setString(1, oauthCode.code());
                 ps.setString(2, oauthCode.clientId());
                 ps.setString(3, oauthCode.username());
+            }
+        });
+    }
+
+    @Override
+    public AccessToken findAccessToken(String clientId, String username, String authenticationId) {
+        final String sql = " select * from oauth_access_token where client_id = ? and username = ? and authentication_id = ?";
+        final List<AccessToken> list = jdbcTemplate.query(sql, accessTokenRowMapper, clientId, username, authenticationId);
+        return list.isEmpty() ? null : list.get(0);
+    }
+
+    @Override
+    public int deleteAccessToken(final AccessToken accessToken) {
+        final String sql = " delete from oauth_access_token where client_id = ? and username = ? and authentication_id = ?";
+        return jdbcTemplate.update(sql, new PreparedStatementSetter() {
+            @Override
+            public void setValues(PreparedStatement ps) throws SQLException {
+                ps.setString(1, accessToken.clientId());
+                ps.setString(2, accessToken.username());
+                ps.setString(3, accessToken.authenticationId());
             }
         });
     }

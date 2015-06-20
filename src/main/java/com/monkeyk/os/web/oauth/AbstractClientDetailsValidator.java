@@ -81,7 +81,7 @@ public abstract class AbstractClientDetailsValidator {
 
 
     protected boolean excludeScopes(Set<String> scopes, ClientDetails clientDetails) {
-        final String clientDetailsScope = clientDetails.scope();          //read,write
+        final String clientDetailsScope = clientDetails.scope();          //read write
         for (String scope : scopes) {
             if (!clientDetailsScope.contains(scope)) {
                 LOG.debug("Invalid scope - ClientDetails scopes '{}' exclude '{}'", clientDetailsScope, scope);

@@ -11,9 +11,12 @@
  */
 package com.monkeyk.os.service;
 
+import com.monkeyk.os.domain.oauth.AccessToken;
 import com.monkeyk.os.domain.oauth.ClientDetails;
 import com.monkeyk.os.domain.oauth.OauthCode;
 import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
+
+import java.util.Set;
 
 /**
  * 15-6-10
@@ -27,4 +30,8 @@ public interface OauthService {
     OauthCode saveAuthorizationCode(String authCode, ClientDetails clientDetails);
 
     String retrieveAuthCode(ClientDetails clientDetails) throws OAuthSystemException;
+
+    AccessToken retrieveAccessToken(ClientDetails clientDetails, Set<String> scopes) throws OAuthSystemException;
+
+    AccessToken retrieveAccessToken(ClientDetails clientDetails, Set<String> scopes, boolean includeRefreshToken) throws OAuthSystemException;
 }

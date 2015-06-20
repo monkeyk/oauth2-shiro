@@ -11,18 +11,18 @@
  */
 package com.monkeyk.os.service.impl;
 
-import com.monkeyk.os.domain.oauth.ClientDetails;
-import com.monkeyk.os.domain.oauth.OauthCode;
-import com.monkeyk.os.domain.oauth.OauthRepository;
+import com.monkeyk.os.domain.oauth.*;
 import com.monkeyk.os.service.OauthService;
-import org.apache.oltu.oauth2.as.issuer.MD5Generator;
-import org.apache.oltu.oauth2.as.issuer.OAuthIssuerImpl;
+import org.apache.oltu.oauth2.as.issuer.OAuthIssuer;
 import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
+import org.apache.oltu.oauth2.common.utils.OAuthUtils;
 import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Set;
 
 /**
  * 15-6-10
@@ -37,9 +37,14 @@ public class OauthServiceImpl implements OauthService {
 
     @Autowired
     private OauthRepository oauthRepository;
+    @Autowired
+    private AuthenticationIdGenerator authenticationIdGenerator;
+    @Autowired
+    private OAuthIssuer oAuthIssuer;
 
     @Override
     public ClientDetails loadClientDetails(String clientId) {
+        LOG.debug("Find ClientDetails by clientId: {}", clientId);
         return oauthRepository.findClientDetails(clientId);
     }
 
@@ -51,6 +56,7 @@ public class OauthServiceImpl implements OauthService {
                 .clientId(clientDetails.getClientId());
 
         oauthRepository.saveOauthCode(oauthCode);
+        LOG.debug("Save OauthCode: {}", oauthCode);
         return oauthCode;
     }
 
@@ -76,9 +82,49 @@ public class OauthServiceImpl implements OauthService {
         return oauthCode.code();
     }
 
+    @Override
+    public AccessToken retrieveAccessToken(ClientDetails clientDetails, Set<String> scopes) throws OAuthSystemException {
+        return retrieveAccessToken(clientDetails, scopes, clientDetails.supportRefreshToken());
+    }
+
+    @Override
+    public AccessToken retrieveAccessToken(ClientDetails clientDetails, Set<String> scopes, boolean includeRefreshToken) throws OAuthSystemException {
+        String scope = OAuthUtils.encodeScopes(scopes);
+        final String username = currentUsername();
+        final String clientId = clientDetails.getClientId();
+
+        final String authenticationId = authenticationIdGenerator.generate(clientId, username, scope);
+
+        AccessToken accessToken = oauthRepository.findAccessToken(clientId, username, authenticationId);
+        if (accessToken == null) {
+            accessToken = createAccessToken(clientDetails, includeRefreshToken, username, authenticationId);
+            LOG.debug("Create a new AccessToken: {}", accessToken);
+        } else if (accessToken.tokenExpired()) {
+            LOG.debug("AccessToken ({}) is expired, remove it and create a new one", accessToken);
+            oauthRepository.deleteAccessToken(accessToken);
+
+            accessToken = createAccessToken(clientDetails, includeRefreshToken, username, authenticationId);
+        }
+
+        return accessToken;
+    }
+
+    private AccessToken createAccessToken(ClientDetails clientDetails, boolean includeRefreshToken, String username, String authenticationId) throws OAuthSystemException {
+        AccessToken accessToken = new AccessToken()
+                .clientId(clientDetails.getClientId())
+                .username(username)
+                .tokenId(oAuthIssuer.accessToken())
+                .authenticationId(authenticationId)
+                .updateByClientDetails(clientDetails);
+
+        if (includeRefreshToken) {
+            accessToken.refreshToken(oAuthIssuer.refreshToken());
+        }
+        return accessToken;
+    }
+
     private OauthCode createOauthCode(ClientDetails clientDetails) throws OAuthSystemException {
         OauthCode oauthCode;
-        final OAuthIssuerImpl oAuthIssuer = retrieveOAuthIssuer();
         final String authCode = oAuthIssuer.authorizationCode();
 
         LOG.debug("Save authorizationCode '{}' of ClientDetails '{}'", authCode, clientDetails);
@@ -86,8 +132,5 @@ public class OauthServiceImpl implements OauthService {
         return oauthCode;
     }
 
-    private OAuthIssuerImpl retrieveOAuthIssuer() {
-        return new OAuthIssuerImpl(new MD5Generator());
-    }
 
 }

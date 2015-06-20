@@ -1,5 +1,6 @@
 package com.monkeyk.os.web.controller;
 
+import com.monkeyk.os.domain.oauth.AccessToken;
 import com.monkeyk.os.domain.oauth.ClientDetails;
 import com.monkeyk.os.service.OauthService;
 import com.monkeyk.os.web.WebUtils;
@@ -129,6 +130,7 @@ public class OauthController {
                 responseCode(clientDetails, oauthRequest, response);
             } else if (oauthRequest.isToken()) {
                 LOG.debug("Response to 'token' response_type");
+                responseToken(clientDetails, oauthRequest, response);
             } else {
                 throw new IllegalStateException("Unsupport 'response_type': " + oauthRequest.getResponseType());
             }
@@ -144,6 +146,21 @@ public class OauthController {
         }
 
 
+    }
+
+    private void responseToken(ClientDetails clientDetails, OAuthAuthxRequest oauthRequest, HttpServletResponse response) throws OAuthSystemException {
+        AccessToken accessToken = oauthService.retrieveAccessToken(clientDetails, oauthRequest.getScopes(), false);
+
+        final OAuthResponse oAuthResponse = OAuthASResponse
+                .tokenResponse(HttpServletResponse.SC_OK)
+                .location(clientDetails.getRedirectUri())
+                .setAccessToken(accessToken.tokenId())
+                .setExpiresIn(String.valueOf(accessToken.currentTokenExpiredSeconds()))
+                .setTokenType(accessToken.tokenType())
+                .buildQueryMessage();
+        LOG.debug("Response 'token' is: {}", oAuthResponse);
+
+        WebUtils.writeOAuthQueryResponse(response, oAuthResponse);
     }
 
 
