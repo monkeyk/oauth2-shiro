@@ -49,7 +49,7 @@ client_icon_uri, resource_ids, scope, grant_types,
 redirect_uri, roles)
 values
 ('test','test','Test Client','http://andaily.com',
-'http://andaily.com/favicon.ico','unity-resource,mobile-resource','read,write','authorization_code,password,refresh_token,client_credentials',
+'http://andaily.com/favicon.ico','unity-resource,mobile-resource','read write','authorization_code,password,refresh_token,client_credentials',
 'http://andaily.com/oauth_callback','22');
 
 
