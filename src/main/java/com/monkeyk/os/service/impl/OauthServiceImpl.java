@@ -99,11 +99,6 @@ public class OauthServiceImpl implements OauthService {
         if (accessToken == null) {
             accessToken = createAndSaveAccessToken(clientDetails, includeRefreshToken, username, authenticationId);
             LOG.debug("Create a new AccessToken: {}", accessToken);
-        } else if (accessToken.tokenExpired()) {
-            LOG.debug("AccessToken ({}) is expired, remove it and create a new one", accessToken);
-            oauthRepository.deleteAccessToken(accessToken);
-
-            accessToken = createAndSaveAccessToken(clientDetails, includeRefreshToken, username, authenticationId);
         }
 
         return accessToken;

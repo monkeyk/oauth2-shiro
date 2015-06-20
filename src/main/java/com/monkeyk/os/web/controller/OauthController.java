@@ -151,16 +151,27 @@ public class OauthController {
     private void responseToken(ClientDetails clientDetails, OAuthAuthxRequest oauthRequest, HttpServletResponse response) throws OAuthSystemException {
         AccessToken accessToken = oauthService.retrieveAccessToken(clientDetails, oauthRequest.getScopes(), false);
 
-        final OAuthResponse oAuthResponse = OAuthASResponse
-                .tokenResponse(HttpServletResponse.SC_OK)
-                .location(clientDetails.getRedirectUri())
-                .setAccessToken(accessToken.tokenId())
-                .setExpiresIn(String.valueOf(accessToken.currentTokenExpiredSeconds()))
-                .setTokenType(accessToken.tokenType())
-                .buildQueryMessage();
-        LOG.debug("Response 'token' is: {}", oAuthResponse);
+        if (accessToken.tokenExpired()) {
+            LOG.debug("AccessToken {} is expired", accessToken);
+            final OAuthResponse oAuthResponse = OAuthASResponse.errorResponse(HttpServletResponse.SC_FOUND)
+                    .setError(OAuthError.ResourceResponse.EXPIRED_TOKEN)
+                    .setErrorDescription("access_token '" + accessToken.tokenId() + "' expired")
+                    .setErrorUri(clientDetails.getRedirectUri())
+                    .buildJSONMessage();
 
-        WebUtils.writeOAuthQueryResponse(response, oAuthResponse);
+            WebUtils.writeOAuthJsonResponse(response, oAuthResponse);
+        } else {
+            final OAuthResponse oAuthResponse = OAuthASResponse
+                    .tokenResponse(HttpServletResponse.SC_OK)
+                    .location(clientDetails.getRedirectUri())
+                    .setAccessToken(accessToken.tokenId())
+                    .setExpiresIn(String.valueOf(accessToken.currentTokenExpiredSeconds()))
+                    .setTokenType(accessToken.tokenType())
+                    .buildQueryMessage();
+            LOG.debug("Response 'token' is: {}", oAuthResponse);
+
+            WebUtils.writeOAuthQueryResponse(response, oAuthResponse);
+        }
     }
 
 
