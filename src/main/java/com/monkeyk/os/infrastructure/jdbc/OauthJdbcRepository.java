@@ -53,7 +53,7 @@ public class OauthJdbcRepository extends AbstractJdbcRepository implements Oauth
             public void setValues(PreparedStatement ps) throws SQLException {
                 ps.setString(1, clientDetails.getClientId());
                 ps.setString(2, clientDetails.getClientSecret());
-                //more setter
+                //TODO: more setter
             }
         });
     }
@@ -115,6 +115,28 @@ public class OauthJdbcRepository extends AbstractJdbcRepository implements Oauth
                 ps.setString(1, accessToken.clientId());
                 ps.setString(2, accessToken.username());
                 ps.setString(3, accessToken.authenticationId());
+            }
+        });
+    }
+
+    @Override
+    public int saveAccessToken(final AccessToken accessToken) {
+        final String sql = "insert into oauth_access_token(token_id,token_expired_seconds,authentication_id," +
+                "username,client_id,token_type,refresh_token_expired_seconds,refresh_token) values (?,?,?,?,?,?,?,?) ";
+
+        return jdbcTemplate.update(sql, new PreparedStatementSetter() {
+            @Override
+            public void setValues(PreparedStatement ps) throws SQLException {
+                ps.setString(1, accessToken.tokenId());
+                ps.setInt(2, accessToken.tokenExpiredSeconds());
+                ps.setString(3, accessToken.authenticationId());
+
+                ps.setString(4, accessToken.username());
+                ps.setString(5, accessToken.clientId());
+                ps.setString(6, accessToken.tokenType());
+
+                ps.setInt(7, accessToken.refreshTokenExpiredSeconds());
+                ps.setString(8, accessToken.refreshToken());
             }
         });
     }

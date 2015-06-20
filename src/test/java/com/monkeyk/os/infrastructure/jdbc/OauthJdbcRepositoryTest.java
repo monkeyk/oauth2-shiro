@@ -99,4 +99,14 @@ public class OauthJdbcRepositoryTest extends ContextTest {
         oauthJdbcRepository.deleteAccessToken(accessToken);
     }
 
+    @Test
+    public void saveAccessToken() {
+        AccessToken accessToken = new AccessToken()
+                .username("user")
+                .authenticationId("auted")
+                .clientId("client");
+        final int i = oauthJdbcRepository.saveAccessToken(accessToken);
+        assertEquals(i, 1);
+    }
+
 }

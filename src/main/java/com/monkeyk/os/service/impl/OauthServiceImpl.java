@@ -97,19 +97,19 @@ public class OauthServiceImpl implements OauthService {
 
         AccessToken accessToken = oauthRepository.findAccessToken(clientId, username, authenticationId);
         if (accessToken == null) {
-            accessToken = createAccessToken(clientDetails, includeRefreshToken, username, authenticationId);
+            accessToken = createAndSaveAccessToken(clientDetails, includeRefreshToken, username, authenticationId);
             LOG.debug("Create a new AccessToken: {}", accessToken);
         } else if (accessToken.tokenExpired()) {
             LOG.debug("AccessToken ({}) is expired, remove it and create a new one", accessToken);
             oauthRepository.deleteAccessToken(accessToken);
 
-            accessToken = createAccessToken(clientDetails, includeRefreshToken, username, authenticationId);
+            accessToken = createAndSaveAccessToken(clientDetails, includeRefreshToken, username, authenticationId);
         }
 
         return accessToken;
     }
 
-    private AccessToken createAccessToken(ClientDetails clientDetails, boolean includeRefreshToken, String username, String authenticationId) throws OAuthSystemException {
+    private AccessToken createAndSaveAccessToken(ClientDetails clientDetails, boolean includeRefreshToken, String username, String authenticationId) throws OAuthSystemException {
         AccessToken accessToken = new AccessToken()
                 .clientId(clientDetails.getClientId())
                 .username(username)
@@ -120,6 +120,9 @@ public class OauthServiceImpl implements OauthService {
         if (includeRefreshToken) {
             accessToken.refreshToken(oAuthIssuer.refreshToken());
         }
+
+        this.oauthRepository.saveAccessToken(accessToken);
+        LOG.debug("Save AccessToken: {}", accessToken);
         return accessToken;
     }
 
