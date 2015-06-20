@@ -56,13 +56,13 @@ public class AccessToken extends AbstractDomain {
 
     public boolean tokenExpired() {
         final long time = createTime.getTime() + (this.tokenExpiredSeconds * THOUSAND);
-        return time >= DateUtils.now().getTime();
+        return time < DateUtils.now().getTime();
     }
 
 
     public boolean refreshTokenExpired() {
         final long time = createTime.getTime() + (this.refreshTokenExpiredSeconds * THOUSAND);
-        return time >= DateUtils.now().getTime();
+        return time < DateUtils.now().getTime();
     }
 
 
