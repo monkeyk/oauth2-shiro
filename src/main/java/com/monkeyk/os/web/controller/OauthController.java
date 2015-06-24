@@ -5,7 +5,7 @@ import com.monkeyk.os.domain.oauth.ClientDetails;
 import com.monkeyk.os.service.OauthService;
 import com.monkeyk.os.web.WebUtils;
 import com.monkeyk.os.web.oauth.OAuthAuthxRequest;
-import com.monkeyk.os.web.oauth.OauthAuthorizeValidator;
+import com.monkeyk.os.web.oauth.validator.OauthAuthorizeValidator;
 import org.apache.oltu.oauth2.as.response.OAuthASResponse;
 import org.apache.oltu.oauth2.common.error.OAuthError;
 import org.apache.oltu.oauth2.common.exception.OAuthProblemException;
@@ -47,11 +47,6 @@ public class OauthController {
      * grant_type="implicit"   -> response_type="token"
      * ?response_type=token&scope=read,write&client_id=[client_id]&client_secret=[client_secret]&redirect_uri=[redirect_uri]
      * <p/>
-     * <p/>
-     * Steps:
-     * 1. Check client_details, if it is unavailable, return directly
-     * 2. Validate ResponseType
-     * 3.Checking login or not
      *
      * @param request  HttpServletRequest
      * @param response HttpServletResponse
