@@ -38,13 +38,18 @@ public abstract class AbstractClientDetailsValidator {
 
     protected OAuthAuthzRequest oauthRequest;
 
+    private ClientDetails clientDetails;
+
     protected AbstractClientDetailsValidator(OAuthAuthzRequest oauthRequest) {
         this.oauthRequest = oauthRequest;
     }
 
 
     protected ClientDetails clientDetails() {
-        return oauthService.loadClientDetails(oauthRequest.getClientId());
+        if (clientDetails == null) {
+            clientDetails = oauthService.loadClientDetails(oauthRequest.getClientId());
+        }
+        return clientDetails;
     }
 
 

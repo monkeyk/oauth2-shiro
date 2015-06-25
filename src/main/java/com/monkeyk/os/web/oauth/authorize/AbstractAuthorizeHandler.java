@@ -64,6 +64,8 @@ public abstract class AbstractAuthorizeHandler {
 
     protected boolean validateFailed() throws OAuthSystemException {
         AbstractClientDetailsValidator validator = getValidator();
+        LOG.debug("Use [{}] validate client: {}", validator, oauthRequest.getClientId());
+
         final OAuthResponse oAuthResponse = validator.validate();
         return checkAndResponseValidateFailed(oAuthResponse);
     }
