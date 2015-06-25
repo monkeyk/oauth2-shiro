@@ -108,6 +108,7 @@ public abstract class AbstractAuthorizeHandler {
         return false;
     }
 
+    //true is submit failed, otherwise return false
     protected boolean submitApproval() throws IOException, OAuthSystemException {
         if (isPost() && !clientDetails().trusted()) {
             //submit approval
@@ -117,10 +118,11 @@ public abstract class AbstractAuthorizeHandler {
                 //Deny action
                 LOG.debug("User '{}' deny access", SecurityUtils.getSubject().getPrincipal());
                 responseApprovalDeny();
+                return true;
             } else {
                 userFirstApproved = true;
+                return false;
             }
-            return true;
         }
         return false;
     }
@@ -133,9 +135,14 @@ public abstract class AbstractAuthorizeHandler {
                 .location(clientDetails.getRedirectUri())
                 .setState(oauthRequest.getState())
                 .buildQueryMessage();
-        LOG.debug("Response 'ACCESS_DENIED' is: {}", oAuthResponse);
+        LOG.debug("'ACCESS_DENIED' response: {}", oAuthResponse);
 
         WebUtils.writeOAuthQueryResponse(response, oAuthResponse);
+
+        //user logout when deny
+        final Subject subject = SecurityUtils.getSubject();
+        subject.logout();
+        LOG.debug("After 'ACCESS_DENIED' call logout. user: {}", subject.getPrincipal());
     }
 
 
@@ -152,6 +159,7 @@ public abstract class AbstractAuthorizeHandler {
     }
 
 
+    //true is login failed, false is successful
     protected boolean submitLogin() throws ServletException, IOException {
         if (isSubmitLogin()) {
             //login flow
@@ -161,6 +169,7 @@ public abstract class AbstractAuthorizeHandler {
 
                 LOG.debug("Submit login successful");
                 this.userFirstLogged = true;
+                return false;
             } catch (Exception ex) {
                 //login failed
                 LOG.debug("Login failed, back to login page too", ex);
@@ -169,8 +178,8 @@ public abstract class AbstractAuthorizeHandler {
                 request.setAttribute("oauth_login_error", true);
                 request.getRequestDispatcher(OAUTH_LOGIN_VIEW)
                         .forward(request, response);
+                return true;
             }
-            return true;
         }
         return false;
     }
