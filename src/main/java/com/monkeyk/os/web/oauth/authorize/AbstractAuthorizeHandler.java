@@ -1,0 +1,225 @@
+/*
+ * Copyright (c) 2013 Andaily Information Technology Co. Ltd
+ * www.andaily.com
+ * All rights reserved.
+ *
+ * This software is the confidential and proprietary information of
+ * Andaily Information Technology Co. Ltd ("Confidential Information").
+ * You shall not disclose such Confidential Information and shall use
+ * it only in accordance with the terms of the license agreement you
+ * entered into with Andaily Information Technology Co. Ltd.
+ */
+package com.monkeyk.os.web.oauth.authorize;
+
+import com.monkeyk.os.domain.oauth.ClientDetails;
+import com.monkeyk.os.domain.shared.BeanProvider;
+import com.monkeyk.os.service.OauthService;
+import com.monkeyk.os.web.WebUtils;
+import com.monkeyk.os.web.oauth.OAuthAuthxRequest;
+import com.monkeyk.os.web.oauth.validator.AbstractClientDetailsValidator;
+import org.apache.oltu.oauth2.as.response.OAuthASResponse;
+import org.apache.oltu.oauth2.common.error.OAuthError;
+import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
+import org.apache.oltu.oauth2.common.message.OAuthResponse;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+import static com.monkeyk.os.domain.oauth.Constants.*;
+
+/**
+ * 2015/6/25
+ *
+ * @author Shengzhao Li
+ */
+public abstract class AbstractAuthorizeHandler {
+
+    private static final Logger LOG = LoggerFactory.getLogger(AbstractAuthorizeHandler.class);
+
+
+    protected OAuthAuthxRequest oauthRequest;
+    protected HttpServletResponse response;
+
+    protected transient OauthService oauthService = BeanProvider.getBean(OauthService.class);
+
+    protected boolean userFirstLogged = false;
+    protected boolean userFirstApproved = false;
+
+
+    private ClientDetails clientDetails;
+
+    public AbstractAuthorizeHandler(OAuthAuthxRequest oauthRequest, HttpServletResponse response) {
+        this.oauthRequest = oauthRequest;
+        this.response = response;
+    }
+
+
+    protected boolean validateFailed() throws OAuthSystemException {
+        AbstractClientDetailsValidator validator = getValidator();
+        final OAuthResponse oAuthResponse = validator.validate();
+        return checkAndResponseValidateFailed(oAuthResponse);
+    }
+
+    protected abstract AbstractClientDetailsValidator getValidator();
+
+    protected boolean checkAndResponseValidateFailed(OAuthResponse oAuthResponse) {
+        if (oAuthResponse != null) {
+            LOG.debug("Validate OAuthAuthzRequest(client_id={}) failed", oauthRequest.getClientId());
+            WebUtils.writeOAuthJsonResponse(response, oAuthResponse);
+            return true;
+        }
+        return false;
+    }
+
+    protected ClientDetails clientDetails() {
+        if (clientDetails == null) {
+            clientDetails = oauthService.loadClientDetails(oauthRequest.getClientId());
+        }
+        return clientDetails;
+    }
+
+    protected boolean isUserAuthenticated() {
+        final Subject subject = SecurityUtils.getSubject();
+        return subject.isAuthenticated();
+    }
+
+    protected boolean isNeedUserLogin() {
+        return !isUserAuthenticated() && !isPost();
+    }
+
+
+    protected boolean goApproval() throws ServletException, IOException {
+        if (userFirstLogged && !clientDetails().trusted()) {
+            //go to approval
+            LOG.debug("Go to oauth_approval, clientId: '{}'", clientDetails.getClientId());
+            final HttpServletRequest request = oauthRequest.request();
+            request.getRequestDispatcher(OAUTH_APPROVAL_VIEW)
+                    .forward(request, response);
+            return true;
+        }
+        return false;
+    }
+
+    protected boolean submitApproval() throws IOException, OAuthSystemException {
+        if (isPost() && !clientDetails().trusted()) {
+            //submit approval
+            final HttpServletRequest request = oauthRequest.request();
+            final String oauthApproval = request.getParameter(REQUEST_USER_OAUTH_APPROVAL);
+            if (!"true".equalsIgnoreCase(oauthApproval)) {
+                //Deny action
+                LOG.debug("User '{}' deny access", SecurityUtils.getSubject().getPrincipal());
+                responseApprovalDeny();
+            } else {
+                userFirstApproved = true;
+            }
+            return true;
+        }
+        return false;
+    }
+
+    protected void responseApprovalDeny() throws IOException, OAuthSystemException {
+
+        final OAuthResponse oAuthResponse = OAuthASResponse.errorResponse(HttpServletResponse.SC_FOUND)
+                .setError(OAuthError.CodeResponse.ACCESS_DENIED)
+                .setErrorDescription("User denied access")
+                .location(clientDetails.getRedirectUri())
+                .setState(oauthRequest.getState())
+                .buildQueryMessage();
+        LOG.debug("Response 'ACCESS_DENIED' is: {}", oAuthResponse);
+
+        WebUtils.writeOAuthQueryResponse(response, oAuthResponse);
+    }
+
+
+    protected boolean goLogin() throws ServletException, IOException {
+        if (isNeedUserLogin()) {
+            //go to login
+            LOG.debug("Forward to Oauth login by client_id '{}'", oauthRequest.getClientId());
+            final HttpServletRequest request = oauthRequest.request();
+            request.getRequestDispatcher(OAUTH_LOGIN_VIEW)
+                    .forward(request, response);
+            return true;
+        }
+        return false;
+    }
+
+
+    protected boolean submitLogin() throws ServletException, IOException {
+        if (isSubmitLogin()) {
+            //login flow
+            try {
+                UsernamePasswordToken token = createUsernamePasswordToken();
+                SecurityUtils.getSubject().login(token);
+
+                LOG.debug("Submit login successful");
+                this.userFirstLogged = true;
+            } catch (Exception ex) {
+                //login failed
+                LOG.debug("Login failed, back to login page too", ex);
+
+                final HttpServletRequest request = oauthRequest.request();
+                request.setAttribute("oauth_login_error", true);
+                request.getRequestDispatcher(OAUTH_LOGIN_VIEW)
+                        .forward(request, response);
+            }
+            return true;
+        }
+        return false;
+    }
+
+    private UsernamePasswordToken createUsernamePasswordToken() {
+        final HttpServletRequest request = oauthRequest.request();
+        final String username = request.getParameter(REQUEST_USERNAME);
+        final String password = request.getParameter(REQUEST_PASSWORD);
+        return new UsernamePasswordToken(username, password);
+    }
+
+    private boolean isSubmitLogin() {
+        return !isUserAuthenticated() && isPost();
+    }
+
+    protected boolean isPost() {
+        return RequestMethod.POST.name().equalsIgnoreCase(oauthRequest.request().getMethod());
+    }
+
+    public void handle() throws OAuthSystemException, ServletException, IOException {
+        //validate
+        if (validateFailed()) {
+            return;
+        }
+
+        //Check need usr login
+        if (goLogin()) {
+            return;
+        }
+
+        //submit login
+        if (submitLogin()) {
+            return;
+        }
+
+        // Check approval
+        if (goApproval()) {
+            return;
+        }
+
+        //Submit approval
+        if (submitApproval()) {
+            return;
+        }
+
+        //handle response
+        handleResponse();
+    }
+
+    //Handle custom response content
+    protected abstract void handleResponse() throws OAuthSystemException, IOException;
+}

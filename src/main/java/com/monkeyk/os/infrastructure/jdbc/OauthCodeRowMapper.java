@@ -36,8 +36,6 @@ public class OauthCodeRowMapper implements RowMapper<OauthCode> {
                 .code(rs.getString("code"));
 
         oauthCode.createTime(rs.getTimestamp("create_time"));
-        oauthCode.expiredSeconds(rs.getInt("expired_seconds"));
-
         return oauthCode;
 
     }

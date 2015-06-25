@@ -70,14 +70,13 @@ public class OauthServiceImpl implements OauthService {
         final String username = currentUsername();
 
         OauthCode oauthCode = oauthRepository.findOauthCodeByUsernameClientId(username, clientId);
-        if (oauthCode == null) {
-            oauthCode = createOauthCode(clientDetails);
-        } else if (oauthCode.expired()) {
-            LOG.debug("OauthCode ({}) is expired, remove it and create a new one", oauthCode);
+        if (oauthCode != null) {
+            //Always delete exist
+            LOG.debug("OauthCode ({}) is existed, remove it and create a new one", oauthCode);
             oauthRepository.deleteOauthCode(oauthCode);
-
-            oauthCode = createOauthCode(clientDetails);
         }
+        //create a new one
+        oauthCode = createOauthCode(clientDetails);
 
         return oauthCode.code();
     }
@@ -100,6 +99,26 @@ public class OauthServiceImpl implements OauthService {
             accessToken = createAndSaveAccessToken(clientDetails, includeRefreshToken, username, authenticationId);
             LOG.debug("Create a new AccessToken: {}", accessToken);
         }
+
+        return accessToken;
+    }
+
+    //Always return new AccessToken, exclude refreshToken
+    @Override
+    public AccessToken retrieveNewAccessToken(ClientDetails clientDetails, Set<String> scopes) throws OAuthSystemException {
+        String scope = OAuthUtils.encodeScopes(scopes);
+        final String username = currentUsername();
+        final String clientId = clientDetails.getClientId();
+
+        final String authenticationId = authenticationIdGenerator.generate(clientId, username, scope);
+
+        AccessToken accessToken = oauthRepository.findAccessToken(clientId, username, authenticationId);
+        if (accessToken != null) {
+            LOG.debug("Delete existed AccessToken: {}", accessToken);
+            oauthRepository.deleteAccessToken(accessToken);
+        }
+        accessToken = createAndSaveAccessToken(clientDetails, false, username, authenticationId);
+        LOG.debug("Create a new AccessToken: {}", accessToken);
 
         return accessToken;
     }

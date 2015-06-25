@@ -32,7 +32,7 @@ public class CodeClientDetailsValidator extends AbstractClientDetailsValidator {
 
     private static final Logger LOG = LoggerFactory.getLogger(CodeClientDetailsValidator.class);
 
-    protected CodeClientDetailsValidator(OAuthAuthzRequest oauthRequest) {
+    public CodeClientDetailsValidator(OAuthAuthzRequest oauthRequest) {
         super(oauthRequest);
     }
 

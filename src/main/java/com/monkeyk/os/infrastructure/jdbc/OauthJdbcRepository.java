@@ -60,14 +60,13 @@ public class OauthJdbcRepository extends AbstractJdbcRepository implements Oauth
 
     @Override
     public int saveOauthCode(final OauthCode oauthCode) {
-        final String sql = " insert into oauth_code(code,username,client_id,expired_seconds) values (?,?,?,?)";
+        final String sql = " insert into oauth_code(code,username,client_id) values (?,?,?)";
         return jdbcTemplate.update(sql, new PreparedStatementSetter() {
             @Override
             public void setValues(PreparedStatement ps) throws SQLException {
                 ps.setString(1, oauthCode.code());
                 ps.setString(2, oauthCode.username());
                 ps.setString(3, oauthCode.clientId());
-                ps.setInt(4, oauthCode.expiredSeconds());
             }
         });
     }

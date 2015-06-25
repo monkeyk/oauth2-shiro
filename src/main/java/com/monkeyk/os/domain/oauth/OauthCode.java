@@ -12,7 +12,6 @@
 package com.monkeyk.os.domain.oauth;
 
 import com.monkeyk.os.domain.AbstractDomain;
-import com.monkeyk.os.infrastructure.DateUtils;
 
 /**
  * 15-6-17
@@ -21,30 +20,15 @@ import com.monkeyk.os.infrastructure.DateUtils;
  */
 public class OauthCode extends AbstractDomain {
 
-
-    //Default expired: 600 s (10 min)
-    public static final int DEFAULT_CODE_EXPIRED_SECONDS = 600;
-
-
     private String code;
 
     private String username;
 
     private String clientId;
 
-    private int expiredSeconds = DEFAULT_CODE_EXPIRED_SECONDS;
-
     public OauthCode() {
     }
 
-    public int expiredSeconds() {
-        return expiredSeconds;
-    }
-
-    public OauthCode expiredSeconds(int expiredSeconds) {
-        this.expiredSeconds = expiredSeconds;
-        return this;
-    }
 
     public String code() {
         return code;
@@ -73,11 +57,4 @@ public class OauthCode extends AbstractDomain {
         return this;
     }
 
-    public boolean expired() {
-        if (this.expiredSeconds <= 0) {
-            return false;
-        }
-        final long time = createTime.getTime() + (this.expiredSeconds * 1000);
-        return time >= DateUtils.now().getTime();
-    }
 }

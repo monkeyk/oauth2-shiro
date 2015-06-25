@@ -32,8 +32,7 @@ public class TokenClientDetailsValidator extends AbstractClientDetailsValidator 
     private static final Logger LOG = LoggerFactory.getLogger(TokenClientDetailsValidator.class);
 
 
-
-    protected TokenClientDetailsValidator(OAuthAuthzRequest oauthRequest) {
+    public TokenClientDetailsValidator(OAuthAuthzRequest oauthRequest) {
         super(oauthRequest);
     }
 
