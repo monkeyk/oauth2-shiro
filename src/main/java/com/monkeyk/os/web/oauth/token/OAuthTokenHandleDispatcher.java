@@ -13,6 +13,7 @@ package com.monkeyk.os.web.oauth.token;
 
 import com.monkeyk.os.web.oauth.OAuthTokenxRequest;
 import org.apache.oltu.oauth2.common.exception.OAuthProblemException;
+import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,7 +53,7 @@ public class OAuthTokenHandleDispatcher {
     }
 
 
-    public void dispatch() throws OAuthProblemException {
+    public void dispatch() throws OAuthProblemException, OAuthSystemException {
         for (OAuthTokenHandler handler : handlers) {
             if (handler.support(tokenRequest)) {
                 LOG.debug("Found '{}' handle OAuthTokenxRequest: {}", handler, tokenRequest);

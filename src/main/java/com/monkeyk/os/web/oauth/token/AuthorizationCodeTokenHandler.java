@@ -12,10 +12,10 @@
 package com.monkeyk.os.web.oauth.token;
 
 import com.monkeyk.os.web.oauth.OAuthTokenxRequest;
+import com.monkeyk.os.web.oauth.validator.AbstractClientDetailsValidator;
+import com.monkeyk.os.web.oauth.validator.AuthorizationCodeClientDetailsValidator;
 import org.apache.oltu.oauth2.common.exception.OAuthProblemException;
 import org.apache.oltu.oauth2.common.message.types.GrantType;
-
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * 2015/7/3
@@ -32,8 +32,19 @@ public class AuthorizationCodeTokenHandler extends AbstractOAuthTokenHandler {
         return GrantType.AUTHORIZATION_CODE.toString().equalsIgnoreCase(grantType);
     }
 
+    /*
+    *
+    * /oauth/token?client_id=unity-client&client_secret=unity&grant_type=authorization_code&code=zLl170&redirect_uri=redirect_uri
+    * */
     @Override
-    public void handle(OAuthTokenxRequest tokenRequest, HttpServletResponse response) throws OAuthProblemException {
-        throw new UnsupportedOperationException("Not yet implemented");
+    public void handleAfterValidation() throws OAuthProblemException {
+
+
     }
+
+    @Override
+    protected AbstractClientDetailsValidator getValidator() {
+        return new AuthorizationCodeClientDetailsValidator(tokenRequest);
+    }
+
 }

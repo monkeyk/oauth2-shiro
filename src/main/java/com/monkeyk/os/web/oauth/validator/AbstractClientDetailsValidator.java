@@ -14,7 +14,7 @@ package com.monkeyk.os.web.oauth.validator;
 import com.monkeyk.os.domain.oauth.ClientDetails;
 import com.monkeyk.os.domain.shared.BeanProvider;
 import com.monkeyk.os.service.OauthService;
-import org.apache.oltu.oauth2.as.request.OAuthAuthzRequest;
+import org.apache.oltu.oauth2.as.request.OAuthRequest;
 import org.apache.oltu.oauth2.common.error.OAuthError;
 import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
 import org.apache.oltu.oauth2.common.message.OAuthResponse;
@@ -36,11 +36,11 @@ public abstract class AbstractClientDetailsValidator {
 
     protected OauthService oauthService = BeanProvider.getBean(OauthService.class);
 
-    protected OAuthAuthzRequest oauthRequest;
+    protected OAuthRequest oauthRequest;
 
     private ClientDetails clientDetails;
 
-    protected AbstractClientDetailsValidator(OAuthAuthzRequest oauthRequest) {
+    protected AbstractClientDetailsValidator(OAuthRequest oauthRequest) {
         this.oauthRequest = oauthRequest;
     }
 
@@ -94,6 +94,14 @@ public abstract class AbstractClientDetailsValidator {
             }
         }
         return false;
+    }
+
+
+    protected OAuthResponse invalidClientSecretResponse() throws OAuthSystemException {
+        return OAuthResponse.errorResponse(HttpServletResponse.SC_UNAUTHORIZED)
+                .setError(OAuthError.TokenResponse.UNAUTHORIZED_CLIENT)
+                .setErrorDescription("Invalid client_secret by client_id '" + oauthRequest.getClientId() + "'")
+                .buildJSONMessage();
     }
 
 

@@ -56,13 +56,17 @@ public class CodeClientDetailsValidator extends AbstractClientDetailsValidator {
         }
 
         //validate state
-        final String state = oauthRequest.getState();
+        final String state = getState();
         if (StringUtils.isEmpty(state)) {
             LOG.debug("Invalid 'state', it is required, but it is empty");
             return invalidStateResponse();
         }
 
         return null;
+    }
+
+    private String getState() {
+        return ((OAuthAuthzRequest) oauthRequest).getState();
     }
 
     private OAuthResponse invalidStateResponse() throws OAuthSystemException {

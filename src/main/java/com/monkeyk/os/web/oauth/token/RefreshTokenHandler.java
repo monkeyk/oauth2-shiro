@@ -12,10 +12,9 @@
 package com.monkeyk.os.web.oauth.token;
 
 import com.monkeyk.os.web.oauth.OAuthTokenxRequest;
+import com.monkeyk.os.web.oauth.validator.AbstractClientDetailsValidator;
 import org.apache.oltu.oauth2.common.exception.OAuthProblemException;
 import org.apache.oltu.oauth2.common.message.types.GrantType;
-
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * 2015/7/3
@@ -33,7 +32,14 @@ public class RefreshTokenHandler extends AbstractOAuthTokenHandler {
     }
 
     @Override
-    public void handle(OAuthTokenxRequest tokenRequest, HttpServletResponse response) throws OAuthProblemException {
+    public void handleAfterValidation() throws OAuthProblemException {
+
+
+    }
+
+    @Override
+    protected AbstractClientDetailsValidator getValidator() {
         throw new UnsupportedOperationException("Not yet implemented");
     }
+
 }

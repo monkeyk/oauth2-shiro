@@ -11,11 +11,9 @@
  */
 package com.monkeyk.os.web.oauth.authorize;
 
-import com.monkeyk.os.domain.oauth.ClientDetails;
-import com.monkeyk.os.domain.shared.BeanProvider;
-import com.monkeyk.os.service.OauthService;
 import com.monkeyk.os.web.WebUtils;
 import com.monkeyk.os.web.oauth.OAuthAuthxRequest;
+import com.monkeyk.os.web.oauth.OAuthHandler;
 import com.monkeyk.os.web.oauth.validator.AbstractClientDetailsValidator;
 import org.apache.oltu.oauth2.as.response.OAuthASResponse;
 import org.apache.oltu.oauth2.common.error.OAuthError;
@@ -40,7 +38,7 @@ import static com.monkeyk.os.domain.oauth.Constants.*;
  *
  * @author Shengzhao Li
  */
-public abstract class AbstractAuthorizeHandler {
+public abstract class AbstractAuthorizeHandler extends OAuthHandler {
 
     private static final Logger LOG = LoggerFactory.getLogger(AbstractAuthorizeHandler.class);
 
@@ -48,13 +46,9 @@ public abstract class AbstractAuthorizeHandler {
     protected OAuthAuthxRequest oauthRequest;
     protected HttpServletResponse response;
 
-    protected transient OauthService oauthService = BeanProvider.getBean(OauthService.class);
-
     protected boolean userFirstLogged = false;
     protected boolean userFirstApproved = false;
 
-
-    private ClientDetails clientDetails;
 
     public AbstractAuthorizeHandler(OAuthAuthxRequest oauthRequest, HttpServletResponse response) {
         this.oauthRequest = oauthRequest;
@@ -81,11 +75,8 @@ public abstract class AbstractAuthorizeHandler {
         return false;
     }
 
-    protected ClientDetails clientDetails() {
-        if (clientDetails == null) {
-            clientDetails = oauthService.loadClientDetails(oauthRequest.getClientId());
-        }
-        return clientDetails;
+    protected String clientId() {
+        return oauthRequest.getClientId();
     }
 
     protected boolean isUserAuthenticated() {
@@ -101,7 +92,7 @@ public abstract class AbstractAuthorizeHandler {
     protected boolean goApproval() throws ServletException, IOException {
         if (userFirstLogged && !clientDetails().trusted()) {
             //go to approval
-            LOG.debug("Go to oauth_approval, clientId: '{}'", clientDetails.getClientId());
+            LOG.debug("Go to oauth_approval, clientId: '{}'", clientDetails().getClientId());
             final HttpServletRequest request = oauthRequest.request();
             request.getRequestDispatcher(OAUTH_APPROVAL_VIEW)
                     .forward(request, response);
@@ -134,7 +125,7 @@ public abstract class AbstractAuthorizeHandler {
         final OAuthResponse oAuthResponse = OAuthASResponse.errorResponse(HttpServletResponse.SC_FOUND)
                 .setError(OAuthError.CodeResponse.ACCESS_DENIED)
                 .setErrorDescription("User denied access")
-                .location(clientDetails.getRedirectUri())
+                .location(clientDetails().getRedirectUri())
                 .setState(oauthRequest.getState())
                 .buildQueryMessage();
         LOG.debug("'ACCESS_DENIED' response: {}", oAuthResponse);

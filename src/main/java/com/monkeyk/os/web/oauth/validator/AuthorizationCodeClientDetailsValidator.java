@@ -12,40 +12,38 @@
 package com.monkeyk.os.web.oauth.validator;
 
 import com.monkeyk.os.domain.oauth.ClientDetails;
-import org.apache.oltu.oauth2.as.request.OAuthAuthzRequest;
+import com.monkeyk.os.web.oauth.OAuthTokenxRequest;
 import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
 import org.apache.oltu.oauth2.common.message.OAuthResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Set;
-
 /**
- * 15-6-13
+ * 2015/7/3
  *
  * @author Shengzhao Li
  */
-public class TokenClientDetailsValidator extends AbstractClientDetailsValidator {
+public class AuthorizationCodeClientDetailsValidator extends AbstractClientDetailsValidator {
 
-    private static final Logger LOG = LoggerFactory.getLogger(TokenClientDetailsValidator.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AuthorizationCodeClientDetailsValidator.class);
 
 
-    public TokenClientDetailsValidator(OAuthAuthzRequest oauthRequest) {
+    public AuthorizationCodeClientDetailsValidator(OAuthTokenxRequest oauthRequest) {
         super(oauthRequest);
     }
 
-    /*
-     * grant_type="implicit"   -> response_type="token"
-     * ?response_type=token&scope=read,write&client_id=[client_id]&client_secret=[client_secret]&redirect_uri=[redirect_uri]
-    * */
+    /**
+     * /oauth/token?client_id=unity-client&client_secret=unity&grant_type=authorization_code&code=zLl170&redirect_uri=redirect_uri
+     */
     @Override
-    public OAuthResponse validateSelf(ClientDetails clientDetails) throws OAuthSystemException {
+    protected OAuthResponse validateSelf(ClientDetails clientDetails) throws OAuthSystemException {
 
         //validate client_secret
         final String clientSecret = oauthRequest.getClientSecret();
         if (clientSecret == null || !clientSecret.equals(clientDetails.getClientSecret())) {
             return invalidClientSecretResponse();
         }
+
 
         //validate redirect_uri
         final String redirectURI = oauthRequest.getRedirectURI();
@@ -54,15 +52,9 @@ public class TokenClientDetailsValidator extends AbstractClientDetailsValidator 
             return invalidRedirectUriResponse();
         }
 
-        //validate scope
-        final Set<String> scopes = oauthRequest.getScopes();
-        if (scopes.isEmpty() || excludeScopes(scopes, clientDetails)) {
-            return invalidScopeResponse();
-        }
+        //validate code
 
 
         return null;
     }
-
-
 }
