@@ -123,6 +123,19 @@ public class OauthServiceImpl implements OauthService {
         return accessToken;
     }
 
+    @Override
+    public OauthCode loadOauthCode(String code, ClientDetails clientDetails) {
+        final String clientId = clientDetails.getClientId();
+        return oauthRepository.findOauthCode(code, clientId);
+    }
+
+    @Override
+    public boolean removeOauthCode(String code, ClientDetails clientDetails) {
+        final OauthCode oauthCode = loadOauthCode(code, clientDetails);
+        final int rows = oauthRepository.deleteOauthCode(oauthCode);
+        return rows > 0;
+    }
+
     private AccessToken createAndSaveAccessToken(ClientDetails clientDetails, boolean includeRefreshToken, String username, String authenticationId) throws OAuthSystemException {
         AccessToken accessToken = new AccessToken()
                 .clientId(clientDetails.getClientId())

@@ -37,4 +37,8 @@ public interface OauthService {
 
     //Always return new AccessToken, exclude refreshToken
     AccessToken retrieveNewAccessToken(ClientDetails clientDetails, Set<String> scopes) throws OAuthSystemException;
+
+    OauthCode loadOauthCode(String code, ClientDetails clientDetails);
+
+    boolean removeOauthCode(String code, ClientDetails clientDetails);
 }

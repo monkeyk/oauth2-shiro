@@ -75,7 +75,7 @@ public abstract class AbstractOAuthTokenHandler extends OAuthHandler implements 
         return tokenRequest.getClientId();
     }
 
-    protected abstract void handleAfterValidation() throws OAuthProblemException;
+    protected abstract void handleAfterValidation() throws OAuthProblemException, OAuthSystemException;
 
 
 }

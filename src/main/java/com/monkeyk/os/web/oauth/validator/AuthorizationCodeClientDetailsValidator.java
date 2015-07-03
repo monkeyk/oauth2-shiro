@@ -12,11 +12,15 @@
 package com.monkeyk.os.web.oauth.validator;
 
 import com.monkeyk.os.domain.oauth.ClientDetails;
+import com.monkeyk.os.domain.oauth.OauthCode;
 import com.monkeyk.os.web.oauth.OAuthTokenxRequest;
+import org.apache.oltu.oauth2.common.error.OAuthError;
 import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
 import org.apache.oltu.oauth2.common.message.OAuthResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * 2015/7/3
@@ -48,13 +52,29 @@ public class AuthorizationCodeClientDetailsValidator extends AbstractClientDetai
         //validate redirect_uri
         final String redirectURI = oauthRequest.getRedirectURI();
         if (redirectURI == null || !redirectURI.equals(clientDetails.getRedirectUri())) {
-            LOG.debug("Invalid redirect_uri '{}' by response_type = 'code', client_id = '{}'", redirectURI, clientDetails.getClientId());
+            LOG.debug("Invalid redirect_uri '{}', client_id = '{}'", redirectURI, clientDetails.getClientId());
             return invalidRedirectUriResponse();
         }
 
         //validate code
-
+        String code = getCode();
+        OauthCode oauthCode = oauthService.loadOauthCode(code, clientDetails());
+        if (oauthCode == null) {
+            LOG.debug("Invalid code '{}', client_id = '{}'", code, clientDetails.getClientId());
+            return invalidCodeResponse(code);
+        }
 
         return null;
+    }
+
+    private OAuthResponse invalidCodeResponse(String code) throws OAuthSystemException {
+        return OAuthResponse.errorResponse(HttpServletResponse.SC_BAD_REQUEST)
+                .setError(OAuthError.TokenResponse.INVALID_GRANT)
+                .setErrorDescription("Invalid code '" + code + "'")
+                .buildJSONMessage();
+    }
+
+    private String getCode() {
+        return ((OAuthTokenxRequest) oauthRequest).getCode();
     }
 }

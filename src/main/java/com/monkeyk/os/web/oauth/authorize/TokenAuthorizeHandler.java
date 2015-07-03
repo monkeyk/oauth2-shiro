@@ -76,15 +76,8 @@ public class TokenAuthorizeHandler extends AbstractAuthorizeHandler {
     }
 
     private void normalTokenResponse(AccessToken accessToken) throws OAuthSystemException {
-        final ClientDetails clientDetails = clientDetails();
 
-        final OAuthResponse oAuthResponse = OAuthASResponse
-                .tokenResponse(HttpServletResponse.SC_OK)
-                .location(clientDetails.getRedirectUri())
-                .setAccessToken(accessToken.tokenId())
-                .setExpiresIn(String.valueOf(accessToken.currentTokenExpiredSeconds()))
-                .setTokenType(accessToken.tokenType())
-                .buildQueryMessage();
+        final OAuthResponse oAuthResponse = createTokenResponse(accessToken);
         LOG.debug("'token' response: {}", oAuthResponse);
 
         WebUtils.writeOAuthQueryResponse(response, oAuthResponse);

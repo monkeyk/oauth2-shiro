@@ -11,11 +11,17 @@
  */
 package com.monkeyk.os.web.oauth;
 
+import com.monkeyk.os.domain.oauth.AccessToken;
 import com.monkeyk.os.domain.oauth.ClientDetails;
 import com.monkeyk.os.domain.shared.BeanProvider;
 import com.monkeyk.os.service.OauthService;
+import org.apache.oltu.oauth2.as.response.OAuthASResponse;
+import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
+import org.apache.oltu.oauth2.common.message.OAuthResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * 2015/7/3
@@ -40,6 +46,19 @@ public abstract class OAuthHandler {
             LOG.debug("Load ClientDetails: {} by clientId: {}", clientDetails, clientId);
         }
         return clientDetails;
+    }
+
+
+    protected OAuthResponse createTokenResponse(AccessToken accessToken) throws OAuthSystemException {
+        final ClientDetails clientDetails = clientDetails();
+
+        return OAuthASResponse
+                .tokenResponse(HttpServletResponse.SC_OK)
+                .location(clientDetails.getRedirectUri())
+                .setAccessToken(accessToken.tokenId())
+                .setExpiresIn(String.valueOf(accessToken.currentTokenExpiredSeconds()))
+                .setTokenType(accessToken.tokenType())
+                .buildQueryMessage();
     }
 
 
