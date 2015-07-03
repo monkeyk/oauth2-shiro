@@ -18,14 +18,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
+ *
+ * URL: oauth/authorize
+ *
  * @author Shengzhao Li
  */
 @Controller
 @RequestMapping("oauth/")
-public class OauthController {
+public class OauthAuthorizeController {
 
 
-    private static final Logger LOG = LoggerFactory.getLogger(OauthController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(OauthAuthorizeController.class);
 
 
     /**
