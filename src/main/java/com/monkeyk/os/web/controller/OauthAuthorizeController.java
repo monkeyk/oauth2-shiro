@@ -49,10 +49,6 @@ public class OauthAuthorizeController {
         try {
             OAuthAuthxRequest oauthRequest = new OAuthAuthxRequest(request);
 
-            //If it is auth used
-            if (checkAndHandleAuthHeaderUsed(response, oauthRequest)) {
-                return;
-            }
 
             if (oauthRequest.isCode()) {
                 CodeAuthorizeHandler codeAuthorizeHandler = new CodeAuthorizeHandler(oauthRequest, response);
@@ -81,19 +77,19 @@ public class OauthAuthorizeController {
 
     }
 
-    private boolean checkAndHandleAuthHeaderUsed(HttpServletResponse response, OAuthAuthxRequest oauthRequest) throws OAuthSystemException {
-        if (oauthRequest.isClientAuthHeaderUsed()) {
-            OAuthResponse oAuthResponse = OAuthResponse.status(HttpServletResponse.SC_FOUND)
-                    .location(oauthRequest.getRedirectURI())
-                    .setParam("client_id", oauthRequest.getClientId())
-                    .buildJSONMessage();
-
-            LOG.debug("Auth header used by client: {}, return directly", oauthRequest.getClientId());
-            WebUtils.writeOAuthJsonResponse(response, oAuthResponse);
-            return true;
-        }
-        return false;
-    }
+//    private boolean checkAndHandleAuthHeaderUsed(HttpServletResponse response, OAuthAuthxRequest oauthRequest) throws OAuthSystemException {
+//        if (oauthRequest.isClientAuthHeaderUsed()) {
+//            OAuthResponse oAuthResponse = OAuthResponse.status(HttpServletResponse.SC_FOUND)
+//                    .location(oauthRequest.getRedirectURI())
+//                    .setParam("client_id", oauthRequest.getClientId())
+//                    .buildJSONMessage();
+//
+//            LOG.debug("Auth header used by client: {}, return directly", oauthRequest.getClientId());
+//            WebUtils.writeOAuthJsonResponse(response, oAuthResponse);
+//            return true;
+//        }
+//        return false;
+//    }
 
     private void unsupportResponseType(OAuthAuthxRequest oauthRequest, HttpServletResponse response) throws OAuthSystemException {
         final String responseType = oauthRequest.getResponseType();
