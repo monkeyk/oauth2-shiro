@@ -108,7 +108,7 @@ create table oauth_refresh_token (
 Drop table  if exists oauth_code;
 create table oauth_code (
   create_time timestamp default now(),
-  code VARCHAR(256),
+  code VARCHAR(256) unique,
   username VARCHAR(256),
   client_id VARCHAR(256)
 );
