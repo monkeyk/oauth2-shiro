@@ -9,15 +9,18 @@
  * it only in accordance with the terms of the license agreement you
  * entered into with Andaily Information Technology Co. Ltd.
  */
-package com.monkeyk.os.web.oauth.validator;
+package com.monkeyk.os.oauth.validator;
 
 import com.monkeyk.os.domain.oauth.ClientDetails;
+import org.apache.commons.lang.StringUtils;
 import org.apache.oltu.oauth2.as.request.OAuthAuthzRequest;
+import org.apache.oltu.oauth2.common.error.OAuthError;
 import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
 import org.apache.oltu.oauth2.common.message.OAuthResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.Set;
 
 /**
@@ -25,28 +28,20 @@ import java.util.Set;
  *
  * @author Shengzhao Li
  */
-public class TokenClientDetailsValidator extends AbstractClientDetailsValidator {
+public class CodeClientDetailsValidator extends AbstractClientDetailsValidator {
 
-    private static final Logger LOG = LoggerFactory.getLogger(TokenClientDetailsValidator.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CodeClientDetailsValidator.class);
 
-
-    public TokenClientDetailsValidator(OAuthAuthzRequest oauthRequest) {
+    public CodeClientDetailsValidator(OAuthAuthzRequest oauthRequest) {
         super(oauthRequest);
     }
 
     /*
-     * grant_type="implicit"   -> response_type="token"
-     * ?response_type=token&scope=read,write&client_id=[client_id]&client_secret=[client_secret]&redirect_uri=[redirect_uri]
+    *  grant_type="authorization_code"
+    *  ?response_type=code&scope=read,write&client_id=[client_id]&redirect_uri=[redirect_uri]&state=[state]
     * */
     @Override
     public OAuthResponse validateSelf(ClientDetails clientDetails) throws OAuthSystemException {
-
-        //validate client_secret
-        final String clientSecret = oauthRequest.getClientSecret();
-        if (clientSecret == null || !clientSecret.equals(clientDetails.getClientSecret())) {
-            return invalidClientSecretResponse();
-        }
-
         //validate redirect_uri
         final String redirectURI = oauthRequest.getRedirectURI();
         if (redirectURI == null || !redirectURI.equals(clientDetails.getRedirectUri())) {
@@ -60,8 +55,25 @@ public class TokenClientDetailsValidator extends AbstractClientDetailsValidator 
             return invalidScopeResponse();
         }
 
+        //validate state
+        final String state = getState();
+        if (StringUtils.isEmpty(state)) {
+            LOG.debug("Invalid 'state', it is required, but it is empty");
+            return invalidStateResponse();
+        }
 
         return null;
+    }
+
+    private String getState() {
+        return ((OAuthAuthzRequest) oauthRequest).getState();
+    }
+
+    private OAuthResponse invalidStateResponse() throws OAuthSystemException {
+        return OAuthResponse.errorResponse(HttpServletResponse.SC_BAD_REQUEST)
+                .setError(OAuthError.CodeResponse.INVALID_REQUEST)
+                .setErrorDescription("Parameter 'state'  is required")
+                .buildJSONMessage();
     }
 
 

@@ -9,26 +9,26 @@
  * it only in accordance with the terms of the license agreement you
  * entered into with Andaily Information Technology Co. Ltd.
  */
-package com.monkeyk.os.web.oauth.token;
+package com.monkeyk.os.oauth.token;
 
-import com.monkeyk.os.web.oauth.OAuthTokenxRequest;
-import com.monkeyk.os.web.oauth.validator.AbstractClientDetailsValidator;
+import com.monkeyk.os.oauth.OAuthTokenxRequest;
+import com.monkeyk.os.oauth.validator.AbstractClientDetailsValidator;
 import org.apache.oltu.oauth2.common.exception.OAuthProblemException;
 import org.apache.oltu.oauth2.common.message.types.GrantType;
 
 /**
  * 2015/7/3
  * <p/>
- * grant_type=refresh_token
+ * grant_type=client_credentials
  *
  * @author Shengzhao Li
  */
-public class RefreshTokenHandler extends AbstractOAuthTokenHandler {
+public class ClientCredentialsTokenHandler extends AbstractOAuthTokenHandler {
 
     @Override
     public boolean support(OAuthTokenxRequest tokenRequest) throws OAuthProblemException {
         final String grantType = tokenRequest.getGrantType();
-        return GrantType.REFRESH_TOKEN.toString().equalsIgnoreCase(grantType);
+        return GrantType.CLIENT_CREDENTIALS.toString().equalsIgnoreCase(grantType);
     }
 
     @Override

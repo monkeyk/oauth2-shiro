@@ -9,13 +9,13 @@
  * it only in accordance with the terms of the license agreement you
  * entered into with Andaily Information Technology Co. Ltd.
  */
-package com.monkeyk.os.web.oauth.token;
+package com.monkeyk.os.oauth.token;
 
 import com.monkeyk.os.domain.oauth.AccessToken;
 import com.monkeyk.os.web.WebUtils;
-import com.monkeyk.os.web.oauth.OAuthTokenxRequest;
-import com.monkeyk.os.web.oauth.validator.AbstractClientDetailsValidator;
-import com.monkeyk.os.web.oauth.validator.AuthorizationCodeClientDetailsValidator;
+import com.monkeyk.os.oauth.OAuthTokenxRequest;
+import com.monkeyk.os.oauth.validator.AbstractClientDetailsValidator;
+import com.monkeyk.os.oauth.validator.AuthorizationCodeClientDetailsValidator;
 import org.apache.oltu.oauth2.common.exception.OAuthProblemException;
 import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
 import org.apache.oltu.oauth2.common.message.OAuthResponse;

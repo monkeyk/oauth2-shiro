@@ -1,9 +1,9 @@
 package com.monkeyk.os.web.controller;
 
 import com.monkeyk.os.web.WebUtils;
-import com.monkeyk.os.web.oauth.OAuthAuthxRequest;
-import com.monkeyk.os.web.oauth.authorize.CodeAuthorizeHandler;
-import com.monkeyk.os.web.oauth.authorize.TokenAuthorizeHandler;
+import com.monkeyk.os.oauth.OAuthAuthxRequest;
+import com.monkeyk.os.oauth.authorize.CodeAuthorizeHandler;
+import com.monkeyk.os.oauth.authorize.TokenAuthorizeHandler;
 import org.apache.oltu.oauth2.as.response.OAuthASResponse;
 import org.apache.oltu.oauth2.common.error.OAuthError;
 import org.apache.oltu.oauth2.common.exception.OAuthProblemException;

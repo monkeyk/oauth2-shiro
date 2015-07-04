@@ -9,9 +9,9 @@
  * it only in accordance with the terms of the license agreement you
  * entered into with Andaily Information Technology Co. Ltd.
  */
-package com.monkeyk.os.web.oauth.token;
+package com.monkeyk.os.oauth.token;
 
-import com.monkeyk.os.web.oauth.OAuthTokenxRequest;
+import com.monkeyk.os.oauth.OAuthTokenxRequest;
 import org.apache.oltu.oauth2.common.exception.OAuthProblemException;
 import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
 

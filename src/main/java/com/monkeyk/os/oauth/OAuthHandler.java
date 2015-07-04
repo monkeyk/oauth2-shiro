@@ -9,7 +9,7 @@
  * it only in accordance with the terms of the license agreement you
  * entered into with Andaily Information Technology Co. Ltd.
  */
-package com.monkeyk.os.web.oauth;
+package com.monkeyk.os.oauth;
 
 import com.monkeyk.os.domain.oauth.AccessToken;
 import com.monkeyk.os.domain.oauth.ClientDetails;

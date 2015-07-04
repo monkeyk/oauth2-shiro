@@ -9,7 +9,7 @@
  * it only in accordance with the terms of the license agreement you
  * entered into with Andaily Information Technology Co. Ltd.
  */
-package com.monkeyk.os.web.oauth.validator;
+package com.monkeyk.os.oauth.validator;
 
 import com.monkeyk.os.domain.oauth.ClientDetails;
 import com.monkeyk.os.domain.shared.BeanProvider;
