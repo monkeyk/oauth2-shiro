@@ -22,14 +22,14 @@
 </head>
 <body>
 
-<div>
+<div class="row">
     <h3>Oauth Login</h3>
 
     <p>
         Login for client_id: '${param.client_id}'.
     </p>
 
-    <form action="${contextPath}/oauth/authorize" method="post">
+    <form action="${pageContext.request.contextPath}/oauth/authorize" method="post">
         <input type="hidden" name="client_id" value="${param.client_id}"/>
         <input type="hidden" name="scope" value="${param.scope}"/>
         <input type="hidden" name="response_type" value="${param.response_type}"/>
@@ -47,5 +47,26 @@
     </form>
 </div>
 
+<div>
+    <p>You can use the users to login as follow:</p>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>username</th>
+            <th>password</th>
+            <th>grant_types</th>
+            <th>roles</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>test</td>
+            <td>test</td>
+            <td>authorization_code,password,refresh_token,client_credentials</td>
+            <td>User(id=22)</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>

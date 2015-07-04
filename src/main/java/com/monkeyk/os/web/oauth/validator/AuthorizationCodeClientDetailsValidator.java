@@ -27,7 +27,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Shengzhao Li
  */
-public class AuthorizationCodeClientDetailsValidator extends AbstractClientDetailsValidator {
+public class AuthorizationCodeClientDetailsValidator extends AbstractOauthTokenValidator {
 
     private static final Logger LOG = LoggerFactory.getLogger(AuthorizationCodeClientDetailsValidator.class);
 
@@ -42,9 +42,17 @@ public class AuthorizationCodeClientDetailsValidator extends AbstractClientDetai
     @Override
     protected OAuthResponse validateSelf(ClientDetails clientDetails) throws OAuthSystemException {
 
+        //validate grant_type
+        final String grantType = grantType();
+        if (!clientDetails.grantTypes().contains(grantType)) {
+            LOG.debug("Invalid grant_type '{}', client_id = '{}'", grantType, clientDetails.getClientId());
+            return invalidGrantTypeResponse(grantType);
+        }
+
         //validate client_secret
         final String clientSecret = oauthRequest.getClientSecret();
         if (clientSecret == null || !clientSecret.equals(clientDetails.getClientSecret())) {
+            LOG.debug("Invalid client_secret '{}', client_id = '{}'", clientSecret, clientDetails.getClientId());
             return invalidClientSecretResponse();
         }
 

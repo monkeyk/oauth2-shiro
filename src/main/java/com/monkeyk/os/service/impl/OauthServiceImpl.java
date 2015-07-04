@@ -136,6 +136,25 @@ public class OauthServiceImpl implements OauthService {
         return rows > 0;
     }
 
+    //Always return new AccessToken, include refreshToken
+    @Override
+    public AccessToken retrieveNewAccessToken(ClientDetails clientDetails) throws OAuthSystemException {
+        final String username = currentUsername();
+        final String clientId = clientDetails.getClientId();
+
+        final String authenticationId = authenticationIdGenerator.generate(clientId, username, null);
+
+        AccessToken accessToken = oauthRepository.findAccessToken(clientId, username, authenticationId);
+        if (accessToken != null) {
+            LOG.debug("Delete existed AccessToken: {}", accessToken);
+            oauthRepository.deleteAccessToken(accessToken);
+        }
+        accessToken = createAndSaveAccessToken(clientDetails, true, username, authenticationId);
+        LOG.debug("Create a new AccessToken: {}", accessToken);
+
+        return accessToken;
+    }
+
     private AccessToken createAndSaveAccessToken(ClientDetails clientDetails, boolean includeRefreshToken, String username, String authenticationId) throws OAuthSystemException {
         AccessToken accessToken = new AccessToken()
                 .clientId(clientDetails.getClientId())

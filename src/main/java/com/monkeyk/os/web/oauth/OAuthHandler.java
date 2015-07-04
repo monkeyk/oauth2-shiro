@@ -15,6 +15,7 @@ import com.monkeyk.os.domain.oauth.AccessToken;
 import com.monkeyk.os.domain.oauth.ClientDetails;
 import com.monkeyk.os.domain.shared.BeanProvider;
 import com.monkeyk.os.service.OauthService;
+import org.apache.commons.lang.StringUtils;
 import org.apache.oltu.oauth2.as.response.OAuthASResponse;
 import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
 import org.apache.oltu.oauth2.common.message.OAuthResponse;
@@ -49,16 +50,30 @@ public abstract class OAuthHandler {
     }
 
 
-    protected OAuthResponse createTokenResponse(AccessToken accessToken) throws OAuthSystemException {
+    /**
+     * Create  AccessToken response
+     *
+     * @param accessToken AccessToken
+     * @param queryOrJson True is QueryMessage, false is JSON message
+     * @return OAuthResponse
+     * @throws OAuthSystemException
+     */
+    protected OAuthResponse createTokenResponse(AccessToken accessToken, boolean queryOrJson) throws OAuthSystemException {
         final ClientDetails clientDetails = clientDetails();
 
-        return OAuthASResponse
+        final OAuthASResponse.OAuthTokenResponseBuilder builder = OAuthASResponse
                 .tokenResponse(HttpServletResponse.SC_OK)
                 .location(clientDetails.getRedirectUri())
                 .setAccessToken(accessToken.tokenId())
                 .setExpiresIn(String.valueOf(accessToken.currentTokenExpiredSeconds()))
-                .setTokenType(accessToken.tokenType())
-                .buildQueryMessage();
+                .setTokenType(accessToken.tokenType());
+
+        final String refreshToken = accessToken.refreshToken();
+        if (StringUtils.isNotEmpty(refreshToken)) {
+            builder.setRefreshToken(refreshToken);
+        }
+
+        return queryOrJson ? builder.buildQueryMessage() : builder.buildJSONMessage();
     }
 
 

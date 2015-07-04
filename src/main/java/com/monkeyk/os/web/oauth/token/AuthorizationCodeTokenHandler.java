@@ -23,8 +23,6 @@ import org.apache.oltu.oauth2.common.message.types.GrantType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Collections;
-
 /**
  * 2015/7/3
  * <p/>
@@ -63,11 +61,11 @@ public class AuthorizationCodeTokenHandler extends AbstractOAuthTokenHandler {
     }
 
     private void responseToken() throws OAuthSystemException {
-        AccessToken accessToken = oauthService.retrieveNewAccessToken(clientDetails(), Collections.<String>emptySet());
-        final OAuthResponse tokenResponse = createTokenResponse(accessToken);
+        AccessToken accessToken = oauthService.retrieveNewAccessToken(clientDetails());
+        final OAuthResponse tokenResponse = createTokenResponse(accessToken, false);
 
         LOG.debug("'authorization_code' response: {}", tokenResponse);
-        WebUtils.writeOAuthQueryResponse(response, tokenResponse);
+        WebUtils.writeOAuthJsonResponse(response, tokenResponse);
     }
 
     @Override
