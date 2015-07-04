@@ -12,6 +12,9 @@ http://localhost:8080/os/oauth/authorize?response_type=code&scope=read write&cli
 http://localhost:8080/os/oauth/authorize?response_type=token&scope=read write&client_id=test&client_secret=test&redirect_uri=http%3a%2f%2fandaily.com%2foauth_callback
 
 
+-- Test from 'code' get 'token'   [POST]
+http://localhost:8080/os/oauth/token?client_id=test&client_secret=test&grant_type=authorization_code&code=ac0bd18863b07adfb518cc6e6dfcfcab&redirect_uri=http%3a%2f%2fandaily.com%2foauth_callback
+
 
 
 
