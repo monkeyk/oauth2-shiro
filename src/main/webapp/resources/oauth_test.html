@@ -59,5 +59,69 @@
         </div>
     </form>
 </div>
+
+
+<div class="row">
+    <h3 class="text-success">Test grant_type='password' [POST]</h3>
+
+    <form action="../oauth/token" method="post" class="form-horizontal">
+        <div class="form-group">
+            <label for="client_id2" class="col-sm-2 control-label">client_id</label>
+
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="client_id2" name="client_id" value="test" required="true"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="client_secret2" class="col-sm-2 control-label">client_secret</label>
+
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="client_secret2" name="client_secret" value="test"
+                       required="true"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="grant_type2" class="col-sm-2 control-label">grant_type</label>
+
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="grant_type2" name="grant_type" value="password"
+                       readonly/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="scope2" class="col-sm-2 control-label">scope</label>
+
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="scope2" name="scope"
+                       value="read write" required="true"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="username2" class="col-sm-2 control-label">username</label>
+
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="username2" name="username"
+                       value="test" required="true"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="password2" class="col-sm-2 control-label">password</label>
+
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="password2" name="password"
+                       value="test" required="true"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">&nbsp;</label>
+
+            <div class="col-sm-10">
+                <button type="submit" class="btn btn-primary">Test 'Password'</button>
+            </div>
+        </div>
+    </form>
+</div>
+
 </body>
 </html>

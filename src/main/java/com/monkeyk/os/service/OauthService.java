@@ -42,6 +42,9 @@ public interface OauthService {
 
     boolean removeOauthCode(String code, ClientDetails clientDetails);
 
-    //Always return new AccessToken, include refreshToken
+    //Always return new AccessToken
     AccessToken retrieveNewAccessToken(ClientDetails clientDetails) throws OAuthSystemException;
+
+    //grant_type=password AccessToken
+    AccessToken retrievePasswordAccessToken(ClientDetails clientDetails, Set<String> scopes, String username) throws OAuthSystemException;
 }

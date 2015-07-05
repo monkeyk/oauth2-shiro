@@ -52,6 +52,7 @@ public class TokenAuthorizeHandler extends AbstractAuthorizeHandler {
     *  response token
     *
     *  If it is the first logged or first approval , always return newly AccessToken
+    *  Always exclude refresh_token
     *
     * */
     @Override

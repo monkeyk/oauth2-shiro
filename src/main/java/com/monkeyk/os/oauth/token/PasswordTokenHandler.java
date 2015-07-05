@@ -11,10 +11,17 @@
  */
 package com.monkeyk.os.oauth.token;
 
+import com.monkeyk.os.domain.oauth.AccessToken;
 import com.monkeyk.os.oauth.OAuthTokenxRequest;
 import com.monkeyk.os.oauth.validator.AbstractClientDetailsValidator;
+import com.monkeyk.os.oauth.validator.PasswordClientDetailsValidator;
+import com.monkeyk.os.web.WebUtils;
 import org.apache.oltu.oauth2.common.exception.OAuthProblemException;
+import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
+import org.apache.oltu.oauth2.common.message.OAuthResponse;
 import org.apache.oltu.oauth2.common.message.types.GrantType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 2015/7/3
@@ -25,6 +32,9 @@ import org.apache.oltu.oauth2.common.message.types.GrantType;
  */
 public class PasswordTokenHandler extends AbstractOAuthTokenHandler {
 
+    private static final Logger LOG = LoggerFactory.getLogger(PasswordTokenHandler.class);
+
+
     @Override
     public boolean support(OAuthTokenxRequest tokenRequest) throws OAuthProblemException {
         final String grantType = tokenRequest.getGrantType();
@@ -33,12 +43,25 @@ public class PasswordTokenHandler extends AbstractOAuthTokenHandler {
 
     @Override
     protected AbstractClientDetailsValidator getValidator() {
-        throw new UnsupportedOperationException("Not yet implemented");
+        return new PasswordClientDetailsValidator(tokenRequest);
     }
 
+    /**
+     * /oauth/token?client_id=mobile-client&client_secret=mobile&grant_type=password&scope=read,write&username=mobile&password=mobile
+     * <p/>
+     * Response access_token
+     * If exist AccessToken and it is not expired, return it
+     * otherwise, return a new AccessToken(include refresh_token, scope)
+     */
     @Override
-    public void handleAfterValidation() throws OAuthProblemException {
+    public void handleAfterValidation() throws OAuthProblemException, OAuthSystemException {
 
+        AccessToken accessToken = oauthService.retrievePasswordAccessToken(clientDetails(),
+                tokenRequest.getScopes(), tokenRequest.getUsername());
+        final OAuthResponse tokenResponse = createTokenResponse(accessToken, false);
+
+        LOG.debug("'password' response: {}", tokenResponse);
+        WebUtils.writeOAuthJsonResponse(response, tokenResponse);
 
     }
 }

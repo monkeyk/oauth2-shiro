@@ -44,7 +44,7 @@ public class OauthServiceImpl implements OauthService {
 
     @Override
     public ClientDetails loadClientDetails(String clientId) {
-        LOG.debug("Find ClientDetails by clientId: {}", clientId);
+        LOG.debug("Load ClientDetails by clientId: {}", clientId);
         return oauthRepository.findClientDetails(clientId);
     }
 
@@ -136,7 +136,7 @@ public class OauthServiceImpl implements OauthService {
         return rows > 0;
     }
 
-    //Always return new AccessToken, include refreshToken
+    //Always return new AccessToken
     @Override
     public AccessToken retrieveNewAccessToken(ClientDetails clientDetails) throws OAuthSystemException {
         final String username = currentUsername();
@@ -149,10 +149,40 @@ public class OauthServiceImpl implements OauthService {
             LOG.debug("Delete existed AccessToken: {}", accessToken);
             oauthRepository.deleteAccessToken(accessToken);
         }
-        accessToken = createAndSaveAccessToken(clientDetails, true, username, authenticationId);
+        accessToken = createAndSaveAccessToken(clientDetails, clientDetails.supportRefreshToken(), username, authenticationId);
         LOG.debug("Create a new AccessToken: {}", accessToken);
 
         return accessToken;
+    }
+
+    //grant_type=password AccessToken
+    @Override
+    public AccessToken retrievePasswordAccessToken(ClientDetails clientDetails, Set<String> scopes, String username) throws OAuthSystemException {
+        String scope = OAuthUtils.encodeScopes(scopes);
+        final String clientId = clientDetails.getClientId();
+
+        final String authenticationId = authenticationIdGenerator.generate(clientId, username, scope);
+        AccessToken accessToken = oauthRepository.findAccessToken(clientId, username, authenticationId);
+
+        boolean needCreate = false;
+        if (accessToken == null) {
+            needCreate = true;
+            LOG.debug("Not found AccessToken from repository, will create a new one, client_id: {}", clientId);
+        } else if (accessToken.tokenExpired()) {
+            LOG.debug("Delete expired AccessToken: {} and create a new one, client_id: {}", accessToken, clientId);
+            oauthRepository.deleteAccessToken(accessToken);
+            needCreate = true;
+        } else {
+            LOG.debug("Use existed AccessToken: {}, client_id: {}", accessToken, clientId);
+        }
+
+        if (needCreate) {
+            accessToken = createAndSaveAccessToken(clientDetails, clientDetails.supportRefreshToken(), username, authenticationId);
+            LOG.debug("Create a new AccessToken: {}", accessToken);
+        }
+
+        return accessToken;
+
     }
 
     private AccessToken createAndSaveAccessToken(ClientDetails clientDetails, boolean includeRefreshToken, String username, String authenticationId) throws OAuthSystemException {

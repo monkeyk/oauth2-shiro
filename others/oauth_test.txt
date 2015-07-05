@@ -17,6 +17,14 @@ http://localhost:8080/os/oauth/token?client_id=test&client_secret=test&grant_typ
 
 
 
+-- Test grant_type='password'   [POST]
+http://localhost:8080/os/oauth/token?client_id=test&client_secret=test&grant_type=password&scope=read write&username=test&password=test
+
+
+
+--
+-- [POST] test URL: http://localhost:8080/os/resources/oauth_test.html
+--
 
 
 --注意:  scope是用空格分隔的, 如:read write
