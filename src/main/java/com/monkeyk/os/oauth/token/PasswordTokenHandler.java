@@ -51,7 +51,9 @@ public class PasswordTokenHandler extends AbstractOAuthTokenHandler {
      * <p/>
      * Response access_token
      * If exist AccessToken and it is not expired, return it
-     * otherwise, return a new AccessToken(include refresh_token, scope)
+     * otherwise, return a new AccessToken(include refresh_token)
+     * <p/>
+     * {"token_type":"Bearer","expires_in":33090,"refresh_token":"976aeaf7df1ee998f98f15acd1de63ea","access_token":"7811aff100eb7dadec132f45f1c01727"}
      */
     @Override
     public void handleAfterValidation() throws OAuthProblemException, OAuthSystemException {

@@ -185,6 +185,39 @@ public class OauthServiceImpl implements OauthService {
 
     }
 
+
+    //grant_type=client_credentials
+    @Override
+    public AccessToken retrieveClientCredentialsAccessToken(ClientDetails clientDetails, Set<String> scopes) throws OAuthSystemException {
+        String scope = OAuthUtils.encodeScopes(scopes);
+        final String clientId = clientDetails.getClientId();
+        //username = clientId
+
+        final String authenticationId = authenticationIdGenerator.generate(clientId, clientId, scope);
+        AccessToken accessToken = oauthRepository.findAccessToken(clientId, clientId, authenticationId);
+
+        boolean needCreate = false;
+        if (accessToken == null) {
+            needCreate = true;
+            LOG.debug("Not found AccessToken from repository, will create a new one, client_id: {}", clientId);
+        } else if (accessToken.tokenExpired()) {
+            LOG.debug("Delete expired AccessToken: {} and create a new one, client_id: {}", accessToken, clientId);
+            oauthRepository.deleteAccessToken(accessToken);
+            needCreate = true;
+        } else {
+            LOG.debug("Use existed AccessToken: {}, client_id: {}", accessToken, clientId);
+        }
+
+        if (needCreate) {
+            //Ignore refresh_token
+            accessToken = createAndSaveAccessToken(clientDetails, false, clientId, authenticationId);
+            LOG.debug("Create a new AccessToken: {}", accessToken);
+        }
+
+        return accessToken;
+
+    }
+
     private AccessToken createAndSaveAccessToken(ClientDetails clientDetails, boolean includeRefreshToken, String username, String authenticationId) throws OAuthSystemException {
         AccessToken accessToken = new AccessToken()
                 .clientId(clientDetails.getClientId())

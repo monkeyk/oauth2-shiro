@@ -22,6 +22,10 @@ http://localhost:8080/os/oauth/token?client_id=test&client_secret=test&grant_typ
 
 
 
+-- Test grant_type='client_credentials'  [POST]
+http://localhost:8080/os/oauth/token?client_id=test&client_secret=test&grant_type=client_credentials&scope=read
+
+
 --
 -- [POST] test URL: http://localhost:8080/os/resources/oauth_test.html
 --

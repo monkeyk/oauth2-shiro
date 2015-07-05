@@ -47,4 +47,7 @@ public interface OauthService {
 
     //grant_type=password AccessToken
     AccessToken retrievePasswordAccessToken(ClientDetails clientDetails, Set<String> scopes, String username) throws OAuthSystemException;
+
+    //grant_type=client_credentials
+    AccessToken retrieveClientCredentialsAccessToken(ClientDetails clientDetails, Set<String> scopes) throws OAuthSystemException;
 }
