@@ -218,6 +218,42 @@ public class OauthServiceImpl implements OauthService {
 
     }
 
+    @Override
+    public AccessToken loadAccessTokenByRefreshToken(String refreshToken, String clientId) {
+        LOG.debug("Load ClientDetails by refreshToken: {} and clientId: {}", refreshToken, clientId);
+        return oauthRepository.findAccessTokenByRefreshToken(refreshToken, clientId);
+    }
+
+    /*
+    * Get AccessToken
+    * Generate a new AccessToken from existed(exclude token,refresh_token)
+    * Update access_token,refresh_token, expired.
+    * Save and remove old
+    * */
+    @Override
+    public AccessToken changeAccessTokenByRefreshToken(String refreshToken, String clientId) throws OAuthSystemException {
+        final AccessToken oldToken = loadAccessTokenByRefreshToken(refreshToken, clientId);
+
+        AccessToken newAccessToken = oldToken.cloneMe();
+        LOG.debug("Create new AccessToken: {} from old AccessToken: {}", newAccessToken, oldToken);
+
+        ClientDetails details = oauthRepository.findClientDetails(clientId);
+        newAccessToken.updateByClientDetails(details);
+
+        final String authId = authenticationIdGenerator.generate(clientId, oldToken.username(), null);
+        newAccessToken.authenticationId(authId)
+                .tokenId(oAuthIssuer.accessToken())
+                .refreshToken(oAuthIssuer.refreshToken());
+
+        oauthRepository.deleteAccessToken(oldToken);
+        LOG.debug("Delete old AccessToken: {}", oldToken);
+
+        oauthRepository.saveAccessToken(newAccessToken);
+        LOG.debug("Save new AccessToken: {}", newAccessToken);
+
+        return newAccessToken;
+    }
+
     private AccessToken createAndSaveAccessToken(ClientDetails clientDetails, boolean includeRefreshToken, String username, String authenticationId) throws OAuthSystemException {
         AccessToken accessToken = new AccessToken()
                 .clientId(clientDetails.getClientId())

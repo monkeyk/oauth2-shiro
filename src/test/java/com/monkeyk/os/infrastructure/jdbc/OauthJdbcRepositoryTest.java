@@ -15,6 +15,7 @@ import com.monkeyk.os.ContextTest;
 import com.monkeyk.os.domain.oauth.AccessToken;
 import com.monkeyk.os.domain.oauth.ClientDetails;
 import com.monkeyk.os.domain.oauth.OauthCode;
+import com.monkeyk.os.domain.shared.GuidGenerator;
 import org.apache.oltu.oauth2.as.issuer.MD5Generator;
 import org.apache.oltu.oauth2.as.issuer.OAuthIssuerImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,17 @@ public class OauthJdbcRepositoryTest extends ContextTest {
         final ClientDetails clientDetails2 = oauthJdbcRepository.findClientDetails(clientId);
         assertNotNull(clientDetails2);
         assertNotNull(clientDetails2.getClientId());
+
+    }
+
+
+    @Test
+    public void findAccessTokenByRefreshToken() throws Exception {
+        String clientId = "oaoedd";
+        String refreshToken = GuidGenerator.generate();
+
+        final AccessToken accessToken = oauthJdbcRepository.findAccessTokenByRefreshToken(refreshToken, clientId);
+        assertNull(accessToken);
 
     }
 

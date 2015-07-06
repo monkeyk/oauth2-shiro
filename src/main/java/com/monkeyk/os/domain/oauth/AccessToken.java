@@ -176,4 +176,17 @@ public class AccessToken extends AbstractDomain {
                 ", refreshTokenExpiredSeconds=" + refreshTokenExpiredSeconds +
                 '}';
     }
+
+    /**
+     * Clone
+     * Exclude token, refresh_token, authenticationId, expired
+     *
+     * @return New AccessToken instance
+     */
+    public AccessToken cloneMe() {
+        return new AccessToken()
+                .username(username)
+                .clientId(clientId)
+                .tokenType(tokenType);
+    }
 }

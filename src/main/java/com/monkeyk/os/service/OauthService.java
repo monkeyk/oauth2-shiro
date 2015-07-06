@@ -50,4 +50,8 @@ public interface OauthService {
 
     //grant_type=client_credentials
     AccessToken retrieveClientCredentialsAccessToken(ClientDetails clientDetails, Set<String> scopes) throws OAuthSystemException;
+
+    AccessToken loadAccessTokenByRefreshToken(String refreshToken, String clientId);
+
+    AccessToken changeAccessTokenByRefreshToken(String refreshToken, String clientId) throws OAuthSystemException;
 }
