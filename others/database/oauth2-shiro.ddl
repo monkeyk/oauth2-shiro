@@ -67,15 +67,15 @@ CREATE TABLE roles_permissions (
 Drop table  if exists oauth_client_details;
 create table oauth_client_details (
   client_id VARCHAR(255) PRIMARY KEY,
-  client_secret VARCHAR(256),
-  client_name VARCHAR(256),
-  client_uri VARCHAR(256),
-  client_icon_uri VARCHAR(256),
-  resource_ids VARCHAR(256),
-  scope VARCHAR(256),
-  grant_types VARCHAR(256),
-  redirect_uri VARCHAR(256),
-  roles VARCHAR(256),
+  client_secret VARCHAR(255),
+  client_name VARCHAR(255),
+  client_uri VARCHAR(255),
+  client_icon_uri VARCHAR(255),
+  resource_ids VARCHAR(255),
+  scope VARCHAR(255),
+  grant_types VARCHAR(255),
+  redirect_uri VARCHAR(255),
+  roles VARCHAR(255),
   access_token_validity INTEGER default -1,
   refresh_token_validity INTEGER default -1,
   description VARCHAR(4096),
@@ -87,22 +87,22 @@ create table oauth_client_details (
 Drop table  if exists oauth_access_token;
 create table oauth_access_token (
   create_time timestamp default now(),
-  token_id VARCHAR(256) unique,
+  token_id VARCHAR(255) unique,
   token_expired_seconds INTEGER default -1,
-  authentication_id VARCHAR(256),
-  username VARCHAR(256),
-  client_id VARCHAR(256),
-  token_type VARCHAR(256),
+  authentication_id VARCHAR(255),
+  username VARCHAR(255),
+  client_id VARCHAR(255),
+  token_type VARCHAR(255),
   refresh_token_expired_seconds INTEGER default -1,
-  refresh_token VARCHAR(256) unique
+  refresh_token VARCHAR(255) unique
 );
 
 Drop table  if exists oauth_code;
 create table oauth_code (
   create_time timestamp default now(),
-  code VARCHAR(256) unique,
-  username VARCHAR(256),
-  client_id VARCHAR(256)
+  code VARCHAR(255) unique,
+  username VARCHAR(255),
+  client_id VARCHAR(255)
 );
 
 
