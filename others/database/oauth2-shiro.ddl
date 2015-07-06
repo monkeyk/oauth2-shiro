@@ -87,22 +87,14 @@ create table oauth_client_details (
 Drop table  if exists oauth_access_token;
 create table oauth_access_token (
   create_time timestamp default now(),
-  token_id VARCHAR(256),
+  token_id VARCHAR(256) unique,
   token_expired_seconds INTEGER default -1,
   authentication_id VARCHAR(256),
   username VARCHAR(256),
   client_id VARCHAR(256),
   token_type VARCHAR(256),
   refresh_token_expired_seconds INTEGER default -1,
-  refresh_token VARCHAR(256)
-);
-
-Drop table  if exists oauth_refresh_token;
-create table oauth_refresh_token (
-  create_time timestamp default now(),
-  token_id VARCHAR(256),
-  token BLOB,
-  authentication BLOB
+  refresh_token VARCHAR(256) unique
 );
 
 Drop table  if exists oauth_code;
