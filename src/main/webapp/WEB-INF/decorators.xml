@@ -8,8 +8,8 @@
     </decorator>
 
 
-    <!--<excludes>-->
-        <!--<pattern>/index.jsp*</pattern>-->
-    <!--</excludes>-->
+    <excludes>
+        <pattern>/resources/**</pattern>
+    </excludes>
 
 </decorators>

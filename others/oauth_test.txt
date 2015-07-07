@@ -26,6 +26,11 @@ http://localhost:8080/os/oauth/token?client_id=test&client_secret=test&grant_typ
 http://localhost:8080/os/oauth/token?client_id=test&client_secret=test&grant_type=client_credentials&scope=read
 
 
+-- Test grant_type='refresh_token'  [POST]
+http://localhost:8080/os/oauth/token?client_id=test&client_secret=test&grant_type=refresh_token&refresh_token=b36f4978a1724aa8af8960f58abe3ba1
+
+
+
 --
 -- [POST] test URL: http://localhost:8080/os/resources/oauth_test.html
 --
