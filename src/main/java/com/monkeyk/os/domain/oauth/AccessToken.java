@@ -30,7 +30,7 @@ public class AccessToken extends AbstractDomain {
     public static int ACCESS_TOKEN_VALIDITY_SECONDS = 60 * 60 * 12; // default 12 hours.
 
 
-    protected static int THOUSAND = 1000;
+    protected static long THOUSAND = 1000l;
 
 
     private String tokenId;
