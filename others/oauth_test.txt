@@ -1,4 +1,6 @@
 
+Make sure project context path is 'os'.
+
 
 -- Test grant_type = 'authorization_code' ,  get code
 

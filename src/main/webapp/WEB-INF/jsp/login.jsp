@@ -22,7 +22,9 @@
     <title>Login</title>
 </head>
 <body>
-<h3>Login</h3>
+<h3>Login
+    <small>If you want</small>
+</h3>
 
 <div>
     <form:form commandName="formDto" action="login">
@@ -35,7 +37,21 @@
         <span style="color:red;"><form:errors path="*"/></span>
     </form:form>
 </div>
+<hr/>
+<div>
+    <h3>Oauth
+        <small>Ignore login, testing oauth directly</small>
+    </h3>
 
+    <p>
+        See <a href="http://git.oschina.net/mkk/oauth2-shiro/raw/master/others/oauth_test.txt" target="_blank">oauth_test.txt</a>
+        firstly.
+    </p>
+
+    <p>
+        <a href="${contextPath}/resources/oauth_test.html">oauth_test</a>
+    </p>
+</div>
 
 </body>
 </html>
