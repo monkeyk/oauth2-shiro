@@ -26,9 +26,9 @@
 
 <div>
     <form:form commandName="formDto" action="login">
-        Username: <form:input path="username" required="true"/>
+        Username: <form:input path="username" required="true"/> (test)
         <br/> <br/>
-        Password: <form:password path="password" required="true"/>
+        Password: <form:password path="password" required="true"/> (test)
         <br/> <br/>
         <input type="submit" value="Login" class="btn btn-primary"/>
         <br/>

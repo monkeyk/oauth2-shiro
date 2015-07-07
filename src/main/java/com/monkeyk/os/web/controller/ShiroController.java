@@ -60,7 +60,11 @@ public class ShiroController {
      */
     @RequestMapping(value = "login", method = RequestMethod.GET)
     public String login(Model model) {
-        model.addAttribute("formDto", new LoginDto());
+        final LoginDto loginDto = new LoginDto();
+        //TODO: Just testing
+        loginDto.setUsername("test");
+
+        model.addAttribute("formDto", loginDto);
         return "login";
     }
 

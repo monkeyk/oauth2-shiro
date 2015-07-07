@@ -17,7 +17,17 @@
 Welcome: <shiro:principal/>
 <hr/>
 <div>
+    <strong>Oauth</strong>
+
+    <p>
+        <a href="${contextPath}/resources/oauth_test.html">oauth_test</a>
+    </p>
+</div>
+<hr/>
+<div>
     <strong>Menus</strong>
+
+    <p class="help-block">Test different roles show different menus</p>
     <ul>
         <shiro:hasRole name="Admin">
             <li><a href="#">Admin Action</a></li>
