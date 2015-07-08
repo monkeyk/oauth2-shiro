@@ -41,6 +41,24 @@ public class MkkOAuthRSProvider implements OAuthRSProvider {
         LOG.debug("Call OAuthRSProvider, rsId: {},token: {},req: {}", new Object[]{rsId, token, req});
 
         AccessToken accessToken = rsService.loadAccessTokenByTokenId(token);
+        validateToken(token, accessToken);
+
+        ClientDetails clientDetails = rsService.loadClientDetailsByClientId(accessToken.clientId());
+        validateClientDetails(token, accessToken, clientDetails);
+
+
+        return null;
+    }
+
+    private void validateClientDetails(String token, AccessToken accessToken, ClientDetails clientDetails) throws OAuthProblemException {
+        if (clientDetails == null || clientDetails.archived()) {
+            LOG.debug("Invalid ClientDetails: {} by client_id: {}, it is null or archived", clientDetails, accessToken.clientId());
+            throw OAuthProblemException.error(OAuthError.ResourceResponse.INVALID_TOKEN)
+                    .description("Invalid client by token: " + token);
+        }
+    }
+
+    private void validateToken(String token, AccessToken accessToken) throws OAuthProblemException {
         if (accessToken == null) {
             LOG.debug("Invalid access_token: {}, because it is null", token);
             throw OAuthProblemException.error(OAuthError.ResourceResponse.INVALID_TOKEN)
@@ -51,15 +69,5 @@ public class MkkOAuthRSProvider implements OAuthRSProvider {
             throw OAuthProblemException.error(OAuthError.ResourceResponse.EXPIRED_TOKEN)
                     .description("Expired access_token: " + token);
         }
-
-        ClientDetails clientDetails = rsService.loadClientDetailsByClientId(accessToken.clientId());
-        if (clientDetails == null || clientDetails.archived()) {
-            LOG.debug("Invalid ClientDetails: {} by client_id: {}", clientDetails, accessToken.clientId());
-            throw OAuthProblemException.error(OAuthError.ResourceResponse.INVALID_TOKEN)
-                    .description("Invalid client by token: " + token);
-        }
-
-
-        return null;
     }
 }
