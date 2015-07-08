@@ -41,20 +41,23 @@ public class MkkOAuthRSProvider implements OAuthRSProvider {
         LOG.debug("Call OAuthRSProvider, rsId: {},token: {},req: {}", new Object[]{rsId, token, req});
 
         AccessToken accessToken = rsService.loadAccessTokenByTokenId(token);
-        if (accessToken == null || accessToken.tokenExpired()) {
-            LOG.debug("Invalid access_token: {}, because it is null or expired", token);
-            throw OAuthProblemException.error(OAuthError.TokenResponse.INVALID_GRANT)
+        if (accessToken == null) {
+            LOG.debug("Invalid access_token: {}, because it is null", token);
+            throw OAuthProblemException.error(OAuthError.ResourceResponse.INVALID_TOKEN)
                     .description("Invalid access_token: " + token);
+        }
+        if (accessToken.tokenExpired()) {
+            LOG.debug("Invalid access_token: {}, because it is expired", token);
+            throw OAuthProblemException.error(OAuthError.ResourceResponse.EXPIRED_TOKEN)
+                    .description("Expired access_token: " + token);
         }
 
         ClientDetails clientDetails = rsService.loadClientDetailsByClientId(accessToken.clientId());
         if (clientDetails == null || clientDetails.archived()) {
             LOG.debug("Invalid ClientDetails: {} by client_id: {}", clientDetails, accessToken.clientId());
-            throw OAuthProblemException.error(OAuthError.TokenResponse.INVALID_CLIENT)
+            throw OAuthProblemException.error(OAuthError.ResourceResponse.INVALID_TOKEN)
                     .description("Invalid client by token: " + token);
         }
-
-
 
 
         return null;
