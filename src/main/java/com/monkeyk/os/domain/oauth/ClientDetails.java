@@ -14,6 +14,7 @@ package com.monkeyk.os.domain.oauth;
 import com.monkeyk.os.infrastructure.DateUtils;
 import org.apache.oltu.oauth2.common.domain.client.BasicClientInfo;
 import org.apache.oltu.oauth2.common.message.types.GrantType;
+import org.apache.oltu.oauth2.rsfilter.OAuthClient;
 
 import java.util.Date;
 
@@ -24,7 +25,7 @@ import java.util.Date;
  *
  * @author Shengzhao Li
  */
-public class ClientDetails extends BasicClientInfo {
+public class ClientDetails extends BasicClientInfo implements OAuthClient {
 
 
     private String resourceIds;

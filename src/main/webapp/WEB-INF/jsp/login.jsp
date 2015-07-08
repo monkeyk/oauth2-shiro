@@ -49,7 +49,7 @@
     </p>
 
     <p>
-        <a href="${contextPath}/resources/oauth_test.html">oauth_test</a>
+        <a href="${pageContext.request.contextPath}/resources/oauth_test.html">oauth_test</a>
     </p>
 </div>
 

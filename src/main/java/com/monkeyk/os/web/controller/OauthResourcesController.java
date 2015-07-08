@@ -1,10 +1,7 @@
 package com.monkeyk.os.web.controller;
 
 import com.monkeyk.os.web.WebUtils;
-import org.apache.oltu.oauth2.as.response.OAuthASResponse;
-import org.apache.oltu.oauth2.common.exception.OAuthProblemException;
-import org.apache.oltu.oauth2.common.message.OAuthResponse;
-import org.apache.oltu.oauth2.rs.request.OAuthAccessResourceRequest;
+import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -18,8 +15,10 @@ import javax.servlet.http.HttpServletResponse;
  * Protect by Oauth
  *
  * @author Shengzhao Li
+ * @see org.apache.oltu.oauth2.rsfilter.OAuthFilter
  */
 @Controller
+@RequestMapping("/rs/")
 public class OauthResourcesController {
 
 
@@ -33,26 +32,10 @@ public class OauthResourcesController {
      * @param response HttpServletResponse
      * @throws Exception
      */
-    @RequestMapping("user_name")
+    @RequestMapping("username")
     public void username(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        try {
-            OAuthAccessResourceRequest resourceRequest = new OAuthAccessResourceRequest(request);
-
-            final String accessToken = resourceRequest.getAccessToken();
-
-
-        } catch (OAuthProblemException e) {
-            //exception
-            OAuthResponse oAuthResponse = OAuthASResponse
-                    .errorResponse(HttpServletResponse.SC_FOUND)
-                    .location(e.getRedirectUri())
-                    .error(e)
-                    .buildJSONMessage();
-            WebUtils.writeOAuthJsonResponse(response, oAuthResponse);
-        }
-
-
+        WebUtils.writeJson(response, "{\"username\":" + SecurityUtils.getSubject().getPrincipal() + "}");
     }
 
 

@@ -41,6 +41,8 @@
                 /login = anon
                 /unauthorized = anon
                 /oauth/** = anon
+                #Ignore oauth resources
+                /rs/** = anon
                 /logout = logout
                 # admin role
                 /admin/** = authc, roles["Admin"]
