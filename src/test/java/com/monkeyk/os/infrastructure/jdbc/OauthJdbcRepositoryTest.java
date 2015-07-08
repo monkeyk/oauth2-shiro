@@ -63,6 +63,15 @@ public class OauthJdbcRepositoryTest extends ContextTest {
 
     }
 
+    @Test
+    public void findAccessTokenByTokenId() throws Exception {
+        String tokenId = GuidGenerator.generate();
+
+        final AccessToken accessToken = oauthJdbcRepository.findAccessTokenByTokenId(tokenId);
+        assertNull(accessToken);
+
+    }
+
 
     @Test
     public void saveOauthCode() throws Exception {

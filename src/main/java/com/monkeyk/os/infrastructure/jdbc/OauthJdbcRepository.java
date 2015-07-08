@@ -146,4 +146,11 @@ public class OauthJdbcRepository extends AbstractJdbcRepository implements Oauth
         final List<AccessToken> list = jdbcTemplate.query(sql, accessTokenRowMapper, refreshToken, clientId);
         return list.isEmpty() ? null : list.get(0);
     }
+
+    @Override
+    public AccessToken findAccessTokenByTokenId(String tokenId) {
+        final String sql = " select * from oauth_access_token where token_id = ?";
+        final List<AccessToken> list = jdbcTemplate.query(sql, accessTokenRowMapper, tokenId);
+        return list.isEmpty() ? null : list.get(0);
+    }
 }

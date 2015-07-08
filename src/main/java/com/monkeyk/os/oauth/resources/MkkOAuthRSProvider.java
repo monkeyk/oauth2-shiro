@@ -11,6 +11,11 @@
  */
 package com.monkeyk.os.oauth.resources;
 
+import com.monkeyk.os.domain.oauth.AccessToken;
+import com.monkeyk.os.domain.oauth.ClientDetails;
+import com.monkeyk.os.domain.shared.BeanProvider;
+import com.monkeyk.os.service.OAuthRSService;
+import org.apache.oltu.oauth2.common.error.OAuthError;
 import org.apache.oltu.oauth2.common.exception.OAuthProblemException;
 import org.apache.oltu.oauth2.rsfilter.OAuthDecision;
 import org.apache.oltu.oauth2.rsfilter.OAuthRSProvider;
@@ -28,9 +33,29 @@ public class MkkOAuthRSProvider implements OAuthRSProvider {
 
     private static final Logger LOG = LoggerFactory.getLogger(MkkOAuthRSProvider.class);
 
+
+    private transient OAuthRSService rsService = BeanProvider.getBean(OAuthRSService.class);
+
     @Override
     public OAuthDecision validateRequest(String rsId, String token, HttpServletRequest req) throws OAuthProblemException {
-        LOG.debug("rsId: {},token: {},req: {}", new Object[]{rsId, token, req});
+        LOG.debug("Call OAuthRSProvider, rsId: {},token: {},req: {}", new Object[]{rsId, token, req});
+
+        AccessToken accessToken = rsService.loadAccessTokenByTokenId(token);
+        if (accessToken == null || accessToken.tokenExpired()) {
+            LOG.debug("Invalid access_token: {}, because it is null or expired", token);
+            throw OAuthProblemException.error(OAuthError.TokenResponse.INVALID_GRANT)
+                    .description("Invalid access_token: " + token);
+        }
+
+        ClientDetails clientDetails = rsService.loadClientDetailsByClientId(accessToken.clientId());
+        if (clientDetails == null || clientDetails.archived()) {
+            LOG.debug("Invalid ClientDetails: {} by client_id: {}", clientDetails, accessToken.clientId());
+            throw OAuthProblemException.error(OAuthError.TokenResponse.INVALID_CLIENT)
+                    .description("Invalid client by token: " + token);
+        }
+
+
+
 
         return null;
     }
