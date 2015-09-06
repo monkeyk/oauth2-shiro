@@ -33,6 +33,8 @@
 </div>
 
 <div>
-    <strong>注意</strong> 该项目尚处于开发中, 并未完整实现所有功能; 仅可作为shiro与oltu整合的参考示例, 一些功能需要自己去实现, 更多信息可访问<a href="#trend">项目动态</a>
+    <h3>注意</h3> 该项目尚处于开发中, 并未完整实现所有功能; 仅可作为shiro与oltu整合的参考示例, 一些功能需要自己去实现, 更多信息可访问<a href="#trend">项目动态</a>
     或使用<a href="http://git.oschina.net/shengzhao/spring-oauth-server">spring-oauth-server</a>(该项目完整实现的OAUTH2,使用spring security).
+    <br/>
+    待项目 0.1 版本发布时,方完成所有功能开发.
 </div>
