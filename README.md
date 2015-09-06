@@ -15,3 +15,19 @@
     <br/>
     MySQL -- 5.6
 </div>
+
+<div>
+    <h3>项目动态</h3>
+    <ul>
+        <li><p><a href="http://andaily.com/blog/?p=325">oauth2-shiro项目开发状态(8月)</a></p></li>
+        <li><p><a href="http://andaily.com/blog/?p=312">oauth2-shiro项目开发状态(7月)</a></p></li>
+    </ul>
+</div>
+
+<div>
+    <h3>相关项目</h3>
+    <ul>
+        <li><p><a href="http://git.oschina.net/shengzhao/spring-oauth-server">spring-oauth-server</a> Spring Security与OAUTH2的完整整合项目</p></li>
+        <li><p><a href="http://git.oschina.net/mkk/spring-oauth-client">spring-oauth-client</a> Oauth 客户端(client)测试项目</p></li>
+    </ul>
+</div>
