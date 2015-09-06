@@ -35,9 +35,6 @@
         <property name="validationQuery" value="SELECT 1"/>
         <property name="testOnReturn" value="false"/>
         <property name="testOnBorrow" value="true"/>
-        <!--Based on 1000 connected user -->
-        <property name="maxActive" value="200"/>
-        <property name="maxIdle" value="50"/>
     </bean>
 
 
