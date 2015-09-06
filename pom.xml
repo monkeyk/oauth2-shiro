@@ -52,16 +52,17 @@
                 <version>2.3.2</version>
                 <configuration>
                     <encoding>utf-8</encoding>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
 
             <plugin>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>2.0.2</version>
+                <version>2.6</version>
                 <configuration>
                     <warSourceExcludes>*/classes/oauth2-shiro.properties</warSourceExcludes>
+                    <packagingExcludes>*/classes/oauth2-shiro.properties</packagingExcludes>
                     <archive>
                         <manifestEntries>
                             <Implementation-BuildNumber>${project.version}</Implementation-BuildNumber>
