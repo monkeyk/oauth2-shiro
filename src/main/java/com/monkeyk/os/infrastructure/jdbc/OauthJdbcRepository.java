@@ -46,7 +46,8 @@ public class OauthJdbcRepository extends AbstractJdbcRepository implements Oauth
 
     @Override
     public int saveClientDetails(final ClientDetails clientDetails) {
-        final String sql = " insert into oauth_client_details(client_id,client_secret,client_name, client_uri,client_icon_uri,resource_ids) values (?,?,?, ?,?,?)";
+        final String sql = " insert into oauth_client_details(client_id,client_secret,client_name, client_uri,client_icon_uri,resource_ids, scope,grant_types, " +
+                "redirect_uri,roles,access_token_validity,refresh_token_validity,description,archived,trusted) values (?,?,?, ?,?,?,?,?, ?,?, ?,? ,?,?,?)";
 
         return jdbcTemplate.update(sql, new PreparedStatementSetter() {
             @Override
@@ -58,7 +59,18 @@ public class OauthJdbcRepository extends AbstractJdbcRepository implements Oauth
                 ps.setString(4, clientDetails.getClientUri());
                 ps.setString(5, clientDetails.getIconUri());
                 ps.setString(6, clientDetails.resourceIds());
-                //TODO: more setter
+
+                ps.setString(7, clientDetails.scope());
+                ps.setString(8, clientDetails.grantTypes());
+                ps.setString(9, clientDetails.getRedirectUri());
+
+                ps.setString(10, clientDetails.roles());
+                ps.setInt(11, clientDetails.accessTokenValidity() == null ? -1 : clientDetails.accessTokenValidity());
+                ps.setInt(12, clientDetails.refreshTokenValidity() == null ? -1 : clientDetails.refreshTokenValidity());
+
+                ps.setString(13, clientDetails.getDescription());
+                ps.setBoolean(14, clientDetails.archived());
+                ps.setBoolean(15, clientDetails.trusted());
             }
         });
     }
