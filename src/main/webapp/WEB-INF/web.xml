@@ -74,7 +74,7 @@
     <context-param>
         <!--Resource id-->
         <param-name>oauth.rs.realm</param-name>
-        <param-value>resource-id</param-value>
+        <param-value>os-resource</param-value>
     </context-param>
 
     <filter>
