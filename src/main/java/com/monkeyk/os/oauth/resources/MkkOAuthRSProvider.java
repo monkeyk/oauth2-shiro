@@ -43,7 +43,7 @@ public class MkkOAuthRSProvider implements OAuthRSProvider {
         AccessToken accessToken = rsService.loadAccessTokenByTokenId(token);
         validateToken(token, accessToken);
 
-        ClientDetails clientDetails = rsService.loadClientDetailsByClientId(accessToken.clientId());
+        ClientDetails clientDetails = rsService.loadClientDetails(accessToken.clientId(), rsId);
         validateClientDetails(token, accessToken, clientDetails);
 
 

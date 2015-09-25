@@ -24,5 +24,5 @@ public interface OAuthRSService {
 
     AccessToken loadAccessTokenByTokenId(String tokenId);
 
-    ClientDetails loadClientDetailsByClientId(String clientId);
+    ClientDetails loadClientDetails(String clientId, String resourceIds);
 }

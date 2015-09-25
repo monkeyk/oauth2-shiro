@@ -41,4 +41,6 @@ public interface OauthRepository extends Repository {
     AccessToken findAccessTokenByRefreshToken(String refreshToken, String clientId);
 
     AccessToken findAccessTokenByTokenId(String tokenId);
+
+    ClientDetails findClientDetailsByClientIdAndResourceIds(String clientId, String resourceIds);
 }

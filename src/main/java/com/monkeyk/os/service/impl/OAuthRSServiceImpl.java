@@ -42,7 +42,8 @@ public class OAuthRSServiceImpl implements OAuthRSService {
     }
 
     @Override
-    public ClientDetails loadClientDetailsByClientId(String clientId) {
-        return oauthRepository.findClientDetails(clientId);
+    public ClientDetails loadClientDetails(String clientId, String resourceIds) {
+        LOG.debug("Load ClientDetails by clientId: {}, resourceIds: {}", clientId, resourceIds);
+        return oauthRepository.findClientDetailsByClientIdAndResourceIds(clientId, resourceIds);
     }
 }

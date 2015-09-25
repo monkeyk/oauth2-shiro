@@ -46,13 +46,18 @@ public class OauthJdbcRepository extends AbstractJdbcRepository implements Oauth
 
     @Override
     public int saveClientDetails(final ClientDetails clientDetails) {
-        final String sql = " insert into oauth_client_details(client_id,client_secret) values (?,?)";
+        final String sql = " insert into oauth_client_details(client_id,client_secret,client_name, client_uri,client_icon_uri,resource_ids) values (?,?,?, ?,?,?)";
 
         return jdbcTemplate.update(sql, new PreparedStatementSetter() {
             @Override
             public void setValues(PreparedStatement ps) throws SQLException {
                 ps.setString(1, clientDetails.getClientId());
                 ps.setString(2, clientDetails.getClientSecret());
+                ps.setString(3, clientDetails.getName());
+
+                ps.setString(4, clientDetails.getClientUri());
+                ps.setString(5, clientDetails.getIconUri());
+                ps.setString(6, clientDetails.resourceIds());
                 //TODO: more setter
             }
         });
@@ -151,6 +156,13 @@ public class OauthJdbcRepository extends AbstractJdbcRepository implements Oauth
     public AccessToken findAccessTokenByTokenId(String tokenId) {
         final String sql = " select * from oauth_access_token where token_id = ?";
         final List<AccessToken> list = jdbcTemplate.query(sql, accessTokenRowMapper, tokenId);
+        return list.isEmpty() ? null : list.get(0);
+    }
+
+    @Override
+    public ClientDetails findClientDetailsByClientIdAndResourceIds(String clientId, String resourceIds) {
+        final String sql = " select * from oauth_client_details where archived = 0 and client_id = ? and resource_ids = ? ";
+        final List<ClientDetails> list = jdbcTemplate.query(sql, clientDetailsRowMapper, clientId, resourceIds);
         return list.isEmpty() ? null : list.get(0);
     }
 }

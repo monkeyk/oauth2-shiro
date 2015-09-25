@@ -52,6 +52,27 @@ public class OauthJdbcRepositoryTest extends ContextTest {
 
     }
 
+    @Test
+    public void findClientDetailsByClientIdAndResourceIds() throws Exception {
+        String clientId = "oaoedd";
+        String resourceIds = "os-resource";
+        final ClientDetails clientDetails = oauthJdbcRepository.findClientDetails(clientId);
+        assertNull(clientDetails);
+
+        ClientDetails clientDetails1 = new ClientDetails();
+        clientDetails1.setClientId(clientId);
+        clientDetails1.setClientSecret("Ole397dde2");
+        clientDetails1.resourceIds(resourceIds);
+
+        final int i = oauthJdbcRepository.saveClientDetails(clientDetails1);
+        assertEquals(i, 1);
+
+        final ClientDetails clientDetails2 = oauthJdbcRepository.findClientDetailsByClientIdAndResourceIds(clientId, resourceIds);
+        assertNotNull(clientDetails2);
+        assertNotNull(clientDetails2.getClientId());
+
+    }
+
 
     @Test
     public void findAccessTokenByRefreshToken() throws Exception {
