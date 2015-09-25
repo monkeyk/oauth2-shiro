@@ -47,7 +47,12 @@ public class MkkOAuthRSProvider implements OAuthRSProvider {
         validateClientDetails(token, accessToken, clientDetails);
 
 
-        return null;
+        //TODO: It is OK?
+        MkkOAuthDecision oAuthDecision = new MkkOAuthDecision().setOAuthClient(clientDetails);
+        oAuthDecision.setPrincipal(new MkkOAuthPrincipal(accessToken.username()));
+        oAuthDecision.setAuthorized(true);
+
+        return oAuthDecision;
     }
 
     private void validateClientDetails(String token, AccessToken accessToken, ClientDetails clientDetails) throws OAuthProblemException {

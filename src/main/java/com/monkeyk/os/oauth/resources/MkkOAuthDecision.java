@@ -24,21 +24,51 @@ import java.security.Principal;
 public class MkkOAuthDecision implements OAuthDecision {
 
 
+    private boolean authorized;
+
+    private Principal principal;
+
+    private OAuthClient oAuthClient;
+
     public MkkOAuthDecision() {
     }
 
     @Override
     public boolean isAuthorized() {
-        throw new UnsupportedOperationException("Not yet implemented");
+        return authorized;
     }
 
     @Override
     public Principal getPrincipal() {
-        throw new UnsupportedOperationException("Not yet implemented");
+        return principal;
     }
 
     @Override
     public OAuthClient getOAuthClient() {
-        throw new UnsupportedOperationException("Not yet implemented");
+        return oAuthClient;
+    }
+
+    public MkkOAuthDecision setPrincipal(Principal principal) {
+        this.principal = principal;
+        return this;
+    }
+
+    public MkkOAuthDecision setOAuthClient(OAuthClient oAuthClient) {
+        this.oAuthClient = oAuthClient;
+        return this;
+    }
+
+    public MkkOAuthDecision setAuthorized(boolean authorized) {
+        this.authorized = authorized;
+        return this;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "authorized=" + authorized +
+                ", principal=" + principal +
+                ", oAuthClient=" + oAuthClient +
+                '}';
     }
 }
