@@ -35,7 +35,7 @@ public class OauthResourcesController {
     @RequestMapping("username")
     public void username(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        WebUtils.writeJson(response, "{\"username\":" + SecurityUtils.getSubject().getPrincipal() + "}");
+        WebUtils.writeJson(response, "{\"username\":" + request.getUserPrincipal().getName() + "}");
     }
 
 

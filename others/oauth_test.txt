@@ -42,4 +42,7 @@ http://localhost:8080/os/oauth/token?client_id=test&client_secret=test&grant_typ
 
 
 
+-- Test resource
+http://localhost:8080/os/rs/username?access_token=6b79dbec17b66fdbf3dd7a3538c61c6e
+
 
