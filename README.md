@@ -13,6 +13,7 @@
     <ul>
         <li><p><strong>更加透明</strong> -- 每一步实现都有可以查看的, 更容易理解的代码, 一目也然</p></li>
         <li><p><strong>更多的可自定义与可扩展</strong> -- 不管是ERROR返回信息的内容或格式, 都可根据需要自定义, 对请求参数,处理细节等可添加更多的具体实现</p></li>
+        <li><p><strong>可读性更强</strong> -- 由于Shiro, Oltu 没有Spring Security,spring-security-oauth2 的门槛高, 所有代码不是常用的Controller或Java Bean实现各项业务, 更可读,可易于理解</p></li>
     </ul>
 </div>
 
