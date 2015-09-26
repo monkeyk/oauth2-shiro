@@ -43,7 +43,7 @@
 
 
     <build>
-        <finalName>oauth2-shiro</finalName>
+        <finalName>os</finalName>
 
         <plugins>
             <plugin>
