@@ -74,7 +74,7 @@ public class ShiroController {
     public String login(@ModelAttribute("formDto") LoginDto formDto, BindingResult errors) {
 
         UsernamePasswordToken token = formDto.token();
-        token.setRememberMe(true);
+        token.setRememberMe(false);
 
         try {
             SecurityUtils.getSubject().login(token);
