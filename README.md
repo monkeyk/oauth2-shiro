@@ -5,6 +5,17 @@
 
 并根据不同的应用场景提供不同的实现(如web场景,移动设备).
 
+该项目与<a href="http://git.oschina.net/shengzhao/spring-oauth-server">spring-oauth-server</a>实现相同的需求与场合.
+只是在实现上使用的技术不同(spring-oauth-server使用Spring Security + spring-security-oauth2实现; oauth2-oltu实现);
+相比spring-oauth-server, oauth2-oltu具有如下特点:
+
+<div>
+    <ul>
+        <li><p><strong>更加透明</strong> -- 每一步实现都有可以查看的, 更容易理解的代码, 一目也然</p></li>
+        <li><p><strong>更多的可自定义与可扩展</strong> -- 不管是ERROR返回信息的内容或格式, 都可根据需要自定义, 对请求参数,处理细节等可添加更多的具体实现</p></li>
+    </ul>
+</div>
+
 <div>
     <h3>主要技术及版本</h3>
     Spring -- 3.2.2.RELEASE
