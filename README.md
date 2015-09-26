@@ -16,6 +16,14 @@
     MySQL -- 5.6
 </div>
 
+<div>
+    <h3>开发环境</h3>
+    <ul>
+        <li><p>JDK -- 1.7.0_40</p></li>
+        <li><p>Maven -- 3.1.0</p></li>
+    </ul>
+</div>
+
 <div id="trend">
     <h3>项目动态</h3>
     <ul>
@@ -32,9 +40,4 @@
     </ul>
 </div>
 
-<div>
-    <h3>注意</h3> 该项目尚处于开发中, 并未完整实现所有功能; 仅可作为shiro与oltu整合的参考示例, 一些功能需要自己去实现, 更多信息可访问<a href="#trend">项目动态</a>
-    或使用<a href="http://git.oschina.net/shengzhao/spring-oauth-server">spring-oauth-server</a>(该项目完整实现的OAUTH2,使用spring security).
-    <br/>
-    待项目 0.1 版本发布时,方完成所有功能开发.
-</div>
+
