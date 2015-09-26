@@ -101,7 +101,7 @@
 
 
 
-
+<hr/>
 
 <div id="trend">
     <h3>项目动态</h3>
@@ -111,12 +111,40 @@
     </ul>
 </div>
 
+<hr/>
 <div>
-    <h3>相关项目</h3>
+    <h3>姊妹项目</h3>
     <ul>
         <li><p><a href="http://git.oschina.net/shengzhao/spring-oauth-server">spring-oauth-server</a> Spring Security与OAUTH2的完整整合项目</p></li>
         <li><p><a href="http://git.oschina.net/mkk/spring-oauth-client">spring-oauth-client</a> Oauth 客户端(client)测试项目</p></li>
     </ul>
 </div>
 
+
+
+<hr/>
+<h4>
+    与Oauth2相关的技术文章请访问 <a href="http://andaily.com/blog/?cat=19">http://andaily.com/blog/?cat=19</a> (不断更新与Oauth相关的文章)
+</h4>
+<p>
+    <strong>问答与讨论</strong>
+    <br/>
+    与项目相关的，与Oauth相关的问题与回答，以及各类讨论请访问<br/>
+    <a href="http://andaily.com/blog/?dwqa-question_category=oauth">http://andaily.com/blog/?dwqa-question_category=oauth</a>
+</p>
+
+<hr/>
+<p>
+    <strong>捐助</strong>
+    <br/>
+    支付宝: monkeyking1987@126.com (**钊)
+</p>
+
+<hr/>
+<p>
+ 关注更多我的开源项目请访问 <a href="http://andaily.com/my_projects.html">http://andaily.com/my_projects.html</a>
+</p>
+<p>
+ 若需更多的技术支持请联系 <a href="mailto:monkeyk@shengzhaoli.com">monkeyk@shengzhaoli.com</a>
+</p>
 
