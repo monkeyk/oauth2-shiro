@@ -87,6 +87,27 @@
     </filter-mapping>
 
 
+    <!--Mobile resource-->
+    <filter>
+        <filter-name>MobileOAuthFilter</filter-name>
+        <filter-class>com.monkeyk.os.oauth.resources.ResourceOAuthFilter</filter-class>
+        <init-param>
+            <!--Resource id-->
+            <param-name>oauth.rs.realm</param-name>
+            <param-value>mobile-resource</param-value>
+        </init-param>
+        <init-param>
+            <param-name>oauth.rs.tokens</param-name>
+            <!--See ParameterStyle, default is header-->
+            <param-value>QUERY</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>MobileOAuthFilter</filter-name>
+        <url-pattern>/mobile/*</url-pattern>
+    </filter-mapping>
+
+
     <!-- Shiro Filter-->
     <filter>
         <filter-name>shiroFilter</filter-name>

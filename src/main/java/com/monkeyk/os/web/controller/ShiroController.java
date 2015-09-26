@@ -25,6 +25,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * 15-6-10
+ * <p/>
+ * Just test Shiro
  *
  * @author Shengzhao Li
  */

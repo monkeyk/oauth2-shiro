@@ -51,5 +51,13 @@ values
 ('test','test','Test Client','http://andaily.com',
 'http://andaily.com/favicon.ico','os-resource','read write','authorization_code,password,refresh_token,client_credentials',
 'http://andaily.com/oauth_callback','22');
+-- Mobile resource client details
+insert into oauth_client_details(client_id, client_secret, client_name, client_uri,
+client_icon_uri, resource_ids, scope, grant_types,
+redirect_uri, roles)
+values
+('mobile','mobile','Mobile Client','http://andaily.com',
+'http://andaily.com/favicon.ico','mobile-resource','read write','password,refresh_token',
+'http://andaily.com/oauth_callback','22');
 
 

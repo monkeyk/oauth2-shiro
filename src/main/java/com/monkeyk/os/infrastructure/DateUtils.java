@@ -36,11 +36,13 @@ public abstract class DateUtils {
      */
     public static final String DAY_FORMAT = "dd";
 
-    public static final long DAY_MILLISECONDS = (1000l * 60 * 60 * 24);
 
     //Date pattern,  demo:  2013-09-11
     public static final String DATE_PATTERN = "^[0-9]{4}\\-[0-9]{2}\\-[0-9]{2}$";
 
+
+    private DateUtils() {
+    }
 
     public static boolean isDate(String dateAsText) {
         return StringUtils.isNotEmpty(dateAsText) && dateAsText.matches(DATE_PATTERN);
@@ -94,31 +96,5 @@ public abstract class DateUtils {
         return Calendar.getInstance();
     }
 
-    public static boolean isToday(Date date) {
-        if (date == null) {
-            return false;
-        }
-        String dateAsText = toDateText(date);
-        String todayAsText = toDateText(now());
-        return dateAsText.equals(todayAsText);
-    }
 
-    /**
-     * Get tow dates period as days,
-     * return -1 if the start or end is null
-     *
-     * @param start Start date
-     * @param end   End date
-     * @return Period as days or -1
-     */
-    public static long periodAsDays(Date start, Date end) {
-        if (start == null || end == null) {
-            return -1;
-        }
-        start = org.apache.commons.lang.time.DateUtils.truncate(start, Calendar.DAY_OF_MONTH);
-        end = org.apache.commons.lang.time.DateUtils.truncate(end, Calendar.DAY_OF_MONTH);
-
-        long periodAsMilliSeconds = end.getTime() - start.getTime();
-        return (periodAsMilliSeconds / (DAY_MILLISECONDS));
-    }
 }
