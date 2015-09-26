@@ -6,7 +6,7 @@ Make sure project context path is 'os'.
 
 http://localhost:8080/os/oauth/authorize?response_type=code&scope=read write&client_id=test&redirect_uri=http%3A%2F%2Flocalhost%3A7777%2Fspring-oauth-client%2Fauthorization_code_callback&state=09876999
 
-http://localhost:8080/os/oauth/authorize?response_type=code&scope=read write&client_id=test&redirect_uri=http://localhost:8080/os/oauth/authorize?response_type=code&scope=read%20write&client_id=test&redirect_uri=http%3A%2F%2Flocalhost%3A7777%2Fspring-oauth-client%2Fauthorization_code_callback&state=09876999&state=sedddd
+http://localhost:8080/os/oauth/authorize?response_type=code&scope=read%20write&client_id=test&redirect_uri=http%3A%2F%2Flocalhost%3A7777%2Fspring-oauth-client%2Fauthorization_code_callback&state=swss58522555
 
 
 -- Test grant_type = 'token'

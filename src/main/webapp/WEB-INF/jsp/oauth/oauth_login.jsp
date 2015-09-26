@@ -65,12 +65,6 @@
             <td>authorization_code,password,refresh_token,client_credentials</td>
             <td>User(id=22)</td>
         </tr>
-        <tr>
-            <td>mobile</td>
-            <td>mobile</td>
-            <td>password,refresh_token</td>
-            <td>User(id=22)</td>
-        </tr>
         </tbody>
     </table>
 </div>
