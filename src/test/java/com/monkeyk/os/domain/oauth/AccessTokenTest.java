@@ -3,6 +3,9 @@ package com.monkeyk.os.domain.oauth;
 import com.monkeyk.os.infrastructure.DateUtils;
 import org.testng.annotations.Test;
 
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
@@ -10,6 +13,15 @@ import static org.testng.Assert.assertTrue;
  * @author Shengzhao Li
  */
 public class AccessTokenTest {
+
+
+    @Test
+    public void decode() throws Exception {
+
+        String url = "http://localhost:7777/spring-oauth-client/authorization_code_callback";
+        final String decode = URLEncoder.encode(url, "UTF-8");
+        System.out.println(decode);
+    }
 
 
     @Test

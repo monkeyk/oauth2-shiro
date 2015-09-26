@@ -4,18 +4,18 @@ Make sure project context path is 'os'.
 
 -- Test grant_type = 'authorization_code' ,  get code
 
-http://localhost:8080/os/oauth/authorize?response_type=code&scope=read write&client_id=test&redirect_uri=http%3a%2f%2fandaily.com%2foauth_callback&state=09876999
+http://localhost:8080/os/oauth/authorize?response_type=code&scope=read write&client_id=test&redirect_uri=http%3A%2F%2Flocalhost%3A7777%2Fspring-oauth-client%2Fauthorization_code_callback&state=09876999
 
-http://localhost:8080/os/oauth/authorize?response_type=code&scope=read write&client_id=test&redirect_uri=http%3a%2f%2fandaily.com%2foauth_callback&state=sedddd
+http://localhost:8080/os/oauth/authorize?response_type=code&scope=read write&client_id=test&redirect_uri=http://localhost:8080/os/oauth/authorize?response_type=code&scope=read%20write&client_id=test&redirect_uri=http%3A%2F%2Flocalhost%3A7777%2Fspring-oauth-client%2Fauthorization_code_callback&state=09876999&state=sedddd
 
 
 -- Test grant_type = 'token'
 
-http://localhost:8080/os/oauth/authorize?response_type=token&scope=read write&client_id=test&client_secret=test&redirect_uri=http%3a%2f%2fandaily.com%2foauth_callback
+http://localhost:8080/os/oauth/authorize?response_type=token&scope=read write&client_id=test&client_secret=test&redirect_uri=http://localhost:8080/os/oauth/authorize?response_type=code&scope=read%20write&client_id=test&redirect_uri=http%3A%2F%2Flocalhost%3A7777%2Fspring-oauth-client%2Fauthorization_code_callback&state=09876999
 
 
 -- Test from 'code' get 'token'   [POST]
-http://localhost:8080/os/oauth/token?client_id=test&client_secret=test&grant_type=authorization_code&code=ac0bd18863b07adfb518cc6e6dfcfcab&redirect_uri=http%3a%2f%2fandaily.com%2foauth_callback
+http://localhost:8080/os/oauth/token?client_id=test&client_secret=test&grant_type=authorization_code&code=ac0bd18863b07adfb518cc6e6dfcfcab&redirect_uri=http://localhost:8080/os/oauth/authorize?response_type=code&scope=read%20write&client_id=test&redirect_uri=http%3A%2F%2Flocalhost%3A7777%2Fspring-oauth-client%2Fauthorization_code_callback&state=09876999
 
 
 
