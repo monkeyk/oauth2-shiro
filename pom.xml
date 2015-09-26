@@ -28,7 +28,7 @@
         <jdbc.user>andaily</jdbc.user>
         <jdbc.pass>andaily</jdbc.pass>
         <!--if do not use execute sql, change the value to true-->
-        <jdbc.execute.skip>false</jdbc.execute.skip>
+        <!--<jdbc.execute.skip>false</jdbc.execute.skip>-->
         <test.skip>false</test.skip>
     </properties>
 
@@ -271,11 +271,7 @@
             <artifactId>spring-core</artifactId>
             <version>${spring.version}</version>
         </dependency>
-        <!--<dependency>-->
-        <!--<groupId>org.springframework</groupId>-->
-        <!--<artifactId>spring-orm</artifactId>-->
-        <!--<version>${spring.version}</version>-->
-        <!--</dependency>-->
+
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-tx</artifactId>
@@ -315,18 +311,6 @@
             <scope>compile</scope>
         </dependency>
 
-        <!--<dependency>-->
-        <!--<groupId>org.antlr</groupId>-->
-        <!--<artifactId>antlr-runtime</artifactId>-->
-        <!--<version>3.3</version>-->
-        <!--<scope>compile</scope>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>org.antlr</groupId>-->
-        <!--<artifactId>stringtemplate</artifactId>-->
-        <!--<version>3.2.1</version>-->
-        <!--</dependency>-->
-
 
         <!--log4j-->
         <dependency>
@@ -341,21 +325,6 @@
             <version>1.7.5</version>
             <scope>compile</scope>
         </dependency>
-
-
-        <!--google-->
-        <!--<dependency>-->
-        <!--<groupId>com.google.guava</groupId>-->
-        <!--<artifactId>guava</artifactId>-->
-        <!--<version>17.0</version>-->
-        <!--</dependency>-->
-
-        <!--hibernate-->
-        <!--<dependency>-->
-        <!--<groupId>org.hibernate</groupId>-->
-        <!--<artifactId>hibernate-core</artifactId>-->
-        <!--<version>${hibernate.version}</version>-->
-        <!--</dependency>-->
 
 
         <dependency>
