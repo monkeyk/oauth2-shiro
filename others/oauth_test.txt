@@ -46,3 +46,17 @@ http://localhost:8080/os/oauth/token?client_id=test&client_secret=test&grant_typ
 http://localhost:8080/os/rs/username?access_token=6b79dbec17b66fdbf3dd7a3538c61c6e
 
 
+
+--
+-- Mobile Resource
+--
+
+-- Test grant_type='password'   [POST]
+http://localhost:8080/os/oauth/token?client_id=mobile&client_secret=mobile&grant_type=password&scope=read write&username=test&password=test
+
+
+
+-- Test mobile resource
+http://qc8.cc:8080/os/mobile/system_time?access_token=b69c2f61212780c901e69cebd6854667
+
+

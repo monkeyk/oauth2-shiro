@@ -1,8 +1,8 @@
 package com.monkeyk.os.web.controller;
 
+import com.monkeyk.os.infrastructure.DateUtils;
 import com.monkeyk.os.web.WebUtils;
 import org.apache.oltu.oauth2.common.OAuth;
-import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -12,37 +12,42 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Custom resource API
+ * Mobile resource API
  * Protect by Oauth
+ * <p/>
+ * <p/>
+ * resource-id: mobile-resource
  *
  * @author Shengzhao Li
  * @see org.apache.oltu.oauth2.rsfilter.OAuthFilter
  */
 @Controller
-@RequestMapping("/rs/")
-public class OauthResourcesController {
+@RequestMapping("/mobile/")
+public class MobileResourcesController {
 
 
-    private static final Logger LOG = LoggerFactory.getLogger(OauthResourcesController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(MobileResourcesController.class);
 
 
     /**
-     * Return username API
+     * Return system time API
      *
      * @param request  HttpServletRequest
      * @param response HttpServletResponse
      * @throws Exception
      */
-    @RequestMapping("username")
+    @RequestMapping("system_time")
     public void username(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        final String clientId = (String) request.getAttribute(OAuth.OAUTH_CLIENT_ID);
-        LOG.debug("Current clientId: {}", clientId);
+//        final String clientId = (String) request.getAttribute(OAuth.OAUTH_CLIENT_ID);
+//        LOG.debug("Current clientId: {}", clientId);
+//
+//        final String username = request.getUserPrincipal().getName();
+//        LOG.debug("Current username: {}", username);
 
-        final String username = request.getUserPrincipal().getName();
-        LOG.debug("Current username: {}", username);
+        final long time = DateUtils.now().getTime();
 
-        WebUtils.writeJson(response, "{\"username\":" + username + "}");
+        WebUtils.writeJson(response, "{\"time\":" + time + "}");
     }
 
 
