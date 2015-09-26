@@ -21,6 +21,7 @@
     <ul>
         <li><p>JDK -- 1.7.0_40</p></li>
         <li><p>Maven -- 3.1.0</p></li>
+        <li><p>MySQL -- 5.6.23-log</p></li>
     </ul>
 </div>
 
