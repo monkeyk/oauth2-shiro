@@ -69,6 +69,40 @@
 </ol>
 </div>
 
+
+
+<hr/>
+<strong>支持的 grant_type</strong>
+<br/>
+说明 oauth2-shiro 项目支持的grant_type(授权方式)与功能
+<ol>
+    <li><code>authorization_code</code> -- 授权码模式(即先登录获取code,再获取token)</li>
+    <li><code>password</code> -- 密码模式(将用户名,密码传过去,直接获取token)</li>
+    <li><code>refresh_token</code> -- 刷新access_token</li>
+    <li><code>implicit(token)</code> -- 简化模式(在redirect_uri 的Hash传递token; Auth客户端运行在浏览器中,如JS,Flash)</li>
+    <li><code>client_credentials</code> -- 客户端模式(无用户,用户向客户端注册,然后客户端以自己的名义向'服务端'获取资源)</li>
+</ol>
+
+
+
+
+
+<hr/>
+<strong>Project Log</strong>
+<p>
+    <ol>
+        <li><p><em>2015-05-17</em>     Initial project, start push code (private)</p></li>
+        <li><p><em>2015-07-16</em>     <a href="http://andaily.com/blog/?p=312">oauth2-shiro项目开发状态(7月)</a></p></li>
+        <li><p><em>2015-09-06</em>     <a href="http://andaily.com/blog/?p=325">oauth2-shiro项目开发状态(8月)</a></p></li>
+        <li><p><em>2015-09-06</em>     项目由 私有 变为 开源, 开发 resource 模块</p></li>
+        <li><p><em>2015-09-26</em>     版本0.1 开发完毕, 发布 <strong>0.1-beta</strong> 版本</p></li>
+    </ol>
+</p>
+
+
+
+
+
 <div id="trend">
     <h3>项目动态</h3>
     <ul>
