@@ -14,7 +14,7 @@
 
 <p>Do you authorize '${param.client_id}' to access your protected resources?</p>
 
-<form id='confirmationForm' name='confirmationForm' action='${contextPath}/oauth/authorize'
+<form id='confirmationForm' name='confirmationForm' action='${pageContext.request.contextPath}/oauth/authorize'
       method='post'>
     <input type="hidden" name="client_id" value="${param.client_id}"/>
     <input type="hidden" name="scope" value="${param.scope}"/>
