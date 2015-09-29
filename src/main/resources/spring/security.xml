@@ -5,23 +5,36 @@
 			http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
 
-    <bean id="credentialsMatcher" class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
-        <property name="hashAlgorithmName" value="MD5"/>
-        <!--<property name="storedCredentialsHexEncoded" value="false"/>-->
-    </bean>
+    <bean id="credentialsMatcher" class="org.apache.shiro.authc.credential.SimpleCredentialsMatcher"/>
 
-    <bean class="com.monkeyk.os.infrastructure.shiro.MkkJdbcRealm" id="jdbcRealm">
+    <bean class="com.monkeyk.os.oauth.shiro.OAuth2JdbcRealm" id="jdbcRealm">
         <property name="name" value="jdbcRealm"/>
         <property name="dataSource" ref="dataSource"/>
         <property name="credentialsMatcher" ref="credentialsMatcher"/>
         <property name="permissionsLookupEnabled" value="true"/>
+        <property name="rsService" ref="oAuthRSService"/>
     </bean>
 
     <bean class="org.apache.shiro.cache.MemoryConstrainedCacheManager" id="shiroCacheManager"/>
 
+    <bean class="com.monkeyk.os.oauth.shiro.OAuth2SubjectFactory" id="subjectFactory"/>
+
     <bean class="org.apache.shiro.web.mgt.DefaultWebSecurityManager" id="securityManager">
         <property name="realm" ref="jdbcRealm"/>
         <property name="cacheManager" ref="shiroCacheManager"/>
+        <property name="subjectFactory" ref="subjectFactory"/>
+    </bean>
+
+    <!--Single resource-->
+    <bean class="com.monkeyk.os.oauth.shiro.OAuth2Filter" id="auth2Filter">
+        <property name="resourceId" value="os-resource"/>
+        <property name="rsService" ref="oAuthRSService"/>
+    </bean>
+
+    <!--mobile resource-->
+    <bean class="com.monkeyk.os.oauth.shiro.OAuth2Filter" id="mobileOauth2Filter">
+        <property name="resourceId" value="mobile-resource"/>
+        <property name="rsService" ref="oAuthRSService"/>
     </bean>
 
 
@@ -30,6 +43,14 @@
         <property name="loginUrl" value="/login"/>
         <property name="successUrl" value="/index"/>
         <property name="unauthorizedUrl" value="/unauthorized"/>
+        <property name="filters">
+            <map>
+                <entry key="oauth" value-ref="auth2Filter"/>
+                <entry key="mOauth" value-ref="mobileOauth2Filter"/>
+                <!--<entry key="oauth2" value-ref="auth2xxxFilter"/>-->
+                <!--<entry key="oauth3" value-ref="auth2xxFilter"/>-->
+            </map>
+        </property>
         <property name="filterChainDefinitions">
             <value>
                 /favicon.ico = anon
@@ -40,6 +61,9 @@
                 #Ignore oauth resources
                 /rs/** = anon
                 /logout = logout
+                # oauth
+                /rs/** = oauth
+                /mobile/** = mOauth
                 # admin role
                 /admin/** = authc, roles["Admin"]
                 #user permissions
@@ -51,15 +75,6 @@
         </property>
     </bean>
 
-    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
-
-    <!-- Enable Shiro Annotations for Spring-configured beans.  Only run after
-         the lifecycleBeanProcessor has run: -->
-    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
-          depends-on="lifecycleBeanPostProcessor"/>
-    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
-        <property name="securityManager" ref="securityManager"/>
-    </bean>
 
 
 </beans>

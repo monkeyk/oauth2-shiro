@@ -46,4 +46,10 @@ public class OAuthRSServiceImpl implements OAuthRSService {
         LOG.debug("Load ClientDetails by clientId: {}, resourceIds: {}", clientId, resourceIds);
         return oauthRepository.findClientDetailsByClientIdAndResourceIds(clientId, resourceIds);
     }
+
+    @Override
+    public String loadUsernameByAccessToken(String tokenId) {
+        final AccessToken accessToken = this.loadAccessTokenByTokenId(tokenId);
+        return accessToken == null ? null : accessToken.username();
+    }
 }

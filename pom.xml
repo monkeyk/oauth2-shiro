@@ -21,6 +21,7 @@
         <mysql.version>5.1.35</mysql.version>
         <oltu.version>1.0.0</oltu.version>
         <shiro.version>1.2.3</shiro.version>
+        <fasterxml.jackson.version>2.5.4</fasterxml.jackson.version>
 
         <!--jdbc execute sql config-->
         <jdbc.driver>com.mysql.jdbc.Driver</jdbc.driver>
@@ -202,17 +203,22 @@
             <version>${aspectj.version}</version>
             <scope>compile</scope>
         </dependency>
+
         <dependency>
             <groupId>commons-dbcp</groupId>
             <artifactId>commons-dbcp</artifactId>
             <version>1.4</version>
         </dependency>
 
-
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>2.4</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.6</version>
         </dependency>
 
         <!--oltu-->
@@ -339,11 +345,12 @@
             <scope>compile</scope>
         </dependency>
 
+
+        <!--json-->
         <dependency>
-            <groupId>net.sf.json-lib</groupId>
-            <artifactId>json-lib</artifactId>
-            <version>2.4</version>
-            <classifier>jdk15</classifier>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${fasterxml.jackson.version}</version>
         </dependency>
 
 

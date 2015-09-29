@@ -1,6 +1,5 @@
 package com.monkeyk.os.web;
 
-import net.sf.json.JSON;
 import org.apache.commons.lang.StringUtils;
 import org.apache.oltu.oauth2.common.OAuth;
 import org.apache.oltu.oauth2.common.message.OAuthResponse;
@@ -60,19 +59,6 @@ public abstract class WebUtils {
         }
     }
 
-
-    public static void writeJson(HttpServletResponse response, JSON json) {
-
-        response.setContentType("application/json;charset=UTF-8");
-        try {
-            PrintWriter writer = response.getWriter();
-            json.write(writer);
-            writer.flush();
-        } catch (IOException e) {
-            throw new IllegalStateException("Write json to response error", e);
-        }
-
-    }
 
     public static void writeJson(HttpServletResponse response, String json) {
         response.setContentType("application/json;charset=UTF-8");

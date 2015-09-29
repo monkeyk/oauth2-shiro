@@ -60,54 +60,6 @@
     </filter-mapping>
 
 
-    <!--OAuthFilter , handle protected resource -->
-    <context-param>
-        <param-name>oauth.rs.provider-class</param-name>
-        <!--Implement OAuthRSProvider-->
-        <param-value>com.monkeyk.os.oauth.resources.MkkOAuthRSProvider</param-value>
-    </context-param>
-    <context-param>
-        <param-name>oauth.rs.tokens</param-name>
-        <!--See ParameterStyle, default is header-->
-        <param-value>QUERY</param-value>
-    </context-param>
-    <context-param>
-        <!--Resource id-->
-        <param-name>oauth.rs.realm</param-name>
-        <param-value>os-resource</param-value>
-    </context-param>
-
-    <filter>
-        <filter-name>OAuthFilter</filter-name>
-        <filter-class>org.apache.oltu.oauth2.rsfilter.OAuthFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>OAuthFilter</filter-name>
-        <url-pattern>/rs/*</url-pattern>
-    </filter-mapping>
-
-
-    <!--Mobile resource-->
-    <filter>
-        <filter-name>MobileOAuthFilter</filter-name>
-        <filter-class>com.monkeyk.os.oauth.resources.ResourceOAuthFilter</filter-class>
-        <init-param>
-            <!--Resource id-->
-            <param-name>oauth.rs.realm</param-name>
-            <param-value>mobile-resource</param-value>
-        </init-param>
-        <init-param>
-            <param-name>oauth.rs.tokens</param-name>
-            <!--See ParameterStyle, default is header-->
-            <param-value>QUERY</param-value>
-        </init-param>
-    </filter>
-    <filter-mapping>
-        <filter-name>MobileOAuthFilter</filter-name>
-        <url-pattern>/mobile/*</url-pattern>
-    </filter-mapping>
-
-
     <!-- Shiro Filter-->
     <filter>
         <filter-name>shiroFilter</filter-name>
