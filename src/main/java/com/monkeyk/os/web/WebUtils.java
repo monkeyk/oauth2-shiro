@@ -62,20 +62,6 @@ public abstract class WebUtils {
     }
 
 
-    public static void writeJson(HttpServletResponse response, String json) {
-        response.setContentType("application/json;charset=UTF-8");
-
-        try {
-            PrintWriter writer = response.getWriter();
-            writer.write(json);
-            writer.flush();
-        } catch (IOException e) {
-            throw new IllegalStateException("Write json to response error", e);
-        }
-
-    }
-
-
     /**
      * Retrieve client ip address
      *
