@@ -96,6 +96,7 @@
         <li><p><em>2015-09-06</em>     <a href="http://andaily.com/blog/?p=325">oauth2-shiro项目开发状态(8月)</a></p></li>
         <li><p><em>2015-09-06</em>     项目由 私有 变为 开源, 开发 resource 模块</p></li>
         <li><p><em>2015-09-26</em>     版本0.1 开发完毕, 发布 <strong>0.1-beta</strong> 版本</p></li>
+        <li><p><em>2015-10-07</em>     重构项目结构, 发布 <strong>0.1-rc</strong> 版本</p></li>
     </ol>
 </p>
 
