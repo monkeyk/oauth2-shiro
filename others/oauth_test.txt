@@ -1,41 +1,43 @@
 
-Make sure project context path is 'os'.
+Make sure project modules context path as below:
+authz -> authz
+resources -> rs
 
 
 -- Test grant_type = 'authorization_code' ,  get code
 
-http://localhost:8080/os/oauth/authorize?response_type=code&scope=read write&client_id=test&redirect_uri=http%3A%2F%2Flocalhost%3A7777%2Fspring-oauth-client%2Fauthorization_code_callback&state=09876999
+http://localhost:8080/authz/oauth/authorize?response_type=code&scope=read write&client_id=test&redirect_uri=http%3A%2F%2Flocalhost%3A7777%2Fspring-oauth-client%2Fauthorization_code_callback&state=09876999
 
-http://localhost:8080/os/oauth/authorize?response_type=code&scope=read%20write&client_id=test&redirect_uri=http%3A%2F%2Flocalhost%3A7777%2Fspring-oauth-client%2Fauthorization_code_callback&state=swss58522555
+http://localhost:8080/authz/oauth/authorize?response_type=code&scope=read%20write&client_id=test&redirect_uri=http%3A%2F%2Flocalhost%3A7777%2Fspring-oauth-client%2Fauthorization_code_callback&state=swss58522555
 
 
 -- Test grant_type = 'token'
 -- implicit
 
-http://localhost:8080/os/oauth/authorize?response_type=token&scope=read write&client_id=test&client_secret=test&redirect_uri=http%3A%2F%2Flocalhost%3A7777%2Fspring-oauth-client%2Fauthorization_code_callback
+http://localhost:8080/authz/oauth/authorize?response_type=token&scope=read write&client_id=test&client_secret=test&redirect_uri=http%3A%2F%2Flocalhost%3A7777%2Fspring-oauth-client%2Fauthorization_code_callback
 
 
 -- Test from 'code' get 'token'   [POST]
-http://localhost:8080/os/oauth/token?client_id=test&client_secret=test&grant_type=authorization_code&code=ac0bd18863b07adfb518cc6e6dfcfcab&redirect_uri=http://localhost:8080/os/oauth/authorize?response_type=code&scope=read%20write&client_id=test&redirect_uri=http%3A%2F%2Flocalhost%3A7777%2Fspring-oauth-client%2Fauthorization_code_callback&state=09876999
+http://localhost:8080/authz/oauth/token?client_id=test&client_secret=test&grant_type=authorization_code&code=ac0bd18863b07adfb518cc6e6dfcfcab&redirect_uri=http://localhost:8080/os/oauth/authorize?response_type=code&scope=read%20write&client_id=test&redirect_uri=http%3A%2F%2Flocalhost%3A7777%2Fspring-oauth-client%2Fauthorization_code_callback&state=09876999
 
 
 
 -- Test grant_type='password'   [POST]
-http://localhost:8080/os/oauth/token?client_id=test&client_secret=test&grant_type=password&scope=read write&username=test&password=test
+http://localhost:8080/authz/oauth/token?client_id=test&client_secret=test&grant_type=password&scope=read write&username=test&password=test
 
 
 
 -- Test grant_type='client_credentials'  [POST]
-http://localhost:8080/os/oauth/token?client_id=test&client_secret=test&grant_type=client_credentials&scope=read
+http://localhost:8080/authz/oauth/token?client_id=test&client_secret=test&grant_type=client_credentials&scope=read
 
 
 -- Test grant_type='refresh_token'  [POST]
-http://localhost:8080/os/oauth/token?client_id=test&client_secret=test&grant_type=refresh_token&refresh_token=b36f4978a1724aa8af8960f58abe3ba1
+http://localhost:8080/authz/oauth/token?client_id=test&client_secret=test&grant_type=refresh_token&refresh_token=b36f4978a1724aa8af8960f58abe3ba1
 
 
 
 --
--- [POST] test URL: http://localhost:8080/os/resources/oauth_test.html
+Test-Page URL: http://localhost:8080/authz/resources/oauth_test.html
 --
 
 
@@ -44,8 +46,7 @@ http://localhost:8080/os/oauth/token?client_id=test&client_secret=test&grant_typ
 
 
 -- Test resource
-http://localhost:8080/os/rs/username?access_token=6b79dbec17b66fdbf3dd7a3538c61c6e
-
+http://localhost:8080/rs/rs/username?access_token=6b7b0726e603cd04c797d5b28c7be4c4
 
 
 --
@@ -53,11 +54,11 @@ http://localhost:8080/os/rs/username?access_token=6b79dbec17b66fdbf3dd7a3538c61c
 --
 
 -- Test grant_type='password'   [POST]
-http://localhost:8080/os/oauth/token?client_id=mobile&client_secret=mobile&grant_type=password&scope=read write&username=test&password=test
+http://localhost:8080/authz/oauth/token?client_id=mobile&client_secret=mobile&grant_type=password&scope=read write&username=test&password=test
 
 
 
 -- Test mobile resource
-http://qc8.cc:8080/os/mobile/system_time?access_token=b69c2f61212780c901e69cebd6854667
+http://qc8.cc:8080/authz/mobile/system_time?access_token=b69c2f61212780c901e69cebd6854667
 
 

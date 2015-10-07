@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+			http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+    <bean id="credentialsMatcher" class="org.apache.shiro.authc.credential.SimpleCredentialsMatcher"/>
+
+    <bean class="com.monkeyk.os.oauth.shiro.OAuth2JdbcRealm" id="jdbcRealm">
+        <property name="name" value="jdbcRealm"/>
+        <property name="dataSource" ref="dataSource"/>
+        <property name="credentialsMatcher" ref="credentialsMatcher"/>
+        <property name="permissionsLookupEnabled" value="true"/>
+        <property name="rsService" ref="oAuthRSService"/>
+    </bean>
+
+    <bean class="org.apache.shiro.cache.MemoryConstrainedCacheManager" id="shiroCacheManager"/>
+
+    <bean class="com.monkeyk.os.oauth.shiro.OAuth2SubjectFactory" id="subjectFactory"/>
+
+    <bean class="org.apache.shiro.web.mgt.DefaultWebSecurityManager" id="securityManager">
+        <property name="realm" ref="jdbcRealm"/>
+        <property name="cacheManager" ref="shiroCacheManager"/>
+        <property name="subjectFactory" ref="subjectFactory"/>
+    </bean>
+
+    <!--Single resource-->
+    <bean class="com.monkeyk.os.oauth.shiro.OAuth2Filter" id="auth2Filter">
+        <property name="resourceId" value="os-resource"/>
+        <property name="rsService" ref="oAuthRSService"/>
+    </bean>
+
+    <!--mobile resource-->
+    <bean class="com.monkeyk.os.oauth.shiro.OAuth2Filter" id="mobileOauth2Filter">
+        <property name="resourceId" value="mobile-resource"/>
+        <property name="rsService" ref="oAuthRSService"/>
+    </bean>
+
+
+    <bean class="org.apache.shiro.spring.web.ShiroFilterFactoryBean" id="shiroFilter">
+        <property name="securityManager" ref="securityManager"/>
+        <property name="loginUrl" value="/login"/>
+        <property name="successUrl" value="/index"/>
+        <property name="unauthorizedUrl" value="/unauthorized"/>
+        <property name="filters">
+            <map>
+                <entry key="oauth" value-ref="auth2Filter"/>
+                <entry key="mOauth" value-ref="mobileOauth2Filter"/>
+                <!--<entry key="oauth2" value-ref="auth2xxxFilter"/>-->
+                <!--<entry key="oauth3" value-ref="auth2xxFilter"/>-->
+            </map>
+        </property>
+        <property name="filterChainDefinitions">
+            <value>
+                # oauth
+                /rs/** = oauth
+                /mobile/** = mOauth
+                # everything else allow
+                /** = anon
+            </value>
+        </property>
+    </bean>
+
+
+</beans>
