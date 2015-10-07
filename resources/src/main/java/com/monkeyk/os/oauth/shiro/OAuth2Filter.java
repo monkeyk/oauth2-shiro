@@ -78,7 +78,7 @@ public class OAuth2Filter extends AuthenticatingFilter implements InitializingBe
         try {
             oAuthResponse = OAuthRSResponse.errorResponse(401)
                     .setError(OAuthError.ResourceResponse.INVALID_TOKEN)
-                    .setErrorDescription("Invalid access_token: " + oAuth2Token.getCredentials())
+                    .setErrorDescription("Invalid access_token: " + oAuth2Token.getCredentials() + " (" + ae.getMessage() + ")")
                     .buildJSONMessage();
 
             com.monkeyk.os.web.WebUtils.writeOAuthJsonResponse((HttpServletResponse) response, oAuthResponse);
