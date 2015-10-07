@@ -107,8 +107,10 @@
 <div id="trend">
     <h3>项目动态</h3>
     <ul>
-        <li><p><a href="http://andaily.com/blog/?p=325">oauth2-shiro项目开发状态(8月)</a></p></li>
-        <li><p><a href="http://andaily.com/blog/?p=312">oauth2-shiro项目开发状态(7月)</a></p></li>
+        <li><p><a href="http://www.oschina.net/news/66844/oauth2-shiro-0-1-rc">oauth2-shiro 0.1-rc 发布</a> 2015-10-07</p></li>
+        <li><p><a href="http://www.oschina.net/news/66567/oauth2-shiro-0-1-beta">oauth2-shiro 0.1-beta 发布</a> 2015-09-26</p></li>
+        <li><p><a href="http://andaily.com/blog/?p=325">oauth2-shiro项目开发状态(8月)</a> 2015-09-06</p></li>
+        <li><p><a href="http://andaily.com/blog/?p=312">oauth2-shiro项目开发状态(7月)</a> 2015-07-16</p></li>
     </ul>
 </div>
 
