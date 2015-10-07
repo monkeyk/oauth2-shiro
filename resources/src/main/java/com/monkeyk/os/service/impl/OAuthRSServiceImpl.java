@@ -3,7 +3,7 @@ package com.monkeyk.os.service.impl;
 import com.monkeyk.os.domain.oauth.AccessToken;
 import com.monkeyk.os.domain.oauth.ClientDetails;
 
-import com.monkeyk.os.oauth.OAuthRSRepository;
+import com.monkeyk.os.domain.rs.OAuthRSRepository;
 import com.monkeyk.os.service.OAuthRSService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

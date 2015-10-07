@@ -1,4 +1,4 @@
-package com.monkeyk.os.oauth;
+package com.monkeyk.os.domain.rs;
 
 import com.monkeyk.os.domain.oauth.AccessToken;
 import com.monkeyk.os.domain.oauth.ClientDetails;

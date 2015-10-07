@@ -3,11 +3,9 @@ package com.monkeyk.os.infrastructure.jdbc;
 import com.monkeyk.os.domain.oauth.AccessToken;
 import com.monkeyk.os.domain.oauth.ClientDetails;
 
-import com.monkeyk.os.oauth.OAuthRSRepository;
+import com.monkeyk.os.domain.rs.OAuthRSRepository;
 import org.springframework.stereotype.Repository;
 
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.List;
 
 /**
