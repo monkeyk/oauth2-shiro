@@ -10,6 +10,7 @@ import org.apache.oltu.oauth2.rsfilter.OAuthClient;
  * implement OAuthClient
  *
  * @author Shengzhao Li
+ * @see com.monkeyk.os.domain.oauth.ClientDetails
  */
 public class RSOAuthClient implements OAuthClient {
 
