@@ -29,6 +29,8 @@ public abstract class WebUtils {
             for (String key : headers.keySet()) {
                 response.addHeader(key, headers.get(key));
             }
+            // CORS setting
+            response.setHeader("Access-Control-Allow-Origin", "*");
 
             response.setContentType(OAuth.ContentType.JSON);    //json
             response.setStatus(responseStatus);
