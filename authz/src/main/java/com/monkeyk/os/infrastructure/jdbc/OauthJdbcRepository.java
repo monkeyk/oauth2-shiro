@@ -153,17 +153,5 @@ public class OauthJdbcRepository extends AbstractJdbcRepository implements Oauth
         return list.isEmpty() ? null : list.get(0);
     }
 
-    @Override
-    public AccessToken findAccessTokenByTokenId(String tokenId) {
-        final String sql = " select * from oauth_access_token where token_id = ?";
-        final List<AccessToken> list = jdbcTemplate.query(sql, accessTokenRowMapper, tokenId);
-        return list.isEmpty() ? null : list.get(0);
-    }
 
-    @Override
-    public ClientDetails findClientDetailsByClientIdAndResourceIds(String clientId, String resourceIds) {
-        final String sql = " select * from oauth_client_details where archived = 0 and client_id = ? and resource_ids = ? ";
-        final List<ClientDetails> list = jdbcTemplate.query(sql, clientDetailsRowMapper, clientId, resourceIds);
-        return list.isEmpty() ? null : list.get(0);
-    }
 }

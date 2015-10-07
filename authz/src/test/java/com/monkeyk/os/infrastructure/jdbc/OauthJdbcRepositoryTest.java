@@ -1,14 +1,3 @@
-/*
- * Copyright (c) 2013 Andaily Information Technology Co. Ltd
- * www.andaily.com
- * All rights reserved.
- *
- * This software is the confidential and proprietary information of
- * Andaily Information Technology Co. Ltd ("Confidential Information").
- * You shall not disclose such Confidential Information and shall use
- * it only in accordance with the terms of the license agreement you
- * entered into with Andaily Information Technology Co. Ltd.
- */
 package com.monkeyk.os.infrastructure.jdbc;
 
 import com.monkeyk.os.ContextTest;
@@ -52,27 +41,6 @@ public class OauthJdbcRepositoryTest extends ContextTest {
 
     }
 
-    @Test
-    public void findClientDetailsByClientIdAndResourceIds() throws Exception {
-        String clientId = "oaoedd";
-        String resourceIds = "os-resource";
-        final ClientDetails clientDetails = oauthJdbcRepository.findClientDetails(clientId);
-        assertNull(clientDetails);
-
-        ClientDetails clientDetails1 = new ClientDetails();
-        clientDetails1.setClientId(clientId);
-        clientDetails1.setClientSecret("Ole397dde2");
-        clientDetails1.resourceIds(resourceIds);
-
-        final int i = oauthJdbcRepository.saveClientDetails(clientDetails1);
-        assertEquals(i, 1);
-
-        final ClientDetails clientDetails2 = oauthJdbcRepository.findClientDetailsByClientIdAndResourceIds(clientId, resourceIds);
-        assertNotNull(clientDetails2);
-        assertNotNull(clientDetails2.getClientId());
-
-    }
-
 
     @Test
     public void findAccessTokenByRefreshToken() throws Exception {
@@ -80,15 +48,6 @@ public class OauthJdbcRepositoryTest extends ContextTest {
         String refreshToken = GuidGenerator.generate();
 
         final AccessToken accessToken = oauthJdbcRepository.findAccessTokenByRefreshToken(refreshToken, clientId);
-        assertNull(accessToken);
-
-    }
-
-    @Test
-    public void findAccessTokenByTokenId() throws Exception {
-        String tokenId = GuidGenerator.generate();
-
-        final AccessToken accessToken = oauthJdbcRepository.findAccessTokenByTokenId(tokenId);
         assertNull(accessToken);
 
     }
