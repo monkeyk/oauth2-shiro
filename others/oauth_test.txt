@@ -59,6 +59,6 @@ http://localhost:8080/authz/oauth/token?client_id=mobile&client_secret=mobile&gr
 
 
 -- Test mobile resource
-http://qc8.cc:8080/authz/mobile/system_time?access_token=b69c2f61212780c901e69cebd6854667
+http://qc8.cc:8080/rs/mobile/system_time?access_token=b69c2f61212780c901e69cebd6854667
 
 
