@@ -72,7 +72,7 @@ public class OAuth2Filter extends AuthenticatingFilter implements InitializingBe
     @Override
     protected boolean onLoginFailure(AuthenticationToken token, AuthenticationException ae, ServletRequest request,
                                      ServletResponse response) {
-        OAuth2Token oAuth2Token = (OAuth2Token) token;
+//        OAuth2Token oAuth2Token = (OAuth2Token) token;
 
         final OAuthResponse oAuthResponse;
         try {
