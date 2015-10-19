@@ -60,7 +60,7 @@ public class OAuth2JdbcRealm extends MkkJdbcRealm {
     }
 
     @Override
-    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
+    public AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
 
         OAuth2Token upToken = (OAuth2Token) token;
         final String accessToken = (String) upToken.getCredentials();
@@ -88,7 +88,7 @@ public class OAuth2JdbcRealm extends MkkJdbcRealm {
 
 
     @Override
-    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
+    public AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
 
         //null usernames are invalid
         if (principals == null) {
