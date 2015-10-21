@@ -39,6 +39,16 @@
 </div>
 
 <div>
+    <h3>项目模块说明</h3>
+    <p>oauth2-shiro项目使用模块化开发, 以实现"高内聚, 低耦合"目标, 并更符合实现项目需要; 分为三个模块: authz, core 与 resources, 具体说明如下</p>
+    <ul>
+        <li><p><code>authz</code> 实现使用各类grant_type去获取token业务逻辑----获取access_token</p></li>
+        <li><p><code>core</code> 将公共部分提取到该模块中, 减少重复代码, 保证一致性, 如定义ClientDetails, AccessToken;  authz, resources 模块都依赖于该模块</p></li>
+        <li><p><code>resources</code> 资源管理模块,将受OAUTH保护的资源(URI)放在这里----使用access_token</p></li>
+    </ul>
+</div>
+
+<div>
     <h3>如何使用</h3>
 <ol>
 <li>
