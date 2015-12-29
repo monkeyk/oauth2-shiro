@@ -14,4 +14,9 @@ public abstract class ThreadLocalHolder {
     public static String clientIp() {
         return clientIpThreadLocal.get();
     }
+
+
+    private ThreadLocalHolder() {
+    }
+
 }
