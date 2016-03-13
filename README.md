@@ -159,5 +159,5 @@
 </p>
 <p>
  若需更多的技术支持请联系 <a href="mailto:monkeyk@shengzhaoli.com">monkeyk@shengzhaoli.com</a>
+ 或访问 <a href="http://monkeyk.com/kso/" target="_blank">http://monkeyk.com/kso/</a>
 </p>
-
