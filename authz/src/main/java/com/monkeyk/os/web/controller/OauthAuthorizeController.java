@@ -14,11 +14,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
- *
  * URL: oauth/authorize
  *
  * @author Shengzhao Li
@@ -44,7 +45,7 @@ public class OauthAuthorizeController {
      * @param response HttpServletResponse
      */
     @RequestMapping("authorize")
-    public void authorize(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public void authorize(HttpServletRequest request, HttpServletResponse response) throws OAuthSystemException, ServletException, IOException {
 
         try {
             OAuthAuthxRequest oauthRequest = new OAuthAuthxRequest(request);
@@ -74,22 +75,8 @@ public class OauthAuthorizeController {
             WebUtils.writeOAuthJsonResponse(response, oAuthResponse);
         }
 
-
     }
 
-//    private boolean checkAndHandleAuthHeaderUsed(HttpServletResponse response, OAuthAuthxRequest oauthRequest) throws OAuthSystemException {
-//        if (oauthRequest.isClientAuthHeaderUsed()) {
-//            OAuthResponse oAuthResponse = OAuthResponse.status(HttpServletResponse.SC_FOUND)
-//                    .location(oauthRequest.getRedirectURI())
-//                    .setParam("client_id", oauthRequest.getClientId())
-//                    .buildJSONMessage();
-//
-//            LOG.debug("Auth header used by client: {}, return directly", oauthRequest.getClientId());
-//            WebUtils.writeOAuthJsonResponse(response, oAuthResponse);
-//            return true;
-//        }
-//        return false;
-//    }
 
     private void unsupportResponseType(OAuthAuthxRequest oauthRequest, HttpServletResponse response) throws OAuthSystemException {
         final String responseType = oauthRequest.getResponseType();
