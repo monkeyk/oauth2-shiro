@@ -42,21 +42,17 @@ public class PasswordClientDetailsValidator extends AbstractOauthTokenValidator 
 
         //validate grant_type
         final String grantType = grantType();
-        if (!clientDetails.grantTypes().contains(grantType)) {
-            LOG.debug("Invalid grant_type '{}', client_id = '{}'", grantType, clientDetails.getClientId());
+        if (invalidateGrantType(clientDetails, grantType)) {
             return invalidGrantTypeResponse(grantType);
         }
 
         //validate client_secret
-        final String clientSecret = oauthRequest.getClientSecret();
-        if (clientSecret == null || !clientSecret.equals(clientDetails.getClientSecret())) {
-            LOG.debug("Invalid client_secret '{}', client_id = '{}'", clientSecret, clientDetails.getClientId());
+        if (invalidateClientSecret(clientDetails)) {
             return invalidClientSecretResponse();
         }
 
         //validate scope
-        final Set<String> scopes = oauthRequest.getScopes();
-        if (scopes.isEmpty() || excludeScopes(scopes, clientDetails)) {
+        if (invalidateScope(clientDetails)) {
             return invalidScopeResponse();
         }
 
@@ -65,8 +61,29 @@ public class PasswordClientDetailsValidator extends AbstractOauthTokenValidator 
             return invalidUsernamePasswordResponse();
         }
 
-
         return null;
+    }
+
+    private boolean invalidateGrantType(ClientDetails clientDetails, String grantType) throws OAuthSystemException {
+        if (!clientDetails.grantTypes().contains(grantType)) {
+            LOG.debug("Invalid grant_type '{}', client_id = '{}'", grantType, clientDetails.getClientId());
+            return true;
+        }
+        return false;
+    }
+
+    private boolean invalidateScope(ClientDetails clientDetails) throws OAuthSystemException {
+        final Set<String> scopes = oauthRequest.getScopes();
+        return scopes.isEmpty() || excludeScopes(scopes, clientDetails);
+    }
+
+    private boolean invalidateClientSecret(ClientDetails clientDetails) throws OAuthSystemException {
+        final String clientSecret = oauthRequest.getClientSecret();
+        if (clientSecret == null || !clientSecret.equals(clientDetails.getClientSecret())) {
+            LOG.debug("Invalid client_secret '{}', client_id = '{}'", clientSecret, clientDetails.getClientId());
+            return true;
+        }
+        return false;
     }
 
 
