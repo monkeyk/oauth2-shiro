@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * Custom resource API
@@ -31,14 +30,12 @@ public class OauthResourcesController {
      * RESTFUL
      * Return username API
      *
-     * @param request  HttpServletRequest
-     * @param response HttpServletResponse
-     * @throws Exception
+     * @param request HttpServletRequest
      */
     @RequiresRoles("User")
     @RequestMapping("username")
     @ResponseBody
-    public UsernameDto username(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public UsernameDto username(HttpServletRequest request) {
 
         final String clientId = (String) request.getAttribute(OAuth.OAUTH_CLIENT_ID);
         LOG.debug("Current clientId: {}", clientId);

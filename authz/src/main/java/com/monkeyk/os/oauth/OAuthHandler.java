@@ -48,11 +48,11 @@ public abstract class OAuthHandler {
      * @throws org.apache.oltu.oauth2.common.exception.OAuthSystemException
      */
     protected OAuthResponse createTokenResponse(AccessToken accessToken, boolean queryOrJson) throws OAuthSystemException {
-        final ClientDetails clientDetails = clientDetails();
+        final ClientDetails tempClientDetails = clientDetails();
 
         final OAuthASResponse.OAuthTokenResponseBuilder builder = OAuthASResponse
                 .tokenResponse(HttpServletResponse.SC_OK)
-                .location(clientDetails.getRedirectUri())
+                .location(tempClientDetails.getRedirectUri())
                 .setAccessToken(accessToken.tokenId())
                 .setExpiresIn(String.valueOf(accessToken.currentTokenExpiredSeconds()))
                 .setTokenType(accessToken.tokenType());

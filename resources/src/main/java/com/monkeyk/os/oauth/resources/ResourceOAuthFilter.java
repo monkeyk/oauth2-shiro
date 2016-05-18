@@ -106,7 +106,7 @@ public class ResourceOAuthFilter implements Filter {
 
             final Principal principal = decision.getPrincipal();
 
-            request = new HttpServletRequestWrapper((HttpServletRequest) request) {
+            HttpServletRequest newRequest = new HttpServletRequestWrapper((HttpServletRequest) request) {
                 @Override
                 public String getRemoteUser() {
                     return principal != null ? principal.getName() : null;
@@ -119,9 +119,9 @@ public class ResourceOAuthFilter implements Filter {
 
             };
 
-            request.setAttribute(OAuth.OAUTH_CLIENT_ID, decision.getOAuthClient().getClientId());
+            newRequest.setAttribute(OAuth.OAUTH_CLIENT_ID, decision.getOAuthClient().getClientId());
 
-            chain.doFilter(request, response);
+            chain.doFilter(newRequest, response);
 
         } catch (OAuthSystemException e1) {
             throw new ServletException(e1);
