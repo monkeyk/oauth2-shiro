@@ -35,16 +35,6 @@ public class ShiroController {
         return "unauthorized";
     }
 
-    /*
-     * Logout
-     */
-//    @RequestMapping("logout")
-//    public String logout() {
-//        final Subject subject = SecurityUtils.getSubject();
-//        LOG.debug("{} is logout", subject.getPrincipal());
-//        subject.logout();
-//        return "redirect:/";
-//    }
 
     /*
      * Go login page
@@ -52,9 +42,6 @@ public class ShiroController {
     @RequestMapping(value = "login", method = RequestMethod.GET)
     public String login(Model model) {
         final LoginDto loginDto = new LoginDto();
-        //TODO: Just testing
-        loginDto.setUsername("test");
-
         model.addAttribute("formDto", loginDto);
         return "login";
     }

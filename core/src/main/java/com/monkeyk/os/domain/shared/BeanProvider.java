@@ -9,6 +9,8 @@ public abstract class BeanProvider {
 
     private static ApplicationContext applicationContext;
 
+    private BeanProvider() {
+    }
 
     public static void initialize(ApplicationContext applicationContext) {
         BeanProvider.applicationContext = applicationContext;
