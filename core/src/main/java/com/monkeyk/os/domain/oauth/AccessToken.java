@@ -13,10 +13,10 @@ public class AccessToken extends AbstractDomain {
 
     public static final String BEARER_TYPE = "Bearer";
 
-    //Default value
-    public final static int REFRESH_TOKEN_VALIDITY_SECONDS = 60 * 60 * 24 * 30; // default 30 days.
-    //Default value
-    public final static int ACCESS_TOKEN_VALIDITY_SECONDS = 60 * 60 * 12; // default 12 hours.
+    // default 30 days.
+    public final static int REFRESH_TOKEN_VALIDITY_SECONDS = 60 * 60 * 24 * 30;
+    // default 12 hours.
+    public final static int ACCESS_TOKEN_VALIDITY_SECONDS = 60 * 60 * 12;
 
 
     protected static long THOUSAND = 1000L;
