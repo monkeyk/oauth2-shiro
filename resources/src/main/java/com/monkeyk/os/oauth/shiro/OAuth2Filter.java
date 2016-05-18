@@ -28,11 +28,8 @@ import javax.servlet.http.HttpServletResponse;
 public class OAuth2Filter extends AuthenticatingFilter implements InitializingBean {
 
 
-    private static Logger logger = LoggerFactory.getLogger(OAuth2Filter.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(OAuth2Filter.class);
 
-
-    //   ParameterStyle.HEADER
-//    private ParameterStyle[] parameterStyles = new ParameterStyle[]{ParameterStyle.QUERY};
 
     private String resourceId;
     private OAuthRSService rsService;
@@ -48,11 +45,11 @@ public class OAuth2Filter extends AuthenticatingFilter implements InitializingBe
 
         String username = null;
         if (token != null) {
-            logger.debug("Set username and clientId from AccessToken: {}", token);
+            LOGGER.debug("Set username and clientId from AccessToken: {}", token);
             username = token.username();
             httpRequest.setAttribute(OAuth.OAUTH_CLIENT_ID, token.clientId());
         } else {
-            logger.debug("Not found AccessToken by access_token: {}", accessToken);
+            LOGGER.debug("Not found AccessToken by access_token: {}", accessToken);
         }
 
         return new OAuth2Token(accessToken, resourceId)
@@ -84,7 +81,7 @@ public class OAuth2Filter extends AuthenticatingFilter implements InitializingBe
             com.monkeyk.os.web.WebUtils.writeOAuthJsonResponse((HttpServletResponse) response, oAuthResponse);
 
         } catch (OAuthSystemException e) {
-            logger.error("Build JSON message error", e);
+            LOGGER.error("Build JSON message error", e);
             throw new IllegalStateException(e);
         }
 
