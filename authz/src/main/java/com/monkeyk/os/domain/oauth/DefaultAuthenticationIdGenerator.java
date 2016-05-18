@@ -2,6 +2,8 @@ package com.monkeyk.os.domain.oauth;
 
 import org.apache.oltu.oauth2.common.OAuth;
 import org.apache.oltu.oauth2.common.utils.OAuthUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
@@ -17,6 +19,7 @@ import java.util.Map;
  */
 public class DefaultAuthenticationIdGenerator implements AuthenticationIdGenerator {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultAuthenticationIdGenerator.class);
 
     public DefaultAuthenticationIdGenerator() {
     }
@@ -42,6 +45,7 @@ public class DefaultAuthenticationIdGenerator implements AuthenticationIdGenerat
         try {
             digest = MessageDigest.getInstance("MD5");
         } catch (NoSuchAlgorithmException e) {
+            LOGGER.warn("Digest error", e);
             throw new IllegalStateException("MD5 algorithm not available.  Fatal (should be in the JDK).");
         }
 
@@ -49,6 +53,7 @@ public class DefaultAuthenticationIdGenerator implements AuthenticationIdGenerat
             byte[] bytes = digest.digest(map.toString().getBytes("UTF-8"));
             return String.format("%032x", new BigInteger(1, bytes));
         } catch (UnsupportedEncodingException e) {
+            LOGGER.warn("Encoding error", e);
             throw new IllegalStateException("UTF-8 encoding not available.  Fatal (should be in the JDK).");
         }
     }

@@ -29,7 +29,7 @@ import java.util.Set;
 public class OAuth2JdbcRealm extends MkkJdbcRealm {
 
 
-    private static final Logger log = LoggerFactory.getLogger(OAuth2JdbcRealm.class);
+    private static final Logger LOG = LoggerFactory.getLogger(OAuth2JdbcRealm.class);
 
 
     private OAuthRSService rsService;
@@ -43,18 +43,18 @@ public class OAuth2JdbcRealm extends MkkJdbcRealm {
 
     private void validateToken(String token, AccessToken accessToken) throws OAuth2AuthenticationException {
         if (accessToken == null) {
-            log.debug("Invalid access_token: {}, because it is null", token);
+            LOG.debug("Invalid access_token: {}, because it is null", token);
             throw new OAuth2AuthenticationException("Invalid access_token: " + token);
         }
         if (accessToken.tokenExpired()) {
-            log.debug("Invalid access_token: {}, because it is expired", token);
+            LOG.debug("Invalid access_token: {}, because it is expired", token);
             throw new OAuth2AuthenticationException("Invalid access_token: " + token);
         }
     }
 
     private void validateClientDetails(String token, AccessToken accessToken, ClientDetails clientDetails) throws OAuth2AuthenticationException {
         if (clientDetails == null || clientDetails.archived()) {
-            log.debug("Invalid ClientDetails: {} by client_id: {}, it is null or archived", clientDetails, accessToken.clientId());
+            LOG.debug("Invalid ClientDetails: {} by client_id: {}, it is null or archived", clientDetails, accessToken.clientId());
             throw new OAuth2AuthenticationException("Invalid client by token: " + token);
         }
     }
@@ -111,8 +111,8 @@ public class OAuth2JdbcRealm extends MkkJdbcRealm {
 
         } catch (SQLException e) {
             final String message = "There was a SQL error while authorizing user [" + username + "]";
-            if (log.isErrorEnabled()) {
-                log.error(message, e);
+            if (LOG.isErrorEnabled()) {
+                LOG.error(message, e);
             }
 
             // Rethrow any SQL errors as an authorization exception
