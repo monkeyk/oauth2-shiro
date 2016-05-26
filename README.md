@@ -95,6 +95,31 @@
 
 
 
+<hr/>
+<h3>开发计划</h3>
+<p>
+从 0.2版本开始将项目的所有计划的开发内容列出来, 方便大家跟进, 也欢迎你加入.
+<br/>
+项目的开发管理使用开源项目 <a href="http://git.oschina.net/mkk/andaily-developer">andaily-developer</a>.
+</p>
+<ul>
+       <li>
+            <p>
+                Version: <strong>0.2</strong> [planning]
+                <br/>
+                Date: 2016-05-26 / ------
+            </p>
+            <ol>
+                <li><p>(66) - 更新首页UI, 参照spring-oauth-server</p></li>
+                <li><p>(67) - client details overview</p></li>
+                <li><p>(68) - client details testing</p></li>
+                <li><p>(69) - user add/edit, overview</p></li>
+                <li><p>(70) - 添加API使用说明, 举例各个场景 </p></li>
+                <li><p>(71) - 发布到测试服务器 </p></li>
+            </ol>
+            <br/>
+       </li>
+</ul>
 
 
 <hr/>
