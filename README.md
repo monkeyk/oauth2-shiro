@@ -151,6 +151,8 @@
     <strong>捐助</strong>
     <br/>
     支付宝: monkeyking1987@126.com (**钊)
+    <br/>
+    明瑞 -- 5元
 </p>
 
 <hr/>
@@ -160,4 +162,7 @@
 <p>
  若需更多的技术支持请联系 <a href="mailto:monkeyk@shengzhaoli.com">monkeyk@shengzhaoli.com</a>
  或访问 <a href="http://monkeyk.com/kso/" target="_blank">http://monkeyk.com/kso/</a>
+</p>
+<p>
+    <img src="http://77g1is.com1.z0.glb.clouddn.com/wechat_qrcode.jpg"/>
 </p>
