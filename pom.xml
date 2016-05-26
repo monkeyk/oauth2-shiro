@@ -6,7 +6,7 @@
 
     <groupId>monkeyk.com</groupId>
     <artifactId>oauth2-shiro</artifactId>
-    <version>0.1</version>
+    <version>0.2</version>
 
     <name>${project.artifactId}</name>
     <packaging>pom</packaging>
