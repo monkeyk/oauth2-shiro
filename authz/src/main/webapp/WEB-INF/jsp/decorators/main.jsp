@@ -16,7 +16,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <link rel="shortcut icon" href="${contextPath}/favicon.ico"/>
 
-    <title><decorator:title default=""/> | Oauth2-Shiro[authz]</title>
+    <title><decorator:title default=""/> . Oauth2-Shiro[authz]</title>
 
     <link href="${contextPath}/resources/bootstrap.min.css" rel="stylesheet"/>
     <decorator:head/>
