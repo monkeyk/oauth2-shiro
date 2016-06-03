@@ -42,6 +42,9 @@
                 /unauthorized = anon
                 # OAuth anon
                 /oauth/** = anon
+                /users/** = anon
+                /client_details* = anon
+                /client_details/** = anon
                 /logout = logout
                 # admin role
                 /admin/** = authc, roles["Admin"]
