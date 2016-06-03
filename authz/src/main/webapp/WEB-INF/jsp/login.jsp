@@ -19,6 +19,8 @@
 <!DOCTYPE HTML>
 <html>
 <head>
+    <c:set var="contextPath" value="${pageContext.request.contextPath}" scope="application"/>
+
     <title>Login</title>
 </head>
 <body>
@@ -33,7 +35,7 @@
     <strong>操作说明</strong>
     <ol>
         <li>
-            <p>登录系统,使用初始的账号 test/test 或去 <a href="${contextPath}/users/overview">User</a> 先创建用户, 这用于测试Shiro安全是否工作</p>
+            <p>登录系统,使用初始的账号 test/test 或去 <a href="${contextPath}/users/overview">Users</a> 先创建用户, 这用于测试Shiro安全是否工作</p>
 
             <div class="row">
                 <div class="col-md-5">
@@ -99,7 +101,7 @@
     <ul>
         <li>
             <p>
-                <a href="${contextPath}/users/overview">User</a> -- 管理User
+                <a href="${contextPath}/users/overview">Users</a> -- 管理User
             </p>
         </li>
         <li>

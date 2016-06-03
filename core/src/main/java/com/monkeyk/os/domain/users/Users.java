@@ -1,8 +1,10 @@
 package com.monkeyk.os.domain.users;
 
 import com.monkeyk.os.domain.AbstractDomain;
+import com.monkeyk.os.domain.shared.BeanProvider;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 2016/6/3
@@ -14,6 +16,7 @@ import java.util.Date;
 public class Users extends AbstractDomain {
     private static final long serialVersionUID = -3990278799194556012L;
 
+    private transient UsersRepository usersRepository = BeanProvider.getBean(UsersRepository.class);
 
     private String username;
     private String password;
@@ -23,6 +26,11 @@ public class Users extends AbstractDomain {
     private Date lastLoginTime;
 
     public Users() {
+    }
+
+
+    public List<Roles> rolesList() {
+        return usersRepository.findUsersRolesList(this.guid);
     }
 
 
