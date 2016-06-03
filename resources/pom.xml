@@ -155,9 +155,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>monkeyk.com</groupId>
+            <groupId>com.monkeyk</groupId>
             <artifactId>core</artifactId>
-            <version>0.1</version>
+            <version>0.2</version>
         </dependency>
 
         <!-- provided dependency -->
