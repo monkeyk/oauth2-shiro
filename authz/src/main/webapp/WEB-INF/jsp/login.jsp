@@ -39,17 +39,17 @@
                 <div class="col-md-5">
                     <form:form commandName="formDto" action="login" cssClass="form-horizontal">
                         <div class="form-group">
-                            <label class="col-sm-4 control-label">Username</label>
+                            <label class="col-sm-3 control-label">Username</label>
 
-                            <div class="col-sm-8">
+                            <div class="col-sm-9">
                                 <form:input path="username" required="true" cssClass="form-control"
                                             placeholder="Type username"/> (test)
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-4 control-label">Password</label>
+                            <label class="col-sm-3 control-label">Password</label>
 
-                            <div class="col-sm-8">
+                            <div class="col-sm-9">
                                 <form:password path="password" required="true" cssClass="form-control"
                                                placeholder="Type password"/> (test)
                             </div>
