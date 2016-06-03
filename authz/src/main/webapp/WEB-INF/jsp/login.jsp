@@ -67,6 +67,13 @@
         </li>
         <li>
             <p>
+                在开始OAuth2之前, 建议先理解OAuth2支持的5类<code>grant_type</code>, 请访问 <a href="https://andaily.com/blog/?p=103"
+                                                                             target="_blank">https://andaily.com/blog/?p=103</a>,
+                或直接去看看OAuth2协议 <a href="http://oauth.net/2/" target="_blank">http://oauth.net/2/</a>
+            </p>
+        </li>
+        <li>
+            <p>
                 管理client_details, 在初始时创建了默认的管理client_details
                 <mark>test</mark>
                 与
