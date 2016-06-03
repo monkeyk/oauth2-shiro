@@ -22,35 +22,98 @@
     <title>Login</title>
 </head>
 <body>
-<h3>Login
-    <small>Just test Shiro</small>
-</h3>
+
+<h2 class="page-header">Oauth2-Shiro [authz]
+    <small class="badge">0.2</small>
+</h2>
 
 <div>
-    <form:form commandName="formDto" action="login">
-        Username: <form:input path="username" required="true"/> (test)
-        <br/> <br/>
-        Password: <form:password path="password" required="true"/> (test)
-        <br/> <br/>
-        <input type="submit" value="Login" class="btn btn-primary"/>
-        <br/>
-        <span style="color:red;"><form:errors path="*"/></span>
-    </form:form>
+    <p>[authz]模块用于管理client_details, user,以及获取<code>access_token</code>去访问 [resources] 模块的资源.</p>
+
+    <strong>操作说明</strong>
+    <ol>
+        <li>
+            <p>登录系统,使用初始的账号 test/test 或去 <a href="${contextPath}/users">User</a> 先创建用户, 这用于测试Shiro安全是否工作</p>
+
+            <div class="row">
+                <div class="col-md-5">
+                    <form:form commandName="formDto" action="login" cssClass="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Username</label>
+
+                            <div class="col-sm-8">
+                                <form:input path="username" required="true" cssClass="form-control"
+                                            placeholder="Type username"/> (test)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Password</label>
+
+                            <div class="col-sm-8">
+                                <form:password path="password" required="true" cssClass="form-control"
+                                               placeholder="Type password"/> (test)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <input type="submit" value="Login" class="btn btn-primary btn-sm"/>&nbsp;
+                                <span style="color:red;"><form:errors path="*" cssClass="label label-danger"/></span>
+                            </div>
+                        </div>
+                    </form:form>
+                </div>
+            </div>
+            <br/>
+        </li>
+        <li>
+            <p>
+                管理client_details, 在初始时创建了默认的管理client_details
+                <mark>test</mark>
+                与
+                <mark>mobile</mark>
+                (见initial-db.ddl文件), 你可以去 <a href="${contextPath}/client_details">client_details</a>
+                创建新的client_details来测试. <br/>----- client_details是OAuth2中一个核心的组件
+            </p>
+        </li>
+        <li>
+            <p>
+                查看 <a href="http://git.oschina.net/mkk/oauth2-shiro/raw/master/others/oauth_test.txt" target="_blank">oauth_test.txt</a>
+                文件并进行OAuth2的流程测试; 也可下载
+                <a href="http://git.oschina.net/mkk/spring-oauth-client" target="_blank">spring-oauth-client</a>
+                项目来测试OAuth2的流程
+            </p>
+        </li>
+    </ol>
 </div>
-<hr/>
+
 <div>
-    <h3>Oauth
-        <small>Ignore login, testing oauth directly</small>
-    </h3>
+    <h3>菜单</h3>
 
-    <p>
-        See <a href="http://git.oschina.net/mkk/oauth2-shiro/raw/master/others/oauth_test.txt" target="_blank">oauth_test.txt</a>
-        firstly.
-    </p>
+    <ul>
+        <li>
+            <p>
+                <a href="${contextPath}/users">User</a> -- 管理User
+            </p>
+        </li>
+        <li>
+            <p>
+                <a href="${contextPath}/client_details">client_details</a> -- 管理client_details
+            </p>
+        </li>
+        <li>
+            <p>
+                <a href="http://git.oschina.net/mkk/oauth2-shiro/raw/master/others/oauth_test.txt" target="_blank">oauth_test.txt</a>
+                -- 测试OAuth2的参考URL文件
+            </p>
+        </li>
+        <li>
+            <p>
+                <a href="${pageContext.request.contextPath}/resources/oauth_test.html">oauth_test.html</a> --
+                一个用于测试各类<code>grant_type</code>的HTML页面
+            </p>
+        </li>
+    </ul>
 
-    <p>
-        <a href="${pageContext.request.contextPath}/resources/oauth_test.html">oauth_test</a>
-    </p>
 </div>
 
 </body>
