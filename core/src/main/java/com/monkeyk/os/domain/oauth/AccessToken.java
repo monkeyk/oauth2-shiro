@@ -17,6 +17,7 @@ public class AccessToken extends AbstractDomain {
     public final static int REFRESH_TOKEN_VALIDITY_SECONDS = 60 * 60 * 24 * 30;
     // default 12 hours.
     public final static int ACCESS_TOKEN_VALIDITY_SECONDS = 60 * 60 * 12;
+    private static final long serialVersionUID = 7336709167855003668L;
 
 
     protected static long THOUSAND = 1000L;

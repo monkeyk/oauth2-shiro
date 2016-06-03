@@ -9,6 +9,7 @@ import com.monkeyk.os.domain.AbstractDomain;
  */
 public class OauthCode extends AbstractDomain {
 
+    private static final long serialVersionUID = 7861853986708936572L;
     private String code;
 
     private String username;
