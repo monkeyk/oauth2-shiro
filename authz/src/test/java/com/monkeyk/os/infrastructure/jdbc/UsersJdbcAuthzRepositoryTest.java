@@ -58,6 +58,47 @@ public class UsersJdbcAuthzRepositoryTest extends ContextTest {
 
 
     @Test
+    public void findByUsername() throws Exception {
+
+        final Users users = usersJdbcRepository.findByUsername("lise");
+        assertNull(users);
+    }
+
+    @Test
+    public void saveUsers() throws Exception {
+
+        final Users users = new Users().username("test").password("paeddsf").guid(GuidGenerator.generate());
+        final int id = usersJdbcRepository.saveUsers(users);
+
+        assertTrue(id > 0);
+
+    }
+
+
+    @Test
+    public void findAvailableRolesList() throws Exception {
+
+        final List<Roles> list = usersJdbcRepository.findAvailableRolesList();
+        assertNotNull(list);
+        assertTrue(list.isEmpty());
+    }
+
+
+    @Test
+    public void insertUserRoles() throws Exception {
+
+        usersJdbcRepository.insertUserRoles(23, 434);
+    }
+
+    @Test
+    public void findRolesByGuid() throws Exception {
+
+        final Roles roles = usersJdbcRepository.findRolesByGuid(GuidGenerator.generate());
+        assertNull(roles);
+
+    }
+
+    @Test
     public void findPermissionsByRoles() throws Exception {
 
         final List<String> list = usersJdbcRepository.findPermissionsByRoles(GuidGenerator.generate());

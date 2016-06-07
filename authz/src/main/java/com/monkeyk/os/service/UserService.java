@@ -1,5 +1,6 @@
 package com.monkeyk.os.service;
 
+import com.monkeyk.os.service.dto.UsersFormDto;
 import com.monkeyk.os.service.dto.UsersOverviewDto;
 
 /**
@@ -11,4 +12,10 @@ import com.monkeyk.os.service.dto.UsersOverviewDto;
 public interface UserService {
 
     UsersOverviewDto loadUsersOverviewDto(String username);
+
+    UsersFormDto loadUsersFormDto();
+
+    boolean isExistedUsername(String username);
+
+    String saveUsers(UsersFormDto formDto);
 }
