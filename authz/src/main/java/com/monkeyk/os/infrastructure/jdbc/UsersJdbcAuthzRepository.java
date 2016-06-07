@@ -40,4 +40,11 @@ public class UsersJdbcAuthzRepository extends AbstractJdbcRepository implements 
                 " select id from users where guid = ? and archived = 0))";
         return this.jdbcTemplate.query(sql, rolesRowMapper, usersGuid);
     }
+
+    @Override
+    public List<String> findPermissionsByRoles(String rolesGuid) {
+        String sql = " select p.permission from roles_permissions p where p.roles_id = (" +
+                " select id from roles where guid = ? and archived = 0 )";
+        return this.jdbcTemplate.queryForList(sql, new Object[]{rolesGuid}, String.class);
+    }
 }

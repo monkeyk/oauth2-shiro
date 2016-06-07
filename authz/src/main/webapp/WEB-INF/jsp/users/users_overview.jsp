@@ -30,7 +30,7 @@
     <thead>
     <tr>
         <th>Username</th>
-        <th>Roles</th>
+        <th>Roles[permission]</th>
         <th>CreateTime</th>
     </tr>
     </thead>
@@ -39,7 +39,7 @@
         <tr>
             <td>${user.username}</td>
             <td><c:forEach items="${user.rolesDtos}" var="r"
-                           varStatus="vs">${r.roleName}${vs.last?'':','}</c:forEach></td>
+                           varStatus="vs">${r.roleName} ${r.permissions}${vs.last?'':','}</c:forEach></td>
             <td>${user.createTime}</td>
         </tr>
     </c:forEach>

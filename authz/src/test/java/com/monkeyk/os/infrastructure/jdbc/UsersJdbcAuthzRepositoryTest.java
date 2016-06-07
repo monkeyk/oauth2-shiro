@@ -57,4 +57,13 @@ public class UsersJdbcAuthzRepositoryTest extends ContextTest {
     }
 
 
+    @Test
+    public void findPermissionsByRoles() throws Exception {
+
+        final List<String> list = usersJdbcRepository.findPermissionsByRoles(GuidGenerator.generate());
+        assertNotNull(list);
+        assertTrue(list.isEmpty());
+    }
+
+
 }

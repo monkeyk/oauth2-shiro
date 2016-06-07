@@ -21,6 +21,8 @@ public class RolesDto implements Serializable {
 
     private String roleName;
 
+    private List<String> permissions = new ArrayList<>();
+
     public RolesDto() {
     }
 
@@ -29,8 +31,16 @@ public class RolesDto implements Serializable {
         this.createTime = DateUtils.toDateTime(roles.createTime());
 
         this.roleName = roles.roleName();
+        this.permissions = roles.permissions();
     }
 
+    public List<String> getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissions(List<String> permissions) {
+        this.permissions = permissions;
+    }
 
     public String getGuid() {
         return guid;

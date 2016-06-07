@@ -13,4 +13,6 @@ import java.util.List;
 public interface UsersRepository extends Repository {
 
     List<Roles> findUsersRolesList(String usersGuid);
+
+    List<String> findPermissionsByRoles(String rolesGuid);
 }

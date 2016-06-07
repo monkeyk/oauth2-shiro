@@ -1,6 +1,9 @@
 package com.monkeyk.os.domain.users;
 
 import com.monkeyk.os.domain.AbstractDomain;
+import com.monkeyk.os.domain.shared.BeanProvider;
+
+import java.util.List;
 
 /**
  * 2016/6/3
@@ -11,11 +14,19 @@ import com.monkeyk.os.domain.AbstractDomain;
 public class Roles extends AbstractDomain {
     private static final long serialVersionUID = 8762398291767207066L;
 
+
+    private transient UsersRepository usersRepository = BeanProvider.getBean(UsersRepository.class);
+
+
     private String roleName;
 
     public Roles() {
     }
 
+
+    public List<String> permissions() {
+        return this.usersRepository.findPermissionsByRoles(this.guid);
+    }
 
     public String roleName() {
         return roleName;
