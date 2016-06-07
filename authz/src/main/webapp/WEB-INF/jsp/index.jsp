@@ -17,7 +17,7 @@
 Welcome: <shiro:principal/>
 <hr/>
 <div>
-    <strong>Oauth</strong>
+    <strong>测试OAuth</strong>
 
     <p>
         <a href="${contextPath}/resources/oauth_test.html">oauth_test</a>
@@ -25,9 +25,9 @@ Welcome: <shiro:principal/>
 </div>
 <hr/>
 <div>
-    <strong>Menus</strong>
+    <strong>菜单</strong>
 
-    <p class="help-block">Test different roles show different menus</p>
+    <p class="help-block">根据不同的Role会显示不同的菜单 (Shiro权限控制)</p>
     <ul>
         <shiro:hasRole name="Admin">
             <li><a href="#">Admin Action</a></li>
@@ -36,10 +36,10 @@ Welcome: <shiro:principal/>
             <li><a href="#">User Action</a></li>
         </shiro:hasRole>
         <shiro:hasPermission name="user:list">
-            <li><a href="user/list">User List</a></li>
+            <li><a href="#">User List</a></li>
         </shiro:hasPermission>
         <shiro:hasPermission name="user:create">
-            <li><a href="user/create">User Create</a></li>
+            <li><a href="#">User Create</a></li>
         </shiro:hasPermission>
     </ul>
 </div>
