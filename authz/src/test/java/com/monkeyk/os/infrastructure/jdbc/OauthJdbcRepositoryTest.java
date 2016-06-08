@@ -10,6 +10,8 @@ import org.apache.oltu.oauth2.as.issuer.OAuthIssuerImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.Test;
 
+import java.util.List;
+
 import static org.testng.Assert.*;
 
 /**
@@ -49,6 +51,15 @@ public class OauthJdbcRepositoryTest extends ContextTest {
 
         final AccessToken accessToken = oauthJdbcRepository.findAccessTokenByRefreshToken(refreshToken, clientId);
         assertNull(accessToken);
+
+    }
+
+
+    @Test
+    public void findClientDetailsListByClientId() throws Exception {
+        String clientId = "oaoedd";
+        final List<ClientDetails> list = oauthJdbcRepository.findClientDetailsListByClientId(clientId);
+        assertTrue(list.isEmpty());
 
     }
 

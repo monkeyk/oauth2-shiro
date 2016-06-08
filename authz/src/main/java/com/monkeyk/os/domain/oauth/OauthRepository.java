@@ -2,6 +2,8 @@ package com.monkeyk.os.domain.oauth;
 
 import com.monkeyk.os.domain.shared.Repository;
 
+import java.util.List;
+
 /**
  * 15-6-13
  *
@@ -30,4 +32,5 @@ public interface OauthRepository extends Repository {
     AccessToken findAccessTokenByRefreshToken(String refreshToken, String clientId);
 
 
+    List<ClientDetails> findClientDetailsListByClientId(String clientId);
 }

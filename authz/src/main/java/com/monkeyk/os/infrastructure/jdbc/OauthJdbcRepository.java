@@ -4,6 +4,7 @@ import com.monkeyk.os.domain.oauth.AccessToken;
 import com.monkeyk.os.domain.oauth.ClientDetails;
 import com.monkeyk.os.domain.oauth.OauthCode;
 import com.monkeyk.os.domain.oauth.OauthRepository;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.stereotype.Repository;
 
@@ -151,6 +152,17 @@ public class OauthJdbcRepository extends AbstractJdbcRepository implements Oauth
         final String sql = " select * from oauth_access_token where refresh_token = ? and client_id = ? ";
         final List<AccessToken> list = jdbcTemplate.query(sql, accessTokenRowMapper, refreshToken, clientId);
         return list.isEmpty() ? null : list.get(0);
+    }
+
+    @Override
+    public List<ClientDetails> findClientDetailsListByClientId(String clientId) {
+        String sql = " select * from oauth_client_details where archived = 0 ";
+        if (StringUtils.isNotEmpty(clientId)) {
+            sql += " and client_id = ? order by create_time desc ";
+            return jdbcTemplate.query(sql, clientDetailsRowMapper, clientId);
+        }
+        sql += " order by create_time desc  ";
+        return jdbcTemplate.query(sql, clientDetailsRowMapper);
     }
 
 

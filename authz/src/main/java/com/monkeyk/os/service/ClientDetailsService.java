@@ -1,0 +1,14 @@
+package com.monkeyk.os.service;
+
+import com.monkeyk.os.service.dto.ClientDetailsListDto;
+
+/**
+ * 2016/6/8
+ *
+ * @author Shengzhao Li
+ */
+
+public interface ClientDetailsService {
+
+    ClientDetailsListDto loadClientDetailsListDto(String clientId);
+}
