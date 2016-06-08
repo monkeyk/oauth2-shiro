@@ -54,4 +54,6 @@ public interface OauthService {
     AccessToken loadAccessTokenByRefreshToken(String refreshToken, String clientId);
 
     AccessToken changeAccessTokenByRefreshToken(String refreshToken, String clientId) throws OAuthSystemException;
+
+    boolean isExistedClientId(String clientId);
 }

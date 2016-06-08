@@ -20,7 +20,7 @@
 <h2>Client Details</h2>
 
 <div class="pull-right">
-    <a href="form/plus" class="btn btn-success">Add Client</a>
+    <a href="client_details/form/plus" class="btn btn-success">Add Client</a>
 </div>
 <form action="" class="form-inline">
     <div class="form-group">

@@ -243,6 +243,12 @@ public class OauthServiceImpl implements OauthService {
         return newAccessToken;
     }
 
+    @Override
+    public boolean isExistedClientId(String clientId) {
+        final ClientDetails clientDetails = loadClientDetails(clientId);
+        return clientDetails != null;
+    }
+
     private AccessToken createAndSaveAccessToken(ClientDetails clientDetails, boolean includeRefreshToken, String username, String authenticationId) throws OAuthSystemException {
         AccessToken accessToken = new AccessToken()
                 .clientId(clientDetails.getClientId())

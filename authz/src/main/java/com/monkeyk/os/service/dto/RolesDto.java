@@ -16,6 +16,7 @@ public class RolesDto implements Serializable {
     private static final long serialVersionUID = -6808878470603114069L;
 
 
+    private int id;
     private String guid;
     private String createTime;
 
@@ -27,11 +28,21 @@ public class RolesDto implements Serializable {
     }
 
     public RolesDto(Roles roles) {
+        this.id = roles.id();
         this.guid = roles.guid();
         this.createTime = DateUtils.toDateTime(roles.createTime());
 
         this.roleName = roles.roleName();
         this.permissions = roles.permissions();
+    }
+
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public List<String> getPermissions() {

@@ -19,11 +19,11 @@ public abstract class GuidGenerator {
 
 
     public static String generateClientId() {
-        return RandomStringUtils.random(32, true, true);
+        return RandomStringUtils.random(40, true, true);
     }
 
     public static String generateClientSecret() {
-        return RandomStringUtils.random(32, true, true);
+        return RandomStringUtils.random(40, true, true);
     }
 
 }
