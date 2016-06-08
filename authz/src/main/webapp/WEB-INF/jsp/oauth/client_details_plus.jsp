@@ -15,11 +15,15 @@
     </style>
 </head>
 <body>
-<a href="${contextPath}/">Home</a>
+<a href="${pageContext.request.contextPath}/">Home</a>
 
 <h2>Add Client</h2>
 
 <div>
+    <p class="help-block">
+        这里列出了一个 client_details 需要的所有属性进行添加, 但在实际使用场景中, 许多属性是由系统处理的, 不需要用户关心.
+    </p>
+
     <div>
         <form:form commandName="formDto" cssClass="form-horizontal">
         <div class="form-group">
@@ -225,7 +229,7 @@
         <div class="col-sm-2"></div>
         <div class="col-sm-10">
             <button type="submit" class="btn btn-success">保存</button>
-            <a href="../client_details">取消</a>
+            <a href="../../client_details">取消</a>
         </div>
     </div>
     </form:form>
