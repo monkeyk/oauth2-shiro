@@ -3,6 +3,7 @@ package com.monkeyk.os.service.dto;
 import com.monkeyk.os.domain.oauth.ClientDetails;
 import com.monkeyk.os.domain.shared.GuidGenerator;
 import com.monkeyk.os.domain.users.Roles;
+import org.apache.commons.lang.StringUtils;
 import org.apache.oltu.oauth2.common.message.types.GrantType;
 
 import java.util.ArrayList;
@@ -64,7 +65,8 @@ public class ClientDetailsFormDto extends ClientDetailsDto {
 
         clientDetails.scope(getScope());
         clientDetails.grantTypes(getGrantTypes());
-        clientDetails.roles(getRoles());
+        final String roles = getRoles();
+        clientDetails.roles(StringUtils.isEmpty(roles) ? null : roles);
         clientDetails.accessTokenValidity(getAccessTokenValidity());
 
         clientDetails.refreshTokenValidity(getRefreshTokenValidity());
