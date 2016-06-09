@@ -49,7 +49,7 @@ public class ClientDetailsController {
             return "oauth/client_details_plus";
         }
         clientDetailsService.saveClientDetails(formDto);
-        return "redirect:../client_details";
+        return "redirect:../../client_details";
     }
 
 
