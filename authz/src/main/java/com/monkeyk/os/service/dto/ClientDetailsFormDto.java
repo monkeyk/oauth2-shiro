@@ -49,4 +49,26 @@ public class ClientDetailsFormDto extends ClientDetailsDto {
     public void setRolesDtoList(List<RolesDto> rolesDtoList) {
         this.rolesDtoList = rolesDtoList;
     }
+
+    public ClientDetails newClientDetails() {
+        final ClientDetails clientDetails = new ClientDetails();
+        clientDetails.setClientId(getClientId());
+        clientDetails.setClientSecret(getClientSecret());
+        clientDetails.setClientUri(getClientUri());
+        clientDetails.setName(getClientName());
+
+        clientDetails.setDescription(getDescription());
+        clientDetails.setIconUri(getClientIconUri());
+        clientDetails.setRedirectUri(getRedirectUri());
+        clientDetails.resourceIds(getResourceIds());
+
+        clientDetails.scope(getScope());
+        clientDetails.grantTypes(getGrantTypes());
+        clientDetails.roles(getRoles());
+        clientDetails.accessTokenValidity(getAccessTokenValidity());
+
+        clientDetails.refreshTokenValidity(getRefreshTokenValidity());
+        clientDetails.trusted(isTrusted());
+        return clientDetails;
+    }
 }

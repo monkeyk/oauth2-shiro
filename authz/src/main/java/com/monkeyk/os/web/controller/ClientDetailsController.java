@@ -48,7 +48,7 @@ public class ClientDetailsController {
         if (result.hasErrors()) {
             return "oauth/client_details_plus";
         }
-//        userService.saveUsers(formDto);
+        clientDetailsService.saveClientDetails(formDto);
         return "redirect:../client_details";
     }
 

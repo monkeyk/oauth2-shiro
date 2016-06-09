@@ -5,6 +5,7 @@ import com.monkeyk.os.domain.oauth.OauthRepository;
 import com.monkeyk.os.domain.users.Roles;
 import com.monkeyk.os.domain.users.UsersAuthzRepository;
 import com.monkeyk.os.service.ClientDetailsService;
+import com.monkeyk.os.service.busincess.ClientDetailsFormSaver;
 import com.monkeyk.os.service.dto.ClientDetailsFormDto;
 import com.monkeyk.os.service.dto.ClientDetailsListDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,5 +38,11 @@ public class ClientDetailsServiceImpl implements ClientDetailsService {
     public ClientDetailsFormDto loadClientDetailsFormDto() {
         List<Roles> rolesList = usersAuthzRepository.findAvailableRolesList();
         return new ClientDetailsFormDto(rolesList);
+    }
+
+    @Override
+    public String saveClientDetails(ClientDetailsFormDto formDto) {
+        ClientDetailsFormSaver saver = new ClientDetailsFormSaver(formDto);
+        return saver.save();
     }
 }

@@ -14,4 +14,6 @@ public interface ClientDetailsService {
     ClientDetailsListDto loadClientDetailsListDto(String clientId);
 
     ClientDetailsFormDto loadClientDetailsFormDto();
+
+    String saveClientDetails(ClientDetailsFormDto formDto);
 }
