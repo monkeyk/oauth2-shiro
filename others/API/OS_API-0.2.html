@@ -35,8 +35,9 @@
             <li class="list-group-item"><a href="#getTokenCred">获取access_token (grant_type=client_credentials)</a></li>
             <li class="list-group-item"><a href="#refreshToken">刷新access_token (grant_type=refresh_token)</a></li>
             <li class="list-group-item disabled">[resources]</li>
-            <li class="list-group-item"><a href="#userInfoUnity">获取当前用户信息 (ROLE_UNITY)</a></li>
-            <li class="list-group-item"><a href="#userInfoMobile">获取当前用户信息 (ROLE_MOBILE)</a></li>
+            <li class="list-group-item"><a href="#getSystemTime">获取当前系统时间(resource-id: mobile-resource)</a></li>
+            <li class="list-group-item"><a href="#userInfo">获取当前用户信息 (resource-id: os-resource; Role: User)</a>
+            </li>
         </ul>
     </div>
     <div class="col-md-9">
@@ -406,16 +407,20 @@
                 </li>
             </ul>
         </div>
-        <hr/>
-        <div class="well well-sm" id="userInfoUnity">
-            <h3>获取当前用户信息 (ROLE_UNITY)</h3>
 
-            <p class="text-muted">使用access_token获取用户信息, 需要有 ROLE_UNITY 权限</p>
+        <hr/>
+
+        <div class="well well-sm" id="getSystemTime">
+            <p class="pull-right"><a href="">[resources]</a></p>
+
+            <h3>获取当前系统时间(resource-id: mobile-resource)</h3>
+
+            <p class="text-muted">获取当前系统时间, 需要access_token的 resource-id 为 mobile-resource 才能访问</p>
 
             <ul class="list-group">
                 <li class="list-group-item">
                     <p>
-                        请求URI: <code>/unity/user_info</code> <span
+                        请求URI: <code>/mobile/system_time</code> <span
                             class="label label-info">GET</span>
                     </p>
 
@@ -438,7 +443,7 @@
                         </table>
                         请求示例:
                         <p>
-                            <code>http://localhost:8080/spring-oauth-server/unity/user_info?access_token=b12cace6-7ce4-4fa8-b127-cf537d15b213</code>
+                            <code>http://localhost:8080/rs/mobile/system_time?access_token=95c3afd44c5d87301dc3034b20b3fc75</code>
                         </p>
 
                     </div>
@@ -451,7 +456,7 @@
                             <p>
                                 正常 [200]<br/>
                                 <mark>
-                                    {"guid":"55b713df1c6f423e842ad68668523c49","archived":false,"username":"unity","phone":"","email":"unity@wdcy.cc","privileges":["UNITY"]}
+                                    {"time":1465560577614}
                                 </mark>
                             </p>
                         </li>
@@ -459,8 +464,8 @@
                             <p>
                                 异常 [401]<br/>
                                 <mark>
-                                    &lt;oauth&gt;&lt;error_description&gt;Invalid access token:
-                                    2c612eb7-a22b-45f0-8b2e-cd6f9e3667722&lt;/error_description&gt;&lt;error&gt;invalid_token&lt;/error&gt;&lt;/oauth&gt;
+                                    {"error":"invalid_token","error_description":"Invalid access_token:
+                                    95c3afd44c5d87301dc3034b20b3fc75s"}
                                 </mark>
                             </p>
                         </li>
@@ -469,17 +474,18 @@
             </ul>
         </div>
 
-        <div class="well well-sm" id="userInfoMobile">
-            <p class="pull-right"><a href="">返回</a></p>
+        <div class="well well-sm" id="userInfo">
+            <p class="pull-right"><a href="">[resources]</a></p>
 
-            <h3>获取当前用户信息 (ROLE_MOBILE)</h3>
+            <h3>获取当前用户信息 (resource-id: os-resource; Role: User)</h3>
 
-            <p class="text-muted">使用access_token获取用户信息, 需要有 ROLE_MOBILE 权限</p>
+            <p class="text-muted">使用access_token获取用户信息, 需要access_token的 resource-id 为 os-resource 且用户Role包含 User
+                才能访问</p>
 
             <ul class="list-group">
                 <li class="list-group-item">
                     <p>
-                        请求URI: <code>/m/user_info</code> <span
+                        请求URI: <code>/rs/username</code> <span
                             class="label label-info">GET</span>
                     </p>
 
@@ -502,7 +508,7 @@
                         </table>
                         请求示例:
                         <p>
-                            <code>http://localhost:8080/spring-oauth-server/m/user_info?access_token=b12cace6-7ce4-4fa8-b127-cf537d15b213</code>
+                            <code>http://localhost:8080/rs/rs/username?access_token=95c3afd44c5d87301dc3034b20b3fc75</code>
                         </p>
 
                     </div>
@@ -515,7 +521,7 @@
                             <p>
                                 正常 [200]<br/>
                                 <mark>
-                                    {"guid":"612025cb3f964a64a48bbdf77e53c2c1","archived":false,"username":"mobile","phone":"","email":"mobile@wdcy.cc","privileges":["MOBILE"]}
+                                    {"clientId":"WQlJ2ZZBV8iJGKnkqfdbgvfVgY3Cp17AEbMijnID","username":"xiaowang"}
                                 </mark>
                             </p>
                         </li>
@@ -523,8 +529,8 @@
                             <p>
                                 异常 [401]<br/>
                                 <mark>
-                                    &lt;oauth&gt;&lt;error_description&gt;Invalid access token:
-                                    2c612eb7-a22b-45f0-8b2e-cd6f9e3667722&lt;/error_description&gt;&lt;error&gt;invalid_token&lt;/error&gt;&lt;/oauth&gt;
+                                    {"error":"invalid_token","error_description":"Invalid client by token:
+                                    95c3afd44c5d87301dc3034b20b3fc75"}
                                 </mark>
                             </p>
                         </li>

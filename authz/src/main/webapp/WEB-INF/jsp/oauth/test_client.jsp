@@ -15,7 +15,7 @@
 </head>
 <body>
 <div ng-app>
-    <a href="../">Home</a>
+    <a href="${contextPath}/">Home</a>
 
     <h2>Test [${clientDetailsDto.clientId}]</h2>
 

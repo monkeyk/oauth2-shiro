@@ -43,7 +43,7 @@
             <li class="list-group-item">
                 <div class="pull-right">
                     <c:if test="${not cli.archived}">
-                        <a href="client_details/test_client/${cli.clientId}">test</a>
+                        <a href="${contextPath}/client_details/test_client/${cli.clientId}">test</a>
                     </c:if>
                     <c:if test="${cli.archived}"><strong class="text-muted">Archived</strong></c:if>
                 </div>

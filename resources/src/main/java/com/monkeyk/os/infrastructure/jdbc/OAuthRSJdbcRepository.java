@@ -18,7 +18,7 @@ public class OAuthRSJdbcRepository extends AbstractJdbcRepository implements OAu
 
 
     private static ClientDetailsRowMapper clientDetailsRowMapper = new ClientDetailsRowMapper();
-    private AccessTokenRowMapper accessTokenRowMapper = new AccessTokenRowMapper();
+    private static AccessTokenRowMapper accessTokenRowMapper = new AccessTokenRowMapper();
 
 
     @Override
