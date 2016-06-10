@@ -1,5 +1,6 @@
 package com.monkeyk.os.service;
 
+import com.monkeyk.os.service.dto.ClientDetailsDto;
 import com.monkeyk.os.service.dto.ClientDetailsFormDto;
 import com.monkeyk.os.service.dto.ClientDetailsListDto;
 
@@ -16,4 +17,6 @@ public interface ClientDetailsService {
     ClientDetailsFormDto loadClientDetailsFormDto();
 
     String saveClientDetails(ClientDetailsFormDto formDto);
+
+    ClientDetailsDto loadClientDetailsDto(String clientId);
 }
