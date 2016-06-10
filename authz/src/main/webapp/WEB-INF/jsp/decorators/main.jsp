@@ -20,7 +20,11 @@
 
     <link href="${contextPath}/resources/bootstrap.min.css" rel="stylesheet"/>
     <decorator:head/>
-
+    <style>
+        body {
+            font-family: "Microsoft YaHei", Arial;
+        }
+    </style>
 </head>
 <body>
 <div class="container">

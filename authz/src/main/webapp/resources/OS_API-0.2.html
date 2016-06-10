@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon"/>
+    <link href="bootstrap.min.css" rel="stylesheet"/>
+    <title>oauth2-shiro API</title>
+    <style>
+        body {
+            font-family: "Microsoft YaHei", Arial;
+        }
+    </style>
+</head>
+<body class="container">
+<h2 class="page-header">oauth2-shiro
+    <small><span class="badge">0.2</span></small>
+</h2>
+
+<div class="alert alert-info">
+    <strong>说明</strong>: 本文档用于描述oauth2-shiro对外开发的接口(API)使用,分为 authz 与 resources 两个部分, 所有标记
+    <small class="badge">public</small>
+    的API都是公开的, 其他的API则需要获取
+    <mark>access_token</mark>
+    后可调用
+</div>
+
+<div class="row">
+    <div class="col-md-3">
+        <ul class="list-group">
+            <li class="list-group-item disabled">[authz]</li>
+            <li class="list-group-item"><a href="#getAccessTokenPassword">获取access_token (grant_type=password)</a></li>
+            <li class="list-group-item"><a href="#getTokenAuthCode">获取access_token (grant_type=authorization_code)</a>
+            </li>
+            <li class="list-group-item"><a href="#getTokenCred">获取access_token (grant_type=client_credentials)</a></li>
+            <li class="list-group-item"><a href="#refreshToken">刷新access_token (grant_type=refresh_token)</a></li>
+            <li class="list-group-item disabled">[resources]</li>
+            <li class="list-group-item"><a href="#getSystemTime">获取当前系统时间(resource-id: mobile-resource)</a></li>
+            <li class="list-group-item"><a href="#userInfo">获取当前用户信息 (resource-id: os-resource; Role: User)</a>
+            </li>
+        </ul>
+    </div>
+    <div class="col-md-9">
+
+        <div class="well well-sm" id="getAccessTokenPassword">
+            <p class="pull-right"><a href="">[authz]</a></p>
+
+            <h3>获取access_token (grant_type=password)
+                <small class="badge">public</small>
+            </h3>
+
+            <p class="text-muted">使用grant_type=password方式来获取access_token</p>
+
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <p>
+                        请求URI: <code>/oauth/token</code> <span
+                            class="label label-warning">POST</span>
+                    </p>
+
+                    <div>
+                        请求参数说明:
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>参数名</th>
+                                <th>参数值</th>
+                                <th>必须?</th>
+                                <th>备注</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>client_id</td>
+                                <td>{client_id}</td>
+                                <td>是</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>client_secret</td>
+                                <td>{client_secret}</td>
+                                <td>是</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>grant_type</td>
+                                <td>password</td>
+                                <td>是</td>
+                                <td>固定值</td>
+                            </tr>
+                            <tr>
+                                <td>scope</td>
+                                <td>{scope}</td>
+                                <td>是</td>
+                                <td>read or write</td>
+                            </tr>
+                            <tr>
+                                <td>username</td>
+                                <td>{username}</td>
+                                <td>是</td>
+                                <td>用户名</td>
+                            </tr>
+                            <tr>
+                                <td>password</td>
+                                <td>{password}</td>
+                                <td>是</td>
+                                <td>用户密码</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        请求示例:
+                        <p>
+                            <code>http://localhost:8080/authz/oauth/token?client_id=OMN4XjXmJidyzhUGWVrk&client_secret=wzRBGCblLSD4Zzfb3gl3&grant_type=password&scope=read&username=test&password=test</code>
+                        </p>
+
+                    </div>
+                    <br/>
+
+                    <strong>响应</strong>
+
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <p>
+                                正常 [200]<br/>
+                                <mark>
+                                    {"token_type":"Bearer","expires_in":43199,"refresh_token":"a135278d0382260ab9afaea05e5cbb26","access_token":"81fab07a5c91bcd06f60419fb22ecc9f"}
+                                </mark>
+                            </p>
+                        </li>
+                        <li class="list-group-item">
+                            <p>
+                                异常 [400]<br/>
+                                <mark>
+                                    {"error":"invalid_grant","error_description":"Bad credentials"}
+                                </mark>
+                            </p>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <div class="well well-sm" id="getTokenAuthCode">
+            <p class="pull-right"><a href="">[authz]</a></p>
+
+            <h3>获取access_token (grant_type=authorization_code)
+                <small class="badge">public</small>
+            </h3>
+
+            <p class="text-muted">使用grant_type=authorization_code 方式来获取access_token, 需要先获取code</p>
+
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <p>
+                        请求URI: <code>/oauth/token</code> <span
+                            class="label label-warning">POST</span>
+                    </p>
+
+                    <div>
+                        请求参数说明:
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>参数名</th>
+                                <th>参数值</th>
+                                <th>必须?</th>
+                                <th>备注</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>client_id</td>
+                                <td>{client_id}</td>
+                                <td>是</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>client_secret</td>
+                                <td>{client_secret}</td>
+                                <td>是</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>grant_type</td>
+                                <td>authorization_code</td>
+                                <td>是</td>
+                                <td>固定值</td>
+                            </tr>
+                            <tr>
+                                <td>code</td>
+                                <td>{code}</td>
+                                <td>是</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>redirect_uri</td>
+                                <td>{redirect_uri}</td>
+                                <td>是</td>
+                                <td></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        请求示例:
+                        <p>
+                            <code>http://localhost:8080/authz/oauth/token?client_id=OMN4XjXmJidyzhUGWVrk&client_secret=wzRBGCblLSD4Zzfb3gl3&grant_type=authorization_code&code=26964a1255766630a&redirect_uri=http://localhost:8080/authz/</code>
+                        </p>
+
+                    </div>
+                    <br/>
+
+                    <strong>响应</strong>
+
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <p>
+                                正常 [200]<br/>
+                                <mark>
+                                    {"token_type":"Bearer","expires_in":43199,"refresh_token":"8e91a56f53857688a3ffd8c7cfd311cf","access_token":"8bdaab126137049bd209631a23024f12"}
+                                </mark>
+                            </p>
+                        </li>
+                        <li class="list-group-item">
+                            <p>
+                                异常 [400]<br/>
+                                <mark>
+                                    {"error":"invalid_grant","error_description":"Invalid code
+                                    '26964e42c667b5d42f89a1255766630a'"}
+                                </mark>
+                            </p>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <div class="well well-sm" id="getTokenCred">
+            <p class="pull-right"><a href="">[authz]</a></p>
+
+            <h3>获取access_token (grant_type=client_credentials)
+                <small class="badge">public</small>
+            </h3>
+
+            <p class="text-muted">使用grant_type=client_credentials 方式来获取access_token, 不需要username, password, 不支持
+                refresh_token</p>
+
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <p>
+                        请求URI: <code>/oauth/token</code> <span
+                            class="label label-warning">POST</span>
+                    </p>
+
+                    <div>
+                        请求参数说明:
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>参数名</th>
+                                <th>参数值</th>
+                                <th>必须?</th>
+                                <th>备注</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>client_id</td>
+                                <td>{client_id}</td>
+                                <td>是</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>client_secret</td>
+                                <td>{client_secret}</td>
+                                <td>是</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>grant_type</td>
+                                <td>client_credentials</td>
+                                <td>是</td>
+                                <td>固定值</td>
+                            </tr>
+                            <tr>
+                                <td>scope</td>
+                                <td>{scope}</td>
+                                <td>是</td>
+                                <td>read or write</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        请求示例:
+                        <p>
+                            <code>http://localhost:8080/authz/oauth/token?client_id=OMN4XjXmJidyzhUGWVrk&client_secret=wzRBGCblLSD4Zzfb3gl3&grant_type=client_credentials&scope=read</code>
+                        </p>
+
+                    </div>
+                    <br/>
+
+                    <strong>响应</strong>
+
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <p>
+                                正常 [200]<br/>
+                                <mark>
+                                    {"token_type":"Bearer","expires_in":19476,"access_token":"ee7c7d1bf0cea77a883a082cb7085b64"}
+                                </mark>
+                            </p>
+                        </li>
+                        <li class="list-group-item">
+                            <p>
+                                异常 [401]<br/>
+                                <mark>
+                                    {"error":"invalid_client","error_description":"Invalid client_id
+                                    'OMN4XjXmJidyzhUGWVrdk'"}
+                                </mark>
+                            </p>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <div class="well well-sm" id="refreshToken">
+            <p class="pull-right"><a href="">[authz]</a></p>
+
+            <h3>刷新access_token (grant_type=refresh_token)
+                <small class="badge">public</small>
+            </h3>
+
+            <p class="text-muted">用于在access_token要过期时换取新的access_token (grant_type需要有refresh_token)</p>
+
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <p>
+                        请求URI: <code>/oauth/token</code> <span
+                            class="label label-warning">POST</span>
+                    </p>
+
+                    <div>
+                        请求参数说明:
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>参数名</th>
+                                <th>参数值</th>
+                                <th>必须?</th>
+                                <th>备注</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>client_id</td>
+                                <td>{client_id}</td>
+                                <td>是</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>client_secret</td>
+                                <td>{client_secret}</td>
+                                <td>是</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>grant_type</td>
+                                <td>refresh_token</td>
+                                <td>是</td>
+                                <td>固定值</td>
+                            </tr>
+                            <tr>
+                                <td>refresh_token</td>
+                                <td>{refresh_token}</td>
+                                <td>是</td>
+                                <td></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        请求示例:
+                        <p>
+                            <code>http://localhost:8080/authz/oauth/token?client_id=OMN4XjXmJidyzhUGWVrk&client_secret=wzRBGCblLSD4Zzfb3gl3&grant_type=refresh_token&refresh_token=8e91a56f53857688a3ffd8c7cfd311cf</code>
+                        </p>
+
+                    </div>
+                    <br/>
+
+                    <strong>响应</strong>
+
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <p>
+                                正常 [200]<br/>
+                                <mark>
+                                    {"token_type":"Bearer","expires_in":43199,"refresh_token":"a407f77b8269493433e0756aedabad66","access_token":"a9beb6b987b3365f9c2efc46e19b1f1a"}
+                                </mark>
+                            </p>
+                        </li>
+                        <li class="list-group-item">
+                            <p>
+                                异常 [400]<br/>
+                                <mark>
+                                    {"error":"invalid_grant","error_description":"Invalid refresh_token:
+                                    8e91a56f53857688a3ffd8c7cfd311cfss"}
+                                </mark>
+                            </p>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <hr/>
+
+        <div class="well well-sm" id="getSystemTime">
+            <p class="pull-right"><a href="">[resources]</a></p>
+
+            <h3>获取当前系统时间(resource-id: mobile-resource)</h3>
+
+            <p class="text-muted">获取当前系统时间, 需要access_token的 resource-id 为 mobile-resource 才能访问</p>
+
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <p>
+                        请求URI: <code>/mobile/system_time</code> <span
+                            class="label label-info">GET</span>
+                    </p>
+
+                    <div>
+                        请求参数说明:
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>参数名</th>
+                                <th>参数值</th>
+                                <th>必须?</th>
+                                <th>备注</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td colspan="4">无</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        请求示例:
+                        <p>
+                            <code>http://localhost:8080/rs/mobile/system_time?access_token=95c3afd44c5d87301dc3034b20b3fc75</code>
+                        </p>
+
+                    </div>
+                    <br/>
+
+                    <strong>响应</strong>
+
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <p>
+                                正常 [200]<br/>
+                                <mark>
+                                    {"time":1465560577614}
+                                </mark>
+                            </p>
+                        </li>
+                        <li class="list-group-item">
+                            <p>
+                                异常 [401]<br/>
+                                <mark>
+                                    {"error":"invalid_token","error_description":"Invalid access_token:
+                                    95c3afd44c5d87301dc3034b20b3fc75s"}
+                                </mark>
+                            </p>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <div class="well well-sm" id="userInfo">
+            <p class="pull-right"><a href="">[resources]</a></p>
+
+            <h3>获取当前用户信息 (resource-id: os-resource; Role: User)</h3>
+
+            <p class="text-muted">使用access_token获取用户信息, 需要access_token的 resource-id 为 os-resource 且用户Role包含 User
+                才能访问</p>
+
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <p>
+                        请求URI: <code>/rs/username</code> <span
+                            class="label label-info">GET</span>
+                    </p>
+
+                    <div>
+                        请求参数说明:
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>参数名</th>
+                                <th>参数值</th>
+                                <th>必须?</th>
+                                <th>备注</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td colspan="4">无</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        请求示例:
+                        <p>
+                            <code>http://localhost:8080/rs/rs/username?access_token=95c3afd44c5d87301dc3034b20b3fc75</code>
+                        </p>
+
+                    </div>
+                    <br/>
+
+                    <strong>响应</strong>
+
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <p>
+                                正常 [200]<br/>
+                                <mark>
+                                    {"clientId":"WQlJ2ZZBV8iJGKnkqfdbgvfVgY3Cp17AEbMijnID","username":"xiaowang"}
+                                </mark>
+                            </p>
+                        </li>
+                        <li class="list-group-item">
+                            <p>
+                                异常 [401]<br/>
+                                <mark>
+                                    {"error":"invalid_token","error_description":"Invalid client by token:
+                                    95c3afd44c5d87301dc3034b20b3fc75"}
+                                </mark>
+                            </p>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-12">
+        <hr/>
+        <div class="text-center">
+            &copy; <a href="http://git.oschina.net/mkk/oauth2-shiro" target="_blank">oauth2-shiro</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

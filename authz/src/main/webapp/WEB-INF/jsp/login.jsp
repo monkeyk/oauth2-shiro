@@ -117,6 +117,12 @@
         </li>
         <li>
             <p>
+                <a href="${pageContext.request.contextPath}/resources/OS_API-0.2.html" target="_blank">API</a>
+                -- oauth2-shiro提供的API文档
+            </p>
+        </li>
+        <li>
+            <p>
                 <a href="${pageContext.request.contextPath}/resources/oauth_test.html">oauth_test.html</a> --
                 一个用于测试各类<code>grant_type</code>的HTML页面
             </p>
