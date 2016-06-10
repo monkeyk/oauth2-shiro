@@ -15,7 +15,7 @@
     </style>
 </head>
 <body>
-<a href="./">Home</a>
+<a href="${contextPath}/">Home</a>
 
 <h2>Client Details</h2>
 
