@@ -111,12 +111,12 @@
             </p>
             <ol>
                 <li><p><del>(66) - 更新首页UI, 参照spring-oauth-server</del></p></li>
-                <li><p>(67) - client details overview</p></li>
-                <li><p>(68) - client details testing</p></li>
+                <li><p><del>(67) - client details overview</del></p></li>
+                <li><p><del>(68) - client details testing</del></p></li>
                 <li><p><del>(69) - user add/edit, overview</del></p></li>
-                <li><p>(70) - 添加API使用说明, 举例各个场景 </p></li>
+                <li><p><del>(70) - 添加API使用说明, 举例各个场景 </del></p></li>
                 <li><p>(71) - 发布到测试服务器 </p></li>
-                <li><p>(72) - resources模块更新UI说明 </p></li>
+                <li><p><del>(72) - resources模块更新UI说明 </del></p></li>
             </ol>
             <br/>
        </li>
