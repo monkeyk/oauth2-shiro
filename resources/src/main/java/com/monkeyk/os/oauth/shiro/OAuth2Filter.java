@@ -40,7 +40,7 @@ public class OAuth2Filter extends AuthenticatingFilter implements InitializingBe
 
         HttpServletRequest httpRequest = (HttpServletRequest) request;
 
-        final String accessToken = httpRequest.getParameter(OAuth.OAUTH_ACCESS_TOKEN);
+        final String accessToken = getAccessToken(httpRequest);
         final AccessToken token = rsService.loadAccessTokenByTokenId(accessToken);
 
         String username = null;
@@ -54,6 +54,15 @@ public class OAuth2Filter extends AuthenticatingFilter implements InitializingBe
 
         return new OAuth2Token(accessToken, resourceId)
                 .setUserId(username);
+    }
+
+    private String getAccessToken(HttpServletRequest httpRequest) {
+        final String authorization = httpRequest.getHeader("Authorization");
+        if (authorization != null) {
+            //bearer ab1ade69-d122-4844-ab23-7b109ad977f0
+            return authorization.substring(6).trim();
+        }
+        return httpRequest.getParameter(OAuth.OAUTH_ACCESS_TOKEN);
     }
 
 
