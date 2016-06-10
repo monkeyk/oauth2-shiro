@@ -105,7 +105,7 @@
 <ul>
        <li>
             <p>
-                Version: <strong>0.2</strong> [planning]
+                Version: <strong>0.2</strong> [pending]
                 <br/>
                 Date: 2016-05-26 / ------
             </p>
