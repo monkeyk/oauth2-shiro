@@ -15,7 +15,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <link rel="shortcut icon" href="${contextPath}/favicon.ico"/>
 
-    <title>Index . Oauth2-Shiro[resources]</title>
+    <title>Oauth2-Shiro[resources]</title>
 
     <link href="${contextPath}/static/bootstrap.min.css" rel="stylesheet"/>
     <style>
