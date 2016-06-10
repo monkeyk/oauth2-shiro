@@ -58,7 +58,7 @@ public class ClientDetailsController {
     /*
     * Test client
     * */
-    @RequestMapping("test_client/{clientId}")
+    @RequestMapping("client_details/test_client/{clientId}")
     public String testClient(@PathVariable("clientId") String clientId, Model model) {
         ClientDetailsDto clientDetailsDto = clientDetailsService.loadClientDetailsDto(clientId);
         model.addAttribute("clientDetailsDto", clientDetailsDto);

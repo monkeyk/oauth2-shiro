@@ -33,14 +33,14 @@
                     <ol>
                         <li>
                             <p>
-                                <code>从 spring-oauth-server获取 'code'</code>
+                                <code>从 oauth-shiro 获取 'code'</code>
                                 <br/>
                                 redirect_uri: <input type="text" value="" ng-model="redirectUri" size="70"
                                                      required="required"/>
                                 <br/>
-                                <a href="${contextPath}/oauth/authorize?client_id={{clientId}}&redirect_uri={{redirectUri}}&response_type=code&scope={{scope}}"
+                                <a href="${contextPath}/oauth/authorize?client_id={{clientId}}&redirect_uri={{redirectUri}}&response_type=code&scope={{scope}}&state=123456"
                                    target="_blank">
-                                    /oauth/authorize?client_id={{clientId}}&redirect_uri={{redirectUri}}&response_type=code&scope={{scope}}</a>
+                                    /oauth/authorize?client_id={{clientId}}&redirect_uri={{redirectUri}}&response_type=code&scope={{scope}}&state=123456</a>
                                 <span class="label label-info">GET</span>
                             </p>
                         </li>
@@ -112,8 +112,6 @@
 
                     <form action="${contextPath}/oauth/token?client_id={{clientId}}&client_secret={{clientSecret}}&grant_type=client_credentials&scope={{scope}}"
                           method="post" target="_blank">
-                            <%--<a href="${contextPath}/oauth/token?client_id={{clientId}}&client_secret={{clientSecret}}&grant_type=client_credentials&scope={{scope}}"--%>
-                            <%--target="_blank">/oauth/token?client_id={{clientId}}&client_secret={{clientSecret}}&grant_type=client_credentials&scope={{scope}}</a>--%>
                         <button class="btn btn-link" type="submit">
                             /oauth/token?client_id={{clientId}}&client_secret={{clientSecret}}&grant_type=client_credentials&scope={{scope}}
                         </button>
