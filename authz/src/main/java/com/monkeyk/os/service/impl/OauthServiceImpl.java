@@ -123,8 +123,9 @@ public class OauthServiceImpl implements OauthService {
 
     //Always return new AccessToken
     @Override
-    public AccessToken retrieveNewAccessToken(ClientDetails clientDetails) throws OAuthSystemException {
-        final String username = currentUsername();
+    public AccessToken retrieveAuthorizationCodeAccessToken(ClientDetails clientDetails, String code) throws OAuthSystemException {
+        final OauthCode oauthCode = loadOauthCode(code, clientDetails);
+        final String username = oauthCode.username();
         final String clientId = clientDetails.getClientId();
 
         final String authenticationId = authenticationIdGenerator.generate(clientId, username, null);

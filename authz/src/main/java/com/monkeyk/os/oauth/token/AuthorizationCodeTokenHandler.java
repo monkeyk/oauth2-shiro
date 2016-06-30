@@ -61,7 +61,7 @@ public class AuthorizationCodeTokenHandler extends AbstractOAuthTokenHandler {
     }
 
     private void responseToken() throws OAuthSystemException {
-        AccessToken accessToken = oauthService.retrieveNewAccessToken(clientDetails());
+        AccessToken accessToken = oauthService.retrieveAuthorizationCodeAccessToken(clientDetails(), tokenRequest.getCode());
         final OAuthResponse tokenResponse = createTokenResponse(accessToken, false);
 
         LOG.debug("'authorization_code' response: {}", tokenResponse);
