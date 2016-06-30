@@ -70,10 +70,6 @@ public class OauthServiceImpl implements OauthService {
         return oauthCode.code();
     }
 
-    @Override
-    public AccessToken retrieveAccessToken(ClientDetails clientDetails, Set<String> scopes) throws OAuthSystemException {
-        return retrieveAccessToken(clientDetails, scopes, clientDetails.supportRefreshToken());
-    }
 
     @Override
     public AccessToken retrieveAccessToken(ClientDetails clientDetails, Set<String> scopes, boolean includeRefreshToken) throws OAuthSystemException {

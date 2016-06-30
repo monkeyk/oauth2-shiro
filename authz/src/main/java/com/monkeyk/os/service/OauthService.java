@@ -31,8 +31,6 @@ public interface OauthService {
 
     String retrieveAuthCode(ClientDetails clientDetails) throws OAuthSystemException;
 
-    AccessToken retrieveAccessToken(ClientDetails clientDetails, Set<String> scopes) throws OAuthSystemException;
-
     AccessToken retrieveAccessToken(ClientDetails clientDetails, Set<String> scopes, boolean includeRefreshToken) throws OAuthSystemException;
 
     //Always return new AccessToken, exclude refreshToken
