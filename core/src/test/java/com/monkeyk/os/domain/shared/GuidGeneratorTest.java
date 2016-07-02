@@ -13,7 +13,7 @@ public class GuidGeneratorTest {
     public void testGenerateClientId() throws Exception {
         final String clientId = GuidGenerator.generateClientId();
         assertNotNull(clientId);
-        assertTrue(clientId.length() == 30);
+        assertTrue(clientId.length() == 20);
         System.out.println(clientId);
     }
 
@@ -21,7 +21,7 @@ public class GuidGeneratorTest {
     public void testGenerateClientSecret() throws Exception {
         final String clientSecret = GuidGenerator.generateClientSecret();
         assertNotNull(clientSecret);
-        assertTrue(clientSecret.length() == 32);
+        assertTrue(clientSecret.length() == 20);
         System.out.println(clientSecret);
 
         for (int i = 0; i < 5; i++) {

@@ -35,7 +35,7 @@ import static org.testng.Assert.assertTrue;
 public class ShiroTest {
 
 
-    @Test
+    @Test(enabled = false)
     public void login() {
         String username = "abc";
         //init SecurityManager
