@@ -48,6 +48,16 @@
     </ul>
 </div>
 
+
+<div>
+    <h3>在线测试</h3>
+    <ul>
+        <li><p><code>authz</code> <a href="https://andaily.com/authz/">https://andaily.com/authz/</a></p></li>
+        <li><p><code>resources</code> <a href="https://andaily.com/rs/">https://andaily.com/rs/</a></p></li>
+    </ul>
+</div>
+
+
 <div>
     <h3>如何使用</h3>
 <ol>
@@ -134,6 +144,7 @@
         <li><p><em>2015-09-26</em>     版本0.1 开发完毕, 发布 <strong>0.1-beta</strong> 版本</p></li>
         <li><p><em>2015-10-07</em>     重构项目结构, 发布 <strong>0.1-rc</strong> 版本</p></li>
         <li><p><em>2016-05-26</em>     开始开发 <strong>0.2</strong> 版本</p></li>
+        <li><p><em>2016-07-02</em>     添加在线测试环境</p></li>
     </ol>
 </p>
 
