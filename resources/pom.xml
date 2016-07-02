@@ -54,6 +54,7 @@
                     <warSourceExcludes>*/classes/resources.properties</warSourceExcludes>
                     <packagingExcludes>*/classes/resources.properties</packagingExcludes>
                     <archive>
+                        <addMavenDescriptor>false</addMavenDescriptor>
                         <manifestEntries>
                             <Implementation-BuildNumber>${project.version}</Implementation-BuildNumber>
                             <Specification-Vendor>monkeyk.com</Specification-Vendor>

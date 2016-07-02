@@ -55,6 +55,7 @@
                     <warSourceExcludes>*/classes/authz.properties</warSourceExcludes>
                     <packagingExcludes>*/classes/authz.properties</packagingExcludes>
                     <archive>
+                        <addMavenDescriptor>false</addMavenDescriptor>
                         <manifestEntries>
                             <Implementation-BuildNumber>${project.version}</Implementation-BuildNumber>
                             <Specification-Vendor>monkeyk.com</Specification-Vendor>
