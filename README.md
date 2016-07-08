@@ -57,6 +57,14 @@
     </ul>
 </div>
 
+<div>
+    <h3>Redis版本</h3>
+    <ul>
+        <li><p><code>Redis + MySQL</code> <a href="http://git.oschina.net/mkk/oauth2-shiro-redis">http://git.oschina.net/mkk/oauth2-shiro-redis</a></p></li>
+        <li><p><code>Redis</code> <a href="http://git.oschina.net/mkk/oauth2-shiro-redis/tree/redis/">http://git.oschina.net/mkk/oauth2-shiro-redis/tree/redis/</a></p></li>
+    </ul>
+</div>
+
 
 <div>
     <h3>如何使用</h3>
