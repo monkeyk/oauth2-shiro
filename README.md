@@ -123,9 +123,21 @@
 <ul>
        <li>
             <p>
-                Version: <strong>0.2</strong> [pending]
+                Version: <strong>0.3</strong> [planning]
                 <br/>
-                Date: 2016-05-26 / ------
+                Date: 2016-07-16 / ------
+            </p>
+            <ol>
+                <li><p>(152) - oltu版本升级到1.0.2 并完成测试.</p></li>
+                <li><p>(153) - 尝试添加并实现OIDC在 oauth2-shiro中</p></li>
+            </ol>
+            <br/>
+       </li>
+       <li>
+            <p>
+                Version: <strong>0.2</strong> [finished]
+                <br/>
+                Date: 2016-05-26 / 2016-07-03
             </p>
             <ol>
                 <li><p><del>(66) - 更新首页UI, 参照spring-oauth-server</del></p></li>
@@ -133,7 +145,7 @@
                 <li><p><del>(68) - client details testing</del></p></li>
                 <li><p><del>(69) - user add/edit, overview</del></p></li>
                 <li><p><del>(70) - 添加API使用说明, 举例各个场景 </del></p></li>
-                <li><p>(71) - 发布到测试服务器 </p></li>
+                <li><p><del>(71) - 发布到测试服务器 </del></p></li>
                 <li><p><del>(72) - resources模块更新UI说明 </del></p></li>
             </ol>
             <br/>
