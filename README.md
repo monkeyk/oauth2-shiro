@@ -169,6 +169,7 @@
         <li><p><em>2015-10-07</em>     重构项目结构, 发布 <strong>0.1-rc</strong> 版本</p></li>
         <li><p><em>2016-05-26</em>     开始开发 <strong>0.2</strong> 版本</p></li>
         <li><p><em>2016-07-02</em>     添加在线测试环境</p></li>
+        <li><p><em>2016-08-17</em>     发布 <strong>0.2</strong> 版本</p></li>
     </ol>
 </p>
 
