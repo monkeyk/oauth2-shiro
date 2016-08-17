@@ -5,7 +5,7 @@ import com.monkeyk.os.domain.oauth.OauthRepository;
 import com.monkeyk.os.domain.users.Roles;
 import com.monkeyk.os.domain.users.UsersAuthzRepository;
 import com.monkeyk.os.service.ClientDetailsService;
-import com.monkeyk.os.service.busincess.ClientDetailsFormSaver;
+import com.monkeyk.os.service.business.ClientDetailsFormSaver;
 import com.monkeyk.os.service.dto.ClientDetailsDto;
 import com.monkeyk.os.service.dto.ClientDetailsFormDto;
 import com.monkeyk.os.service.dto.ClientDetailsListDto;

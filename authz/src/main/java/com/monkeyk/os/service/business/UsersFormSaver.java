@@ -1,4 +1,4 @@
-package com.monkeyk.os.service.busincess;
+package com.monkeyk.os.service.business;
 
 import com.monkeyk.os.domain.shared.BeanProvider;
 import com.monkeyk.os.domain.users.Roles;
