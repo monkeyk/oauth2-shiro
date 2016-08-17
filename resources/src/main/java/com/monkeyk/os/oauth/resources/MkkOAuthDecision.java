@@ -23,7 +23,6 @@ public class MkkOAuthDecision implements OAuthDecision {
     public MkkOAuthDecision() {
     }
 
-    @Override
     public boolean isAuthorized() {
         return authorized;
     }
