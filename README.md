@@ -22,7 +22,7 @@
     <h3>主要技术及版本</h3>
     Spring -- 3.2.2.RELEASE
     <br/>
-    oltu  -- 1.0.0
+    oltu  -- 1.0.2
     <br/>
     shiro -- 1.2.3
     <br/>
