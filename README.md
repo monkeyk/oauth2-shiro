@@ -127,12 +127,12 @@
 <ul>
        <li>
             <p>
-                Version: <strong>0.3</strong> [planning]
+                Version: <strong>0.3</strong> [pending]
                 <br/>
                 Date: 2016-07-16 / ------
             </p>
             <ol>
-                <li><p>(152) - oltu版本升级到1.0.2 并完成测试.</p></li>
+                <li><p><del>(152) - oltu版本升级到1.0.2 并完成测试.</del></p></li>
                 <li><p>(153) - 尝试添加并实现OIDC在 oauth2-shiro中</p></li>
             </ol>
             <br/>
