@@ -76,20 +76,24 @@
     <a href="http://git.oschina.net/mkk/oauth2-shiro/repository/archive?ref=master">下载</a>(或clone)项目到本地
 </li>
 <li>
+    项目由三个模块(core,authz,resources)组成, core是一个Java项目(jar), authz与resources是Java Web项目(.war)
+</li>
+<li>
     创建MySQL数据库(如数据库名 oauth2_shiro), 并运行相应的SQL脚本(脚本文件位于others/database目录),
     <br/>
     运行脚本的顺序: oauth2-shiro.ddl -> initial-db.ddl
 </li>
 <li>
-    修改<a href="#">oauth2-shiro.properties</a>(位于src/main/resources目录)中的数据库连接信息(包括username, password等)
+    依次修改authz模块的配置文件authz.properties(位于模块的src/main/resources目录)与resources模块的配置文件resources.properties(位于模块的src/main/resources目录);
+    修改配置文件中的数据库连接信息(包括username, password等), 都连接到数据库oauth2_shiro
 </li>
 <li>
 将本地项目导入到IDE(如Intellij IDEA)中,配置Tomcat(或类似的servlet运行服务器), 并启动Tomcat(默认端口为8080);
 <br/>
 注意将项目的 contextPath(根路径) 设置为 'os'.
 <br/>
-   另: 也可通过maven package命令将项目编译为war文件(os.war),
-         将war放在Tomcat中并启动(注意: 这种方式需要将 oauth2-shiro.properties 加入到classpath中并正确配置数据库连接信息).
+   另: 也可通过maven package命令将项目编译为war文件(os.war), 注意编译时每个模块的pom.xml文件中配置的数据库连接信息, 可在Maven命令中添加 -Dmaven.test.skip=true 忽略测试;
+         将authz模块与resources模块生成的war放在Tomcat中并启动(注意: 这种方式需要将 authz.properties与resources.properties 加入到classpath中并正确配置数据库连接信息).
 </li>
 <li>
     参考<a href="http://git.oschina.net/mkk/oauth2-shiro/blob/master/others/oauth_test.txt">oauth_test.txt</a>(位于others目录)的内容并测试之(也可在浏览器中访问相应的地址,如: http://localhost:8080/os/).
