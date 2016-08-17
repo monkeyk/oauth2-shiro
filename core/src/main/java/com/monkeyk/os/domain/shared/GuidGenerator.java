@@ -2,8 +2,6 @@ package com.monkeyk.os.domain.shared;
 
 import org.apache.commons.lang.RandomStringUtils;
 
-import java.util.UUID;
-
 /**
  * @author Shengzhao Li
  */
@@ -14,7 +12,7 @@ public abstract class GuidGenerator {
     }
 
     public static String generate() {
-        return UUID.randomUUID().toString().replaceAll("-", "");
+        return RandomStringUtils.random(32, true, true);
     }
 
 
