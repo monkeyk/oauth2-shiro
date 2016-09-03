@@ -23,7 +23,7 @@
     </properties>
 
     <build>
-        <finalName>os-core</finalName>
+        <!--<finalName>os-core</finalName>-->
 
         <plugins>
             <plugin>
