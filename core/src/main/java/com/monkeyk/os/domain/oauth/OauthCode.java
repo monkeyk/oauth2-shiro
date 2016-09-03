@@ -4,6 +4,8 @@ import com.monkeyk.os.domain.AbstractDomain;
 
 /**
  * 15-6-17
+ * <p/>
+ * 用于在  grant_type = authorization_code 流程中记录生成的 code信息
  *
  * @author Shengzhao Li
  */

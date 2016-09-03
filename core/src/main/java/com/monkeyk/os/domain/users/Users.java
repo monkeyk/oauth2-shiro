@@ -10,6 +10,8 @@ import java.util.List;
  * 2016/6/3
  * <p/>
  * Table: users
+ * <p/>
+ * 用户(账号)信息
  *
  * @author Shengzhao Li
  */

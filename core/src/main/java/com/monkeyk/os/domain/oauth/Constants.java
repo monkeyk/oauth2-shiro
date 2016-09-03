@@ -2,6 +2,8 @@ package com.monkeyk.os.domain.oauth;
 
 /**
  * 2015/6/25
+ * <p/>
+ * 定义常量
  *
  * @author Shengzhao Li
  */

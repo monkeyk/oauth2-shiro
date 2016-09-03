@@ -6,6 +6,9 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
+ * 使用DDD(领域驱动设计)模式中, 定义抽象的Domain,
+ * 包括公共的基础属性
+ *
  * @author Shengzhao Li
  */
 public abstract class AbstractDomain implements Serializable {
@@ -17,6 +20,9 @@ public abstract class AbstractDomain implements Serializable {
      */
     protected Date createTime = DateUtils.now();
 
+    /**
+     * Domain的业务id
+     */
     protected String guid;
 
     public AbstractDomain() {

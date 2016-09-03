@@ -5,19 +5,27 @@ import com.monkeyk.os.infrastructure.DateUtils;
 
 /**
  * 15-6-20
+ * <p/>
+ * 定义 access_token 的信息
  *
  * @author Shengzhao Li
  */
 public class AccessToken extends AbstractDomain {
+    private static final long serialVersionUID = 7336709167855003668L;
 
 
     public static final String BEARER_TYPE = "Bearer";
 
-    // default 30 days.
+
+    /**
+     * 默认的 refresh_token 的有效时长: 30天
+     */
     public final static int REFRESH_TOKEN_VALIDITY_SECONDS = 60 * 60 * 24 * 30;
-    // default 12 hours.
+
+    /**
+     * 默认的 access_token 的有效时长: 12小时
+     */
     public final static int ACCESS_TOKEN_VALIDITY_SECONDS = 60 * 60 * 12;
-    private static final long serialVersionUID = 7336709167855003668L;
 
 
     protected static long THOUSAND = 1000L;

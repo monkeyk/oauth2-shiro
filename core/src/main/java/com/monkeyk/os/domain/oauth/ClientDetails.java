@@ -62,7 +62,7 @@ public class ClientDetails extends BasicClientInfo {
     private boolean archived = false;
 
     /**
-     * 创建日间
+     * 创建时间
      */
     private Date createTime = DateUtils.now();
 
