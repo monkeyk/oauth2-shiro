@@ -14,6 +14,8 @@ import java.util.List;
 
 /**
  * 15-6-13
+ * <p/>
+ * OAUTH 的JDBC 操作实现
  *
  * @author Shengzhao Li
  */

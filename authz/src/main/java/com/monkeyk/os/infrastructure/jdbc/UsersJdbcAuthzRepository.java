@@ -14,6 +14,8 @@ import java.util.List;
 
 /**
  * 2016/6/3
+ * <p/>
+ * 账号(Users) 相关的 JDBC操作实现
  *
  * @author Shengzhao Li
  */

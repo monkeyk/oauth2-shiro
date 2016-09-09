@@ -14,6 +14,9 @@ import java.util.Map;
 
 /**
  * 15-6-20
+ * <p/>
+ * AuthenticationId 的生成器
+ * MD5加密
  *
  * @author Shengzhao Li
  */

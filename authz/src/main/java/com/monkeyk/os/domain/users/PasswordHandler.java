@@ -8,6 +8,9 @@ import java.security.NoSuchAlgorithmException;
 
 /**
  * 2016/3/25
+ * <p/>
+ * 账号密码的加密 处理类
+ * 使用MD5
  *
  * @author Shengzhao Li
  */
