@@ -2,6 +2,9 @@
 
 <decorators defaultdir="/WEB-INF/jsp/decorators">
 
+    <!--
+        装饰器配置
+    -->
     <!--main decorator-->
     <decorator name="main" page="main.jsp">
         <pattern>/*</pattern>

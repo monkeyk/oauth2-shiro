@@ -5,15 +5,22 @@
 			http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
     <!--
-        Just a standard SHIRO security configuration
-        NOTE:   /oauth/** = anon
+        这是一个标准的 SHIRO 安全配置
+        注意OAuth的URL配置:   /oauth/** = anon
     -->
 
+    <!--
+        使用MD5 进行密码的加密
+    -->
     <bean id="credentialsMatcher" class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
         <property name="hashAlgorithmName" value="MD5"/>
         <!--<property name="storedCredentialsHexEncoded" value="false"/>-->
     </bean>
 
+    <!--
+        扩展的 SHIRO Realm
+        使用JDBC实现, 并添加 逻辑删除 (archived = 0) 的处理
+    -->
     <bean class="com.monkeyk.os.infrastructure.shiro.MkkJdbcRealm" id="jdbcRealm">
         <property name="name" value="jdbcRealm"/>
         <property name="dataSource" ref="dataSource"/>
@@ -21,14 +28,23 @@
         <property name="permissionsLookupEnabled" value="true"/>
     </bean>
 
+    <!--
+        使用基于内存的缓存 SHIRO 相关数据
+    -->
     <bean class="org.apache.shiro.cache.MemoryConstrainedCacheManager" id="shiroCacheManager"/>
 
+
+    <!--
+        SHIRO SecurityManager 配置
+    -->
     <bean class="org.apache.shiro.web.mgt.DefaultWebSecurityManager" id="securityManager">
         <property name="realm" ref="jdbcRealm"/>
         <property name="cacheManager" ref="shiroCacheManager"/>
     </bean>
 
-
+    <!--
+        SHIRO安全机制拦截器 Filter实现, 注意id必须与 web.xml 中的 shiroFilter 一致
+    -->
     <bean class="org.apache.shiro.spring.web.ShiroFilterFactoryBean" id="shiroFilter">
         <property name="securityManager" ref="securityManager"/>
         <property name="loginUrl" value="/login"/>

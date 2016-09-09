@@ -7,7 +7,12 @@
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
 
-    <!--annotation configuration -->
+    <!--
+        Spring MVC配置
+    -->
+    <!--
+        启用MVC 注解
+    -->
     <context:annotation-config/>
     <context:component-scan base-package="com.monkeyk.os.web"/>
 
@@ -15,11 +20,15 @@
     <mvc:default-servlet-handler/>
 
 
-    <!--static resource-->
+    <!--
+        静态资源直接映射到 目录地址
+    -->
     <mvc:resources mapping="/resources/**" location="/resources/"/>
     <mvc:resources mapping="/favicon.ico" location="/favicon.ico"/>
 
-
+    <!--
+        MVC View Resolver (视图)
+    -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
         <property name="prefix" value="/WEB-INF/jsp/"/>
@@ -33,7 +42,9 @@
     <!--</bean>-->
 
 
-    <!--Handle exception-->
+    <!--
+        异常处理配置
+    -->
     <bean class="com.monkeyk.os.web.context.OAuthShiroHandlerExceptionResolver" id="handlerExceptionResolver"/>
 
     <!--
