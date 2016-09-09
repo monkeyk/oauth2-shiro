@@ -6,14 +6,22 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
 			http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 		  http://www.springframework.org/schema/tx
-		  http://www.springframework.org/schema/tx/spring-tx-3.0.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+		  http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+		  http://www.springframework.org/schema/context
+		  http://www.springframework.org/schema/context/spring-context-3.1.xsd
+		  http://www.springframework.org/schema/aop
+		  http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
 
 
-    <!--annotation configuration -->
+    <!--
+        启用 Spring 注解, 扫描指定的包
+     -->
     <context:annotation-config/>
     <context:component-scan base-package="com.monkeyk.os"/>
 
-    <!-- property configuration -->
+    <!--
+        加载配置文件 authz.properties
+    -->
     <bean id="properties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
         <property name="locations">
             <list>
@@ -25,7 +33,9 @@
         <property name="properties" ref="properties"/>
     </bean>
 
-    <!--dataSource-->
+    <!--
+        数据源 配置
+    -->
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="${jdbc.driverClassName}"/>
         <property name="url" value="${jdbc.url}"/>
@@ -38,11 +48,18 @@
     </bean>
 
 
+    <!--
+        事务配置
+    -->
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource"/>
     </bean>
 
+    <!--
+        启用事务的 相关注解 @Transactional
+    -->
     <tx:annotation-driven transaction-manager="transactionManager"/>
+
 
     <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
         <property name="dataSource" ref="dataSource"/>
@@ -50,7 +67,9 @@
 
 
     <!--transaction-->
-    <!--aop-->
+    <!--
+        事务的 AOP 配置
+    -->
     <aop:config>
         <aop:advisor advice-ref="applicationAdvisor" pointcut="execution(* com.monkeyk.os.service.impl.*.*(..))"/>
     </aop:config>
@@ -64,10 +83,16 @@
         </tx:attributes>
     </tx:advice>
 
-
+    <!--
+        AuthenticationId 的生成器
+    -->
     <bean id="authenticationIdGenerator" class="com.monkeyk.os.domain.oauth.DefaultAuthenticationIdGenerator"/>
 
 
+    <!--
+        使用MD5 OAuthIssuer, 生成随机值,如 access_token, refresh_token
+        可根据需要扩展使用其他的实现
+    -->
     <bean id="oAuthIssuer" class="org.apache.oltu.oauth2.as.issuer.OAuthIssuerImpl">
         <constructor-arg>
             <bean class="org.apache.oltu.oauth2.as.issuer.MD5Generator"/>
