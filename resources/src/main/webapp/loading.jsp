@@ -15,7 +15,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <link rel="shortcut icon" href="${contextPath}/favicon.ico"/>
 
-    <title>Oauth2-Shiro[resources]</title>
+    <title>OAuth2-Shiro[resources]</title>
 
     <link href="${contextPath}/static/bootstrap.min.css" rel="stylesheet"/>
     <style>
@@ -29,7 +29,7 @@
 <div class="container">
 
     <h2 class="page-header">Oauth2-Shiro [resources]
-        <small class="badge">0.2</small>
+        <small class="badge">0.3</small>
     </h2>
 
     <div>

@@ -26,7 +26,7 @@
 <body>
 
 <h2 class="page-header">Oauth2-Shiro [authz]
-    <small class="badge">0.2</small>
+    <small class="badge">0.3</small>
 </h2>
 
 <div>
@@ -117,7 +117,7 @@
         </li>
         <li>
             <p>
-                <a href="${pageContext.request.contextPath}/resources/OS_API-0.2.html" target="_blank">API</a>
+                <a href="${pageContext.request.contextPath}/resources/OS_API-0.3.html" target="_blank">API</a>
                 -- oauth2-shiro提供的API文档
             </p>
         </li>

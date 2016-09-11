@@ -4,6 +4,11 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
 			http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
+    <!--
+        RS(资源服务器)的安全配置, 基于SHIRO;
+        这儿主要是对access_token进行消费(即使用access_token),
+        将对access_token 进行效验, 以及通过access_token获取用户相关信息(如果支持)
+    -->
 
     <bean id="credentialsMatcher" class="org.apache.shiro.authc.credential.SimpleCredentialsMatcher"/>
 
