@@ -10,6 +10,9 @@
         将对access_token 进行效验, 以及通过access_token获取用户相关信息(如果支持)
     -->
 
+    <!--
+        凭证(access_token)的匹配使用直接比较是否相等
+    -->
     <bean id="credentialsMatcher" class="org.apache.shiro.authc.credential.SimpleCredentialsMatcher"/>
 
     <bean class="com.monkeyk.os.oauth.shiro.OAuth2JdbcRealm" id="jdbcRealm">
@@ -30,6 +33,11 @@
         <property name="subjectFactory" ref="subjectFactory"/>
     </bean>
 
+    <!--
+        对于每一个对外提供的Resource(资源), 都需要在此定义, 每个资源对应不同的URL pattern.
+        且有唯一的 resource id,  具体的拦截处理见 OAuth2Filter.java 类
+        可根据实际需要 进行扩展
+    -->
     <!--Single resource-->
     <bean class="com.monkeyk.os.oauth.shiro.OAuth2Filter" id="auth2Filter">
         <property name="resourceId" value="os-resource"/>
@@ -43,6 +51,12 @@
     </bean>
 
 
+    <!--
+        SHIRO 核心配置 拦截器(或过滤器)
+        扩展添加自定义的 Resource Filter(如 oauth2Filter) 用于实现对 access_token的校验与处理
+        在filterChainDefinitions的配置中增加对具体 URL pattern的 OAUTH 保护拦截
+        可根据实际需求进行扩展
+    -->
     <bean class="org.apache.shiro.spring.web.ShiroFilterFactoryBean" id="shiroFilter">
         <property name="securityManager" ref="securityManager"/>
         <property name="loginUrl" value="/login"/>

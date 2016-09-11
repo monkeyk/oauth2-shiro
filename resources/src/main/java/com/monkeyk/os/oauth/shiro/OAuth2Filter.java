@@ -22,6 +22,10 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * 2015/9/29
+ * <p/>
+ * 对需要保护的资源进行拦截过滤处理
+ * 需要与SHIRO的安全整合并加入到SHIRO 流程中
+ * 相关配置见 rs-security.xml 文件
  *
  * @author Shengzhao Li
  */
