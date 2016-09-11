@@ -15,6 +15,9 @@ import java.util.Set;
 
 /**
  * 15-6-13
+ * <p/>
+ * 对各类 grant_type 的请求进行验证的公共类
+ * 将通用的行为(方法) 位于此
  *
  * @author Shengzhao Li
  */

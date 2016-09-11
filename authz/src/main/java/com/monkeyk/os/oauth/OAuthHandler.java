@@ -15,6 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * 2015/7/3
+ * <p/>
+ * 对OAUTH各种流程的操作进行抽象,
+ * 将没用的行为(方法) 放于此
  *
  * @author Shengzhao Li
  */
