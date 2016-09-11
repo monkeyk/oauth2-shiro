@@ -25,7 +25,7 @@
 </head>
 <body>
 
-<h2 class="page-header">Oauth2-Shiro [authz]
+<h2 class="page-header">OAuth2-Shiro [authz]
     <small class="badge">0.3</small>
 </h2>
 

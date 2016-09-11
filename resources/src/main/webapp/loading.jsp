@@ -28,7 +28,7 @@
 
 <div class="container">
 
-    <h2 class="page-header">Oauth2-Shiro [resources]
+    <h2 class="page-header">OAuth2-Shiro [resources]
         <small class="badge">0.3</small>
     </h2>
 
@@ -53,7 +53,7 @@
                 </p>
 
                 <p>
-                    对API的详细使用请查看文档 <a href="${contextPath}/static/OS_API-0.2.html" target="_blank">OS_API-0.2.html</a>
+                    对API的详细使用请查看文档 <a href="${contextPath}/static/OS_API-0.3.html" target="_blank">OS_API</a>
                 </p>
             </li>
             <li>
