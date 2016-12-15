@@ -44,6 +44,9 @@ public abstract class DateUtils {
     private DateUtils() {
     }
 
+    /*
+    * 判断是否为日期格式,如: 2016-12-12
+    * */
     public static boolean isDate(String dateAsText) {
         return StringUtils.isNotEmpty(dateAsText) && dateAsText.matches(DATE_PATTERN);
     }
