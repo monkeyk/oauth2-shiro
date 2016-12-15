@@ -102,6 +102,14 @@
             <version>${spring.version}</version>
         </dependency>
 
+        <!--jose4j-->
+        <dependency>
+            <groupId>org.bitbucket.b_c</groupId>
+            <artifactId>jose4j</artifactId>
+            <version>0.5.3</version>
+        </dependency>
+
+
         <!--public test dependencies-->
         <dependency>
             <groupId>org.springframework</groupId>
