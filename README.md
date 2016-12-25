@@ -18,6 +18,8 @@
     </ul>
 </div>
 
+<strong>OAuth2下一代身份认证授权协议OIDC实现: <a href="https://git.oschina.net/mkk/MyOIDC">MyOIDC</a></strong>
+
 <div>
     <h3>主要技术及版本</h3>
     Spring -- 3.2.2.RELEASE
