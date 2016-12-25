@@ -18,8 +18,9 @@
     </ul>
 </div>
 
+<hr/>
 <strong>OAuth2下一代身份认证授权协议OIDC实现: <a href="https://git.oschina.net/mkk/MyOIDC">MyOIDC</a></strong>
-
+<hr/>
 <div>
     <h3>主要技术及版本</h3>
     Spring -- 3.2.2.RELEASE
@@ -39,7 +40,7 @@
         <li><p>MySQL -- 5.6.23-log</p></li>
     </ul>
 </div>
-
+<hr/>
 <div>
     <h3>项目模块说明</h3>
     <p>oauth2-shiro项目使用模块化开发, 以实现"高内聚, 低耦合"目标, 更符合实际项目需要; 分为三个模块: authz, core 与 resources, 具体说明如下</p>
