@@ -5,7 +5,7 @@
 
 并根据不同的应用场景提供不同的实现(如web场景,移动设备).
 
-该项目与<a href="http://git.oschina.net/shengzhao/spring-oauth-server">spring-oauth-server</a>实现相同的需求与场合.
+该项目与<a href="https://github.com/monkeyk/spring-oauth-server">spring-oauth-server</a>实现相同的需求与场合.
 只是在实现上使用的技术不同(spring-oauth-server使用Spring Security + spring-security-oauth2实现; oauth2-oltu实现);
 相比spring-oauth-server, oauth2-oltu具有如下特点:
 
@@ -19,7 +19,7 @@
 </div>
 
 <hr/>
-<strong>OAuth2下一代身份认证授权协议OIDC实现: <a href="https://git.oschina.net/mkk/MyOIDC">MyOIDC</a></strong>
+<strong>OAuth2下一代身份认证授权协议OIDC实现: <a href="https://github.com/monkeyk/MyOIDC">MyOIDC</a></strong>
 <hr/>
 <div>
     <h3>主要技术及版本</h3>
@@ -63,8 +63,8 @@
 <div>
     <h3>Redis版本</h3>
     <ul>
-        <li><p><code>Redis + MySQL</code> <a href="http://git.oschina.net/mkk/oauth2-shiro-redis">http://git.oschina.net/mkk/oauth2-shiro-redis</a></p></li>
-        <li><p><code>Redis</code> <a href="http://git.oschina.net/mkk/oauth2-shiro-redis/tree/redis/">http://git.oschina.net/mkk/oauth2-shiro-redis/tree/redis/</a></p></li>
+        <li><p><code>Redis + MySQL</code> <a href="https://github.com/monkeyk/oauth2-shiro-redis">https://github.com/monkeyk/oauth2-shiro-redis</a></p></li>
+        <li><p><code>Redis</code> <a href="https://github.com/monkeyk/oauth2-shiro-redis/tree/redis">https://github.com/monkeyk/oauth2-shiro-redis/tree/redis</a></p></li>
     </ul>
 </div>
 
@@ -76,7 +76,7 @@
     项目是Maven管理的, 需要本地安装maven(开发用的maven版本号为3.1.0), 还有MySql(开发用的mysql版本号为5.6)
 </li>
 <li>
-    <a href="http://git.oschina.net/mkk/oauth2-shiro/repository/archive?ref=master">下载</a>(或clone)项目到本地
+    <a href="https://github.com/monkeyk/oauth2-shiro/archive/master.zip">下载</a>(或clone)项目到本地
 </li>
 <li>
     项目由三个模块(core,authz,resources)组成, core是一个Java项目(jar), authz与resources是Java Web项目(.war)
@@ -99,7 +99,7 @@
          将authz模块与resources模块生成的war放在Tomcat中并启动(注意: 这种方式需要将 authz.properties与resources.properties 加入到classpath中并正确配置数据库连接信息).
 </li>
 <li>
-    参考<a href="http://git.oschina.net/mkk/oauth2-shiro/blob/master/others/oauth_test.txt">oauth_test.txt</a>(位于others目录)的内容并测试之(也可在浏览器中访问相应的地址,如: http://localhost:8080/os/).
+    参考<a href="https://github.com/monkeyk/oauth2-shiro/blob/master/others/oauth_test.txt">oauth_test.txt</a>(位于others目录)的内容并测试之(也可在浏览器中访问相应的地址,如: http://localhost:8080/os/).
 </li>
 </ol>
 </div>
@@ -174,6 +174,7 @@
         <li><p><em>2016-05-26</em>     开始开发 <strong>0.2</strong> 版本</p></li>
         <li><p><em>2016-07-02</em>     添加在线测试环境</p></li>
         <li><p><em>2016-08-17</em>     发布 <strong>0.2</strong> 版本</p></li>
+        <li><p><em>2017-01-21</em>      加入到GitHub中, Git@OSC地址: http://git.oschina.net/mkk/oauth2-shiro</p></li>
     </ol>
 </p>
 
