@@ -231,5 +231,5 @@
  或访问 <a href="http://monkeyk.com/kso/" target="_blank">http://monkeyk.com/kso/</a>
 </p>
 <p>
-    <img src="http://77g1is.com1.z0.glb.clouddn.com/wechat_qrcode.jpg"/>
+    <img src="http://77g1is.com1.z0.glb.clouddn.com/wechat_qrcode.jpg" alt="WeChat"/>
 </p>
