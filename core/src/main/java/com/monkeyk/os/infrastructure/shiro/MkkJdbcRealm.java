@@ -5,6 +5,10 @@ import org.springframework.beans.factory.InitializingBean;
 
 /**
  * 15-6-10
+ * <p/>
+ * 扩展默认的 JdbcRealm, 在查询用户密码是增加条件 archived = 0 (用于实现逻辑删除)
+ * <p/>
+ * 该类是一个扩展实现 Realm 的参考
  *
  * @author Shengzhao Li
  */
@@ -22,6 +26,11 @@ public class MkkJdbcRealm extends JdbcRealm implements InitializingBean {
     }
 
 
+    /**
+     * 根据实现的需要, 可以修改具体使用时的查询语句
+     *
+     * @throws Exception
+     */
     @Override
     public void afterPropertiesSet() throws Exception {
         //override

@@ -41,6 +41,8 @@ import org.slf4j.LoggerFactory;
  * </bean>
  * <p/>
  * </code>
+ * <p/>
+ * 具体的配置请查看文章: https://andaily.com/blog/?p=712
  *
  * @author Shengzhao Li
  * @see com.monkeyk.os.oauth.shiro.OAuth2Token
