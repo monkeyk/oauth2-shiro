@@ -96,6 +96,11 @@
                 </label>
                 <label class="checkbox-inline">
                     <input type="checkbox" name="grantTypes"
+                           value="implicit" ${fun:containsIgnoreCase(formDto.grantTypes, 'implicit') ?'checked':''} />
+                    implicit
+                </label>
+                <label class="checkbox-inline">
+                    <input type="checkbox" name="grantTypes"
                            value="refresh_token" ${fun:containsIgnoreCase(formDto.grantTypes, 'refresh_token') ?'checked':''} />
                     refresh_token
                 </label>
