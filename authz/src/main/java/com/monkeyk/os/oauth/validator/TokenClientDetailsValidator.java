@@ -30,8 +30,16 @@ public class TokenClientDetailsValidator extends AbstractClientDetailsValidator 
     private static final Logger LOG = LoggerFactory.getLogger(TokenClientDetailsValidator.class);
 
 
+    private final boolean validateClientSecret;
+
+
     public TokenClientDetailsValidator(OAuthAuthzRequest oauthRequest) {
+        this(oauthRequest, true);
+    }
+
+    public TokenClientDetailsValidator(OAuthAuthzRequest oauthRequest, boolean validateClientSecret) {
         super(oauthRequest);
+        this.validateClientSecret = validateClientSecret;
     }
 
     /*
@@ -42,9 +50,11 @@ public class TokenClientDetailsValidator extends AbstractClientDetailsValidator 
     public OAuthResponse validateSelf(ClientDetails clientDetails) throws OAuthSystemException {
 
         //validate client_secret
-        final String clientSecret = oauthRequest.getClientSecret();
-        if (clientSecret == null || !clientSecret.equals(clientDetails.getClientSecret())) {
-            return invalidClientSecretResponse();
+        if (this.validateClientSecret) {
+            final String clientSecret = oauthRequest.getClientSecret();
+            if (clientSecret == null || !clientSecret.equals(clientDetails.getClientSecret())) {
+                return invalidClientSecretResponse();
+            }
         }
 
         //validate redirect_uri

@@ -34,7 +34,7 @@ public class TokenAuthorizeHandler extends AbstractAuthorizeHandler {
 
     @Override
     protected AbstractClientDetailsValidator getValidator() {
-        return new TokenClientDetailsValidator(oauthRequest);
+        return new TokenClientDetailsValidator(oauthRequest, false);
     }
 
     /*
