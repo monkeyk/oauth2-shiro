@@ -14,7 +14,7 @@ http://localhost:8080/authz/oauth/authorize?response_type=code&scope=read%20writ
 -- Test grant_type = 'token'
 -- implicit
 
-http://localhost:8080/authz/oauth/authorize?response_type=token&scope=read write&client_id=test&client_secret=test&redirect_uri=http%3A%2F%2Flocalhost%3A7777%2Fspring-oauth-client%2Fauthorization_code_callback
+http://localhost:8080/authz/oauth/authorize?response_type=token&scope=read write&client_id=test&redirect_uri=http%3A%2F%2Flocalhost%3A7777%2Fspring-oauth-client%2Fauthorization_code_callback
 
 
 -- Test from 'code' get 'token'   [POST]
