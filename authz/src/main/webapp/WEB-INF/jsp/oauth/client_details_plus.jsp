@@ -86,7 +86,7 @@
                 </label>
                 <label class="checkbox-inline">
                     <input type="checkbox" name="grantTypes"
-                           value="password" ${fun:containsIgnoreCase(formDto.grantTypes, 'authorization_code') ?'checked':''} />
+                           value="password" ${fun:containsIgnoreCase(formDto.grantTypes, 'password') ?'checked':''} />
                     password
                 </label>
                 <label class="checkbox-inline">
