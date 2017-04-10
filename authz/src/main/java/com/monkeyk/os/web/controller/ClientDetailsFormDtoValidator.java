@@ -28,7 +28,10 @@ public class ClientDetailsFormDtoValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         ClientDetailsFormDto formDto = (ClientDetailsFormDto) target;
+        validateClientId(formDto, errors);
+        validateClientSecret(formDto, errors);
 
+        validateGrantTypes(formDto, errors);
     }
 
 

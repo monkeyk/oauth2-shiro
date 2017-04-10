@@ -118,7 +118,7 @@
                 <form:input path="redirectUri" id="redirectUri" placeholder="http://..."
                             cssClass="form-control"/>
 
-                <p class="help-block">若<code>grant_type</code>包括<em>authorization_code</em>,
+                <p class="help-block">若<code>grant_type</code>包括<em>authorization_code</em>,<em>implicit</em>,
                     则必须输入redirect_uri</p>
             </div>
         </div>

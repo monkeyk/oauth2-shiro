@@ -95,8 +95,8 @@
                                          required="required"/>
 
                     <p>
-                        <a href="${contextPath}/oauth/authorize?client_id={{clientId}}&client_secret={{clientSecret}}&response_type=token&scope={{scope}}&redirect_uri={{implicitRedirectUri}}"
-                                >/oauth/authorize?client_id={{clientId}}&client_secret={{clientSecret}}&response_type=token&scope={{scope}}&redirect_uri={{implicitRedirectUri}}</a>
+                        <a href="${contextPath}/oauth/authorize?client_id={{clientId}}&response_type=token&scope={{scope}}&redirect_uri={{implicitRedirectUri}}"
+                                >/oauth/authorize?client_id={{clientId}}&response_type=token&scope={{scope}}&redirect_uri={{implicitRedirectUri}}</a>
                         <span class="label label-info">GET</span>
                     </p>
                 </div>
