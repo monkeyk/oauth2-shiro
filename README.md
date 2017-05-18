@@ -138,7 +138,7 @@
                 <li><p><del>(152) - oltu版本升级到1.0.2 并完成测试.</del></p></li>
                 <li><p>(153) - 尝试添加并实现OIDC在 oauth2-shiro中</p></li>
                 <li><p><del>(161) - 增加必要的代码注释与配置注释, 更易理解</del></p></li>
-                <li><p>implicit模式不需要带上client_secret</p></li>
+                <li><p><del>implicit模式不需要带上client_secret</del></p></li>
             </ol>
             <br/>
        </li>
@@ -222,6 +222,8 @@
     支付宝: monkeyking1987@126.com (**钊)
     <br/>
     明瑞 -- 5元
+    <br/>
+    Triton -- 8.8元
 </p>
 
 <hr/>
