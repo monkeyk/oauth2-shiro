@@ -230,10 +230,10 @@
 <p>
  关注更多我的开源项目请访问 <a href="http://andaily.com/my_projects.html">http://andaily.com/my_projects.html</a>
 </p>
-<p>
+<h3>
  若需更多的技术支持请联系 <a href="mailto:monkeyk@shengzhaoli.com">monkeyk@shengzhaoli.com</a>
  或访问 <a href="http://monkeyk.com/kso/" target="_blank">http://monkeyk.com/kso/</a>
-</p>
+</h3>
 <p>
     <img src="http://77g1is.com1.z0.glb.clouddn.com/wechat_qrcode.jpg" alt="WeChat"/>
 </p>
