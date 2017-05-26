@@ -231,7 +231,7 @@
  关注更多我的开源项目请访问 <a href="http://andaily.com/my_projects.html">http://andaily.com/my_projects.html</a>
 </p>
 <h3>
- 若需更多的技术支持请联系 <a href="mailto:monkeyk@shengzhaoli.com">monkeyk@shengzhaoli.com</a>
+ 若需更多的商业技术支持请联系 <a href="mailto:sz@qc8.com">sz@qc8.com</a>
  或访问 <a href="http://monkeyk.com/kso/" target="_blank">http://monkeyk.com/kso/</a>
 </h3>
 <p>
