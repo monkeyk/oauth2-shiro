@@ -127,6 +127,9 @@
 <br/>
 项目的开发管理使用开源项目 <a href="http://git.oschina.net/mkk/andaily-developer">andaily-developer</a>.
 </p>
+<p>
+    计划加入Spring-Boot的实现
+</p>
 <ul>
        <li>
             <p>
