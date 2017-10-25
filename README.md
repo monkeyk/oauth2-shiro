@@ -55,8 +55,8 @@
 <div>
     <h3>在线测试</h3>
     <ul>
-        <li><p><code>authz</code> <a href="https://andaily.com/authz/">https://andaily.com/authz/</a></p></li>
-        <li><p><code>resources</code> <a href="https://andaily.com/rs/">https://andaily.com/rs/</a></p></li>
+        <li><p><code>authz</code> <a href="http://andaily.com/authz/">http://andaily.com/authz/</a></p></li>
+        <li><p><code>resources</code> <a href="http://andaily.com/rs/">http://andaily.com/rs/</a></p></li>
     </ul>
 </div>
 
