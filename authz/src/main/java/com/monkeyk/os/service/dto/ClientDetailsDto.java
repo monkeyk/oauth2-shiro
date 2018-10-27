@@ -217,23 +217,23 @@ public class ClientDetailsDto implements Serializable {
 
 
     public boolean isContainsAuthorizationCode() {
-        return this.grantTypes.contains("authorization_code");
+        return this.grantTypes != null && this.grantTypes.contains("authorization_code");
     }
 
     public boolean isContainsPassword() {
-        return this.grantTypes.contains("password");
+        return this.grantTypes != null && this.grantTypes.contains("password");
     }
 
     public boolean isContainsImplicit() {
-        return this.grantTypes.contains("implicit");
+        return this.grantTypes != null && this.grantTypes.contains("implicit");
     }
 
     public boolean isContainsClientCredentials() {
-        return this.grantTypes.contains("client_credentials");
+        return this.grantTypes != null && this.grantTypes.contains("client_credentials");
     }
 
     public boolean isContainsRefreshToken() {
-        return this.grantTypes.contains("refresh_token");
+        return this.grantTypes != null && this.grantTypes.contains("refresh_token");
     }
 
 
