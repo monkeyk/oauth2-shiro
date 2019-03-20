@@ -1,0 +1,15 @@
+*.class
+*.idea
+*.app
+#*.gitignore
+
+# Package Files #
+#*.jar
+*.war
+*.ear
+*.iml
+
+target/
+
+
+
