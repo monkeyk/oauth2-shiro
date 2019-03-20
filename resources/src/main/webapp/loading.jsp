@@ -73,7 +73,7 @@
         <div class="col-md-12">
             <hr/>
             <div class="text-center">
-                &copy; <a href="http://git.oschina.net/mkk/oauth2-shiro" target="_blank">oauth2-shiro</a>
+                &copy; <a href="https://gitee.com/mkk/oauth2-shiro" target="_blank">oauth2-shiro</a>
             </div>
         </div>
     </div>

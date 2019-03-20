@@ -6,7 +6,7 @@
 
     <groupId>com.monkeyk</groupId>
     <artifactId>authz</artifactId>
-    <version>0.3</version>
+    <version>1.0</version>
 
     <name>${project.artifactId}</name>
     <packaging>war</packaging>
