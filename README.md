@@ -29,7 +29,7 @@
     <br/>
     oltu  -- 1.0.2
     <br/>
-    shiro -- 1.2.3
+    shiro -- 1.4.0
     <br/>
     MySQL -- 5.6+
 </div>
