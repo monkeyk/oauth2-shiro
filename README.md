@@ -23,7 +23,7 @@
 <hr/>
 <div>
     <h3>主要技术及版本</h3>
-    Spring -- 3.2.2.RELEASE
+    Spring Boot-- 2.3.1.RELEASE
     <br/>
     oltu  -- 1.0.2
     <br/>
@@ -35,8 +35,8 @@
 <div>
     <h3>开发环境</h3>
     <ul>
-        <li><p>JDK -- 1.7.0_40</p></li>
-        <li><p>Maven -- 3.1.0</p></li>
+        <li><p>JDK -- 1.8.0_40</p></li>
+        <li><p>Maven -- 3.6.0</p></li>
         <li><p>MySQL -- 5.6.23-log</p></li>
     </ul>
 </div>
@@ -73,7 +73,7 @@
     <h3>如何使用</h3>
 <ol>
 <li>
-    项目是Maven管理的, 需要本地安装maven(开发用的maven版本号为3.1.0), 还有MySql(开发用的mysql版本号为5.6)
+    项目是Maven管理的, 需要本地安装maven(开发用的maven版本号为3.6.0), 还有MySql(开发用的mysql版本号为5.6)
 </li>
 <li>
     <a href="https://github.com/monkeyk/oauth2-shiro/archive/master.zip">下载</a>(或clone)项目到本地
@@ -133,13 +133,26 @@
 <ul>
        <li>
             <p>
-                Version: <strong>0.3</strong> [pending]
+                Version: <strong>2.0.0</strong> [pending]
                 <br/>
-                Date: 2016-07-16 / ------
+                Date: 2020-07-05 / ---
+            </p>
+            <ol>
+                <li><p>升级使用Spring Boot</p></li>
+                <li><p>(153) - 尝试添加并实现OIDC在 oauth2-shiro中</p></li>
+                <li><p>升级shiro, oltu版本</p></li>
+            </ol>
+            <br/>
+       </li>
+       <li>
+            <p>
+                Version: <strong>0.3</strong> [finished]
+                <br/>
+                Date: 2016-07-16 / 2018-10-17
             </p>
             <ol>
                 <li><p><del>(152) - oltu版本升级到1.0.2 并完成测试.</del></p></li>
-                <li><p>(153) - 尝试添加并实现OIDC在 oauth2-shiro中</p></li>
+                <li><p>(153) - 尝试添加并实现OIDC在 oauth2-shiro中[canceled]</p></li>
                 <li><p><del>(161) - 增加必要的代码注释与配置注释, 更易理解</del></p></li>
                 <li><p><del>implicit模式不需要带上client_secret</del></p></li>
             </ol>
@@ -179,6 +192,7 @@
         <li><p><em>2016-07-02</em>     添加在线测试环境</p></li>
         <li><p><em>2016-08-17</em>     发布 <strong>0.2</strong> 版本</p></li>
         <li><p><em>2017-01-21</em>      加入到GitHub中, Git@OSC地址: http://git.oschina.net/mkk/oauth2-shiro</p></li>
+        <li><p><em>2020-07-05</em>     开始2.0.0版本开发</li>
     </ol>
 </p>
 
@@ -239,8 +253,5 @@
 </p>
 <h3>
  若需更多的商业技术支持请联系 <a href="mailto:sz@qc8.com">sz@qc8.com</a>
- 或访问 <a href="http://monkeyk.com/kso/" target="_blank">http://monkeyk.com/kso/</a>
 </h3>
-<p>
-    <img src="http://77g1is.com1.z0.glb.clouddn.com/wechat_qrcode.jpg" alt="WeChat"/>
-</p>
+
