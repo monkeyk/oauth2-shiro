@@ -1,8 +1,9 @@
 package com.monkeyk.os.domain.shared;
 
-import org.testng.annotations.Test;
 
-import static org.testng.Assert.*;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /*
   * @author Shengzhao Li
@@ -14,7 +15,7 @@ public class GuidGeneratorTest {
         final String clientId = GuidGenerator.generateClientId();
         assertNotNull(clientId);
         assertTrue(clientId.length() == 20);
-        System.out.println(clientId);
+//        System.out.println(clientId);
     }
 
     @Test
@@ -22,10 +23,10 @@ public class GuidGeneratorTest {
         final String clientSecret = GuidGenerator.generateClientSecret();
         assertNotNull(clientSecret);
         assertTrue(clientSecret.length() == 20);
-        System.out.println(clientSecret);
-
-        for (int i = 0; i < 5; i++) {
-            System.out.println(GuidGenerator.generateClientSecret());
-        }
+//        System.out.println(clientSecret);
+//
+//        for (int i = 0; i < 5; i++) {
+//            System.out.println(GuidGenerator.generateClientSecret());
+//        }
     }
 }

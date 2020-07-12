@@ -12,12 +12,13 @@ import org.jose4j.jwt.consumer.JwtConsumer;
 import org.jose4j.jwt.consumer.JwtConsumerBuilder;
 import org.jose4j.keys.AesKey;
 import org.jose4j.keys.EllipticCurves;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
+
 
 import java.security.Key;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
+
 
 /**
  * 2016/12/15
@@ -132,7 +133,7 @@ public class Jose4JTest {
                 .setRequireSubject() // the JWT must have a subject claim
                 .setExpectedIssuer("Issuer") // whom the JWT needs to have been issued by
                 .setExpectedAudience("Audience") // to whom the JWT is intended for
-                        //公钥
+                //公钥
                 .setVerificationKey(jwk.getKey()) // verify the signature with the public key
                 .build(); // create the JwtConsumer instance
 
@@ -215,9 +216,9 @@ public class Jose4JTest {
                 .setRequireSubject() // the JWT must have a subject claim
                 .setExpectedIssuer("Issuer") // whom the JWT needs to have been issued by
                 .setExpectedAudience("Audience") // to whom the JWT is intended for
-                        //解密的私钥
+                //解密的私钥
                 .setDecryptionKey(receiverJwk.getPrivateKey()) // decrypt with the receiver's private key
-                        //验签的公钥
+                //验签的公钥
                 .setVerificationKey(sendJwk.getPublicKey()) // verify the signature with the sender's public key
                 .build(); // create the JwtConsumer instance
 

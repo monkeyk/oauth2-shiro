@@ -1,11 +1,13 @@
 package com.monkeyk.os.infrastructure;
 
+import org.springframework.core.NamedThreadLocal;
+
 /**
  * @author Shengzhao Li
  */
 public abstract class ThreadLocalHolder {
 
-    private static ThreadLocal<String> clientIpThreadLocal = new ThreadLocal<>();
+    private static NamedThreadLocal<String> clientIpThreadLocal = new NamedThreadLocal<>("clientIpThreadLocal");
 
 
     /*

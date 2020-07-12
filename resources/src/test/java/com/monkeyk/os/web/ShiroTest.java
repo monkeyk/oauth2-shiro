@@ -19,13 +19,15 @@ import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.realm.Realm;
 import org.apache.shiro.realm.SimpleAccountRealm;
 import org.apache.shiro.subject.Subject;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
+
 
 /**
  * 15-6-10
@@ -35,7 +37,9 @@ import static org.testng.Assert.assertTrue;
 public class ShiroTest {
 
 
-    @Test(enabled = false)
+//    @Test(enabled = false)
+    @Test()
+    @Disabled()
     public void login() {
         String username = "abc";
         //init SecurityManager

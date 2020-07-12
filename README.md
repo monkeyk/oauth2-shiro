@@ -141,8 +141,9 @@
             </p>
             <ol>
                 <li><p>升级使用Spring Boot</p></li>
+                <li><p>升级使用JDK 1.8, 日志框架升级使用log4j2</p></li>
                 <li><p>(153) - 尝试添加并实现OIDC在 oauth2-shiro中</p></li>
-                <li><p>升级shiro, oltu版本</p></li>
+                <li><p>升级shiro到1.5.3, oltu版本无变化</p></li>
             </ol>
             <br/>
        </li>
