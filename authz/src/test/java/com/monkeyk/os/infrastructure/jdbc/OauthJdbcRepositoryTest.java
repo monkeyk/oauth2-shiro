@@ -7,12 +7,14 @@ import com.monkeyk.os.domain.oauth.OauthCode;
 import com.monkeyk.os.domain.shared.GuidGenerator;
 import org.apache.oltu.oauth2.as.issuer.MD5Generator;
 import org.apache.oltu.oauth2.as.issuer.OAuthIssuerImpl;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.annotations.Test;
+
 
 import java.util.List;
 
-import static org.testng.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
+
 
 /**
  * 15-6-13
