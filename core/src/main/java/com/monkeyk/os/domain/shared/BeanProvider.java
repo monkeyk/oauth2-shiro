@@ -1,5 +1,6 @@
 package com.monkeyk.os.domain.shared;
 
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.ApplicationContext;
 
 /**
@@ -9,11 +10,17 @@ public abstract class BeanProvider {
 
     private static ApplicationContext applicationContext;
 
+    /**
+     * @since 2.0.0
+     */
+    private static BeanFactory beanFactory;
+
     private BeanProvider() {
     }
 
     public static void initialize(ApplicationContext applicationContext) {
         BeanProvider.applicationContext = applicationContext;
+        BeanProvider.beanFactory = applicationContext.getAutowireCapableBeanFactory();
     }
 
     /**
@@ -24,18 +31,19 @@ public abstract class BeanProvider {
      * @return Bean instance
      */
     public static <T> T getBean(Class<T> clazz) {
-        if (applicationContext == null) {
+        if (beanFactory == null) {
             return null;
         }
-        return applicationContext.getBean(clazz);
+        return beanFactory.getBean(clazz);
     }
 
     @SuppressWarnings("unchecked")
     public static <T> T getBean(String beanId) {
-        if (applicationContext == null) {
+        if (beanFactory == null) {
             return null;
         }
-        return (T) applicationContext.getBean(beanId);
+        return (T) beanFactory.getBean(beanId);
     }
+
 
 }
