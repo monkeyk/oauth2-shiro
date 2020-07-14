@@ -53,16 +53,16 @@
 
         <!--&lt;!&ndash; provided dependency &ndash;&gt;-->
         <!--<dependency>-->
-            <!--<groupId>javax.servlet</groupId>-->
-            <!--<artifactId>javax.servlet-api</artifactId>-->
-            <!--<version>3.1.0</version>-->
-            <!--<scope>provided</scope>-->
+        <!--<groupId>javax.servlet</groupId>-->
+        <!--<artifactId>javax.servlet-api</artifactId>-->
+        <!--<version>3.1.0</version>-->
+        <!--<scope>provided</scope>-->
         <!--</dependency>-->
         <!--<dependency>-->
-            <!--<groupId>javax.servlet.jsp</groupId>-->
-            <!--<artifactId>jsp-api</artifactId>-->
-            <!--<version>2.1</version>-->
-            <!--<scope>provided</scope>-->
+        <!--<groupId>javax.servlet.jsp</groupId>-->
+        <!--<artifactId>jsp-api</artifactId>-->
+        <!--<version>2.1</version>-->
+        <!--<scope>provided</scope>-->
         <!--</dependency>-->
 
         <!--public compile dependencies-->
@@ -72,11 +72,11 @@
         <!--<version>2.0.4</version>-->
         <!--</dependency>-->
 
-        <dependency>
-            <groupId>opensymphony</groupId>
-            <artifactId>sitemesh</artifactId>
-            <version>2.4</version>
-        </dependency>
+        <!--<dependency>-->
+        <!--<groupId>opensymphony</groupId>-->
+        <!--<artifactId>sitemesh</artifactId>-->
+        <!--<version>2.4</version>-->
+        <!--</dependency>-->
         <!--<dependency>-->
         <!--<groupId>org.aspectj</groupId>-->
         <!--<artifactId>aspectjrt</artifactId>-->
@@ -149,6 +149,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+        <!--thymeleaf-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
@@ -212,15 +218,15 @@
 
 
         <!--<dependency>-->
-            <!--<groupId>javax.servlet</groupId>-->
-            <!--<artifactId>jstl</artifactId>-->
-            <!--<version>1.1.2</version>-->
+        <!--<groupId>javax.servlet</groupId>-->
+        <!--<artifactId>jstl</artifactId>-->
+        <!--<version>1.1.2</version>-->
         <!--</dependency>-->
         <!--<dependency>-->
-            <!--<groupId>taglibs</groupId>-->
-            <!--<artifactId>standard</artifactId>-->
-            <!--<version>1.1.2</version>-->
-            <!--<scope>compile</scope>-->
+        <!--<groupId>taglibs</groupId>-->
+        <!--<artifactId>standard</artifactId>-->
+        <!--<version>1.1.2</version>-->
+        <!--<scope>compile</scope>-->
         <!--</dependency>-->
 
 
