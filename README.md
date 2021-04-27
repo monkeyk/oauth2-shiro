@@ -5,7 +5,7 @@
 
 并根据不同的应用场景提供不同的实现(如web场景,移动设备).
 
-<p>最新的代码请访问 Gitee 仓库代码：https://gitee.com/mkk/oauth2-shiro</p>
+<h3>最新的代码请访问 Gitee 仓库代码：https://gitee.com/mkk/oauth2-shiro</h3>
 
 该项目与<a href="https://github.com/monkeyk/spring-oauth-server">spring-oauth-server</a>实现相同的需求与场合.
 只是在实现上使用的技术不同(spring-oauth-server使用Spring Security + spring-security-oauth2实现; oauth2-oltu实现);
