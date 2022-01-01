@@ -18,7 +18,7 @@
         <spring.version>3.2.2.RELEASE</spring.version>
         <aspectj.version>1.6.12</aspectj.version>
 
-        <mysql.version>5.1.35</mysql.version>
+        <mysql.version>8.0.16</mysql.version>
         <oltu.version>1.0.2</oltu.version>
         <shiro.version>1.2.3</shiro.version>
         <fasterxml.jackson.version>2.9.10.8</fasterxml.jackson.version>
