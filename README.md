@@ -95,7 +95,7 @@
 <li>
 将本地项目导入到IDE(如Intellij IDEA)中,配置Tomcat(或类似的servlet运行服务器), 并启动Tomcat(默认端口为8080);
 <br/>
-注意将项目的 contextPath(根路径) 设置为 'os'.
+注意将项目的 contextPath(根路径)设置为 'os'(使用Intellij IDEA的Smart Tomcat插件请将运行配置(Run/Debug Configurations)中的Deployment Directory设置为 [项目路径]\authz\src\main\webapp).
 <br/>
    另: 也可通过maven package命令将项目编译为war文件(os.war), 注意编译时每个模块的pom.xml文件中配置的数据库连接信息, 可在Maven命令中添加 -Dmaven.test.skip=true 忽略测试;
          将authz模块与resources模块生成的war放在Tomcat中并启动(注意: 这种方式需要将 authz.properties与resources.properties 加入到classpath中并正确配置数据库连接信息).
