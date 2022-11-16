@@ -21,7 +21,7 @@
         <mysql.version>8.0.16</mysql.version>
         <oltu.version>1.0.2</oltu.version>
         <shiro.version>1.2.3</shiro.version>
-        <fasterxml.jackson.version>2.9.10.8</fasterxml.jackson.version>
+        <fasterxml.jackson.version>2.12.7.1</fasterxml.jackson.version>
 
         <!--jdbc execute sql config-->
         <jdbc.driver>com.mysql.jdbc.Driver</jdbc.driver>
