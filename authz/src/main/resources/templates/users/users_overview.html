@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,user-scalable=no"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <link rel="shortcut icon" href="../../static/favicon.ico" th:href="@{/favicon.ico}"/>
+
+    <title>Users . OAuth2-Shiro[authz]</title>
+
+    <th:block th:include="fragments/main::header-css"/>
+</head>
+<body>
+<div class="container">
+    <a href="../" th:href="@{/}">Home</a>
+
+    <h2>Users</h2>
+
+    <div class="alert alert-warning">
+        <strong>说明</strong>: Users管理正常需要有管理权限（如Admin权限）的账号登录后才能操作，此处未登录就能查看与添加是方便演示功能。
+    </div>
+    <div class="pull-right">
+        <a href="form/plus" class="btn btn-success btn-sm">Add User</a>
+    </div>
+    <form action="" class="form-inline">
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Type username" name="username"
+                   th:value="${overviewDto.username}"/>
+        </div>
+        <button type="submit" class="btn btn-default">Search</button>
+        &nbsp;<span class="text-info">Total: [[${overviewDto.usersSize}]]</span>
+    </form>
+    <br/>
+    <table class="table table-bordered table-hover table-striped">
+        <thead>
+        <tr>
+            <th>Username</th>
+            <th>Roles[permission]</th>
+            <th>CreateTime</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr th:each="user : ${overviewDto.usersDtos}">
+                <td>[[${user.username}]]</td>
+                <td>
+                    <span th:each="r,vs : ${user.rolesDtos}">
+                        [[${r.roleName}]] [[${r.permissions}]] <em th:if="not ${vs.last}">,</em>
+                    </span>
+                </td>
+                <td>[[${user.createTime}]]</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div th:replace="fragments/main :: footer"/>
+</div>
+</body>
+</html>

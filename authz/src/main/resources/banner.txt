@@ -1,0 +1,10 @@
+${AnsiColor.BRIGHT_GREEN}
+ ____  _     _____  _     ____
+/  _ \/ \ /\/__ __\/ \ /|/_   \
+| / \|| | ||  / \  | |_|| /   /
+| |-||| \_/|  | |  | | ||/   /_
+\_/ \|\____/  \_/  \_/ \|\____/
+
+
+AuthZ: ${application.formatted-version}
+Spring Boot: ${spring-boot.formatted-version}

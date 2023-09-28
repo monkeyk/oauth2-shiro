@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,user-scalable=no"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <link rel="shortcut icon" href="../../static/favicon.ico" th:href="@{/favicon.ico}"/>
+
+    <title>OAuth Login . OAuth2-Shiro[authz]</title>
+
+    <th:block th:include="fragments/main::header-css"/>
+
+</head>
+<body>
+<div class="container">
+
+    <div class="row">
+        <h3>OAuth Login</h3>
+
+        <p>
+            登录使用的 client_id: '<em th:text="${param.get('client_id')}"></em>'.
+        </p>
+
+        <div class="row">
+            <div class="col-md-5">
+                <form th:action="@{/oauth/authorize}" method="post" class="form-horizontal">
+                    <input type="hidden" name="client_id" th:value="${param.get('client_id')}"/>
+                    <input type="hidden" name="scope" th:value="${param.get('scope')}"/>
+                    <input type="hidden" name="response_type" th:value="${param.get('response_type')}"/>
+                    <input type="hidden" name="redirect_uri" th:value="${param.get('redirect_uri')}"/>
+                    <input type="hidden" name="state" th:value="${param.get('state')}"/>
+                    <input type="hidden" name="client_secret" th:value="${param.get('client_secret')}"/>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Username</label>
+
+                        <div class="col-sm-9">
+                            <input type="text" name="username" value="" required="required" class="form-control"
+                                   placeholder="Type username"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Password</label>
+
+                        <div class="col-sm-9">
+                            <input type="password" name="password" required="required" class="form-control"
+                                   placeholder="Type password"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <input type="submit" value="Login" class="btn btn-primary"/>
+                            &nbsp;
+                            <span class="label label-danger" th:if="${oauth_login_error}">Login failed</span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <br/>
+
+        <p>可以使用下面的初始账号登录或使用你自行添加的账号:</p>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>username</th>
+                <th>password</th>
+                <th>grant_types</th>
+                <th>roles</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>test</td>
+                <td>Test@2015#</td>
+                <td>authorization_code,password,refresh_token,client_credentials</td>
+                <td>User(id=22)</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div th:replace="fragments/main :: footer"/>
+</div>
+</body>
+</html>

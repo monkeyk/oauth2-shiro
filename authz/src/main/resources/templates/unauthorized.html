@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,user-scalable=no"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <link rel="shortcut icon" href="../static/favicon.ico" th:href="@{/favicon.ico}"/>
+
+    <title>Unauthorized . OAuth2-Shiro[authz]</title>
+
+    <th:block th:include="fragments/main::header-css"/>
+</head>
+<body>
+<div class="container">
+    <h3>unauthorized</h3>
+    <a href="/" th:href="@{/}">Home</a>
+    <a href="javascript:history.back();">Back</a>
+
+    <div th:replace="fragments/main :: footer"/>
+</div>
+</body>
+</html>

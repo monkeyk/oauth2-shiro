@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,user-scalable=no"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <link rel="shortcut icon" href="../static/favicon.ico" th:href="@{/favicon.ico}"/>
+
+    <title>Home . OAuth2-Shiro[authz]</title>
+
+    <th:block th:include="fragments/main::header-css"/>
+</head>
+<body>
+<div class="container">
+    <h2>OAuth2-Shiro is work!</h2>
+    <a href="/logout" th:href="@{/logout}">Logout</a>
+    <br/>
+    Welcome:
+    <strong class="text-primary"><shiro:principal/></strong>
+    <hr/>
+    <div>
+        <strong>测试OAuth</strong>
+
+        <p>
+            <a href="../static/html/oauth_test.html" th:href="@{/html/oauth_test.html}">oauth_test</a>
+        </p>
+    </div>
+    <hr/>
+    <div>
+        <strong>菜单</strong>
+
+        <p class="help-block">根据不同的Role会显示不同的菜单 (Shiro权限控制)</p>
+        <ul>
+            <li shiro:hasAnyRoles="Admin"><a href="#">Admin Action</a></li>
+            <li shiro:hasAnyRoles="User"><a href="#">User Action</a></li>
+            <shiro:hasAnyPermissions name="user:list">
+                <li><a href="#">User List</a></li>
+            </shiro:hasAnyPermissions>
+            <shiro:hasAnyPermissions name="user:create">
+                <li><a href="#">User Create</a></li>
+            </shiro:hasAnyPermissions>
+        </ul>
+    </div>
+
+    <div th:replace="fragments/main :: footer"/>
+</div>
+</body>
+</html>
