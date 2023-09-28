@@ -1,0 +1,32 @@
+<!--  @since 2.0.0 -->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Fragments</title>
+
+    <div th:fragment="header-css">
+        <link href="/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+        <style>
+            body {
+                font-family: "Microsoft YaHei", Arial;
+            }
+        </style>
+    </div>
+
+</head>
+<body>
+
+<div th:fragment="footer" id="footer-default">
+    <div class="row">
+        <div class="col-md-12">
+            <hr/>
+            <div class="text-center">
+                &copy; 2015-2023 <a href="https://gitee.com/mkk/oauth2-shiro" target="_blank">oauth2-shiro</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

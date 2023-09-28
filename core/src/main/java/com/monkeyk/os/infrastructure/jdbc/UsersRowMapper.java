@@ -21,6 +21,8 @@ public class UsersRowMapper implements RowMapper<Users> {
         Users users = new Users()
                 .username(rs.getString("username"))
                 .password(rs.getString("password"))
+                // salt 不需要查询出来
+//                .passwordSalt(rs.getString("password_salt"))
                 .defaultUser(rs.getBoolean("default_user"))
                 .lastLoginTime(rs.getTimestamp("last_login_time"));
 

@@ -22,6 +22,8 @@ public class ClientDetails extends BasicClientInfo {
     /**
      * 客户端所拥有的资源ID(resource-id), 至少有一个,
      * 多个ID时使用逗号(,)分隔, 如:  os,mobile
+     * <p>
+     * 可选，可使用一个指定的 resourceIds
      */
     private String resourceIds;
 
@@ -33,9 +35,9 @@ public class ClientDetails extends BasicClientInfo {
      */
     private String grantTypes;
 
-    /*
-   * Shiro roles
-   * */
+    /**
+     * Shiro roles
+     * */
     private String roles;
 
     /**

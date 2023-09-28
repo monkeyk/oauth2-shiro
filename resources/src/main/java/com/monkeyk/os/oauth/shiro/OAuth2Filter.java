@@ -9,7 +9,9 @@ import org.apache.oltu.oauth2.common.message.OAuthResponse;
 import org.apache.oltu.oauth2.rs.response.OAuthRSResponse;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.web.filter.authc.AuthenticatingFilter;
+import org.apache.shiro.authc.BearerToken;
+import org.apache.shiro.web.filter.authc.BearerHttpAuthenticationFilter;
+import org.apache.shiro.web.util.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -25,26 +27,31 @@ import javax.servlet.http.HttpServletResponse;
  * <p/>
  * 对需要保护的资源进行拦截过滤处理
  * 需要与SHIRO的安全整合并加入到SHIRO 流程中
- * 相关配置见 rs-security.xml 文件
+ * 相关配置见 RsSecurityConfig.java
  *
  * @author Shengzhao Li
+ * @see com.monkeyk.os.oauth.resources.ResourceOAuthFilter
  */
-public class OAuth2Filter extends AuthenticatingFilter implements InitializingBean {
+public class OAuth2Filter extends BearerHttpAuthenticationFilter implements InitializingBean {
 
 
     private static final Logger LOGGER = LoggerFactory.getLogger(OAuth2Filter.class);
 
 
-    private String resourceId;
+    /**
+     * resourceId 是可选的，可忽略, since 2.0.0
+     */
+    private String resourceId = "default";
     private OAuthRSService rsService;
 
 
     @Override
-    protected AuthenticationToken createToken(ServletRequest request, ServletResponse response) throws Exception {
+    protected AuthenticationToken createToken(ServletRequest request, ServletResponse response) {
 
-        HttpServletRequest httpRequest = (HttpServletRequest) request;
+        HttpServletRequest httpRequest = WebUtils.toHttp(request);
 
-        final String accessToken = getAccessToken(httpRequest);
+        BearerToken bearerToken = (BearerToken) super.createToken(request, response);
+        final String accessToken = bearerToken.getToken();
         final AccessToken token = rsService.loadAccessTokenByTokenId(accessToken);
 
         String username = null;
@@ -60,16 +67,8 @@ public class OAuth2Filter extends AuthenticatingFilter implements InitializingBe
                 .setUserId(username);
     }
 
-    private String getAccessToken(HttpServletRequest httpRequest) {
-        final String authorization = httpRequest.getHeader("Authorization");
-        if (authorization != null) {
-            //bearer ab1ade69-d122-4844-ab23-7b109ad977f0
-            return authorization.substring(6).trim();
-        }
-        return httpRequest.getParameter(OAuth.OAUTH_ACCESS_TOKEN);
-    }
 
-
+    @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
         return false;
     }
@@ -113,5 +112,9 @@ public class OAuth2Filter extends AuthenticatingFilter implements InitializingBe
     public void afterPropertiesSet() throws Exception {
         Assert.notNull(resourceId, "resourceId is null");
         Assert.notNull(rsService, "rsService is null");
+
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Initialized: {} -> resourceId: {}, rsService: {}", this, resourceId, rsService);
+        }
     }
 }

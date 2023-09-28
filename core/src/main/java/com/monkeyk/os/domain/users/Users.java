@@ -23,6 +23,12 @@ public class Users extends AbstractDomain {
     private String username;
     private String password;
 
+    /**
+     * 密码 salt,  盐值
+     *
+     * @since 2.0.0
+     */
+    private String passwordSalt;
 
     private boolean defaultUser;
     private Date lastLoginTime;
@@ -30,6 +36,23 @@ public class Users extends AbstractDomain {
     public Users() {
     }
 
+    /**
+     * @return salt or null
+     * @since 2.0.0
+     */
+    public String passwordSalt() {
+        return passwordSalt;
+    }
+
+    /**
+     * @param passwordSalt salt
+     * @return this
+     * @since 2.0.0
+     */
+    public Users passwordSalt(String passwordSalt) {
+        this.passwordSalt = passwordSalt;
+        return this;
+    }
 
     public List<Roles> rolesList() {
         return usersRepository.findUsersRolesList(this.guid);

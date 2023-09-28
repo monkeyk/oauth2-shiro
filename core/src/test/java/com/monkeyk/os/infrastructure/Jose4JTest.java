@@ -1,6 +1,8 @@
 package com.monkeyk.os.infrastructure;
 
 import com.monkeyk.os.domain.shared.GuidGenerator;
+import org.apache.commons.lang.RandomStringUtils;
+import org.jose4j.jwa.AlgorithmConstraints;
 import org.jose4j.jwe.ContentEncryptionAlgorithmIdentifiers;
 import org.jose4j.jwe.JsonWebEncryption;
 import org.jose4j.jwe.KeyManagementAlgorithmIdentifiers;
@@ -12,11 +14,14 @@ import org.jose4j.jwt.consumer.JwtConsumer;
 import org.jose4j.jwt.consumer.JwtConsumerBuilder;
 import org.jose4j.keys.AesKey;
 import org.jose4j.keys.EllipticCurves;
+import org.jose4j.keys.HmacKey;
 import org.junit.jupiter.api.Test;
 
 
+import java.nio.charset.StandardCharsets;
 import java.security.Key;
 
+import static com.monkeyk.os.domain.oauth.Constants.DEFAULT_KEY_ID;
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -28,9 +33,42 @@ import static org.junit.jupiter.api.Assertions.*;
 public class Jose4JTest {
 
 
+    /**
+     * @throws Exception e
+     * @since 2.0.0
+     */
+    @Test
+    void hmacFlow() throws Exception {
+
+        String hmacKey = "Bl0depAUL2DRPZnR0DJThK9a9KSJF4Xr";
+//        System.out.println(keyStr);
+
+        HmacKey key = new HmacKey(hmacKey.getBytes(StandardCharsets.UTF_8));
+
+        JsonWebSignature jws = new JsonWebSignature();
+        jws.setKeyIdHeaderValue(DEFAULT_KEY_ID);
+        jws.setKey(key);
+        jws.setAlgorithmHeaderValue(AlgorithmIdentifiers.HMAC_SHA256);
+
+        JwtClaims claims = new JwtClaims();
+//        claims.setSubject("zhangsan");
+//        claims.setIssuer("https://myoidc.com");
+        claims.setIssuedAtToNow();
+        claims.setGeneratedJwtId();
+//        claims.setExpirationTimeMinutesInTheFuture(10);
+        claims.setAudience("oauth2-shiro");
+        jws.setPayload(claims.toJson());
+
+        String token = jws.getCompactSerialization();
+        assertNotNull(token);
+//        System.out.println(token);
+
+    }
+
+
     /*
-    * AES 加密与解密, 128位
-    * */
+     * AES 加密与解密, 128位
+     * */
     @Test
     public void aesEncryptDecrypt128() throws Exception {
 
@@ -62,8 +100,8 @@ public class Jose4JTest {
 
 
     /*
-    * AES 加密与解密, 256位
-    * */
+     * AES 加密与解密, 256位
+     * */
     @Test
     public void aesEncryptDecrypt256() throws Exception {
 

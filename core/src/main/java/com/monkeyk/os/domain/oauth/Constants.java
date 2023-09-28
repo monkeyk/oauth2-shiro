@@ -7,19 +7,40 @@ package com.monkeyk.os.domain.oauth;
  *
  * @author Shengzhao Li
  */
-public abstract class Constants {
+public interface Constants {
 
 
-    public static final String REQUEST_USERNAME = "username";
-    public static final String REQUEST_PASSWORD = "password";
+    String REQUEST_USERNAME = "username";
+    String REQUEST_PASSWORD = "password";
 
-    public static final String REQUEST_USER_OAUTH_APPROVAL = "user_oauth_approval";
+    String REQUEST_USER_OAUTH_APPROVAL = "user_oauth_approval";
 
-    public static final String OAUTH_LOGIN_VIEW = "oauth_login";
-    public static final String OAUTH_APPROVAL_VIEW = "oauth_approval";
+    String OAUTH_LOGIN_VIEW = "oauth_login";
+    String OAUTH_APPROVAL_VIEW = "oauth_approval";
 
-    private Constants() {
-    }
+    /**
+     * label: jwt
+     *
+     * @since 2.0.0
+     */
+    String JWT = "jwt";
+
+
+    /**
+     * Version
+     * 与pom.xml中一致
+     *
+     * @since 2.0.0
+     */
+    String VERSION = "2.0.0";
+
+
+    /**
+     * Fixed  keyId
+     *
+     * @since 2.0.0
+     */
+    String DEFAULT_KEY_ID = "oauth2-shiro-keyid";
 
 
 }

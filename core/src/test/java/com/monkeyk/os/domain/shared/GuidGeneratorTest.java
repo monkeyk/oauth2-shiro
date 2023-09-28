@@ -6,9 +6,28 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /*
-  * @author Shengzhao Li
-  */
+ * @author Shengzhao Li
+ */
 public class GuidGeneratorTest {
+
+
+    @Test
+    void generate() {
+
+        String uuid = GuidGenerator.generate();
+        assertNotNull(uuid);
+//        System.out.println(uuid);
+
+    }
+
+
+    @Test
+    void nextSaltHex() {
+
+        String salt = GuidGenerator.nextSaltHex();
+        assertNotNull(salt);
+        assertTrue(salt.length() > 8);
+    }
 
     @Test
     public void testGenerateClientId() throws Exception {

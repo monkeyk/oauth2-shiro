@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,user-scalable=no"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <link rel="shortcut icon" href="../../static/favicon.ico" th:href="@{/favicon.ico}"/>
+
+    <title>Test [[${clientDetailsDto.clientId}]] . OAuth2-Shiro[authz]</title>
+
+    <th:block th:include="fragments/main::header-css"/>
+    <script src="../../static/js/angular.min.js" th:src="@{/js/angular.min.js}"></script>
+
+</head>
+<body>
+<div class="container">
+    <div ng-app>
+        <a href="/" th:href="@{/}">Home</a>
+
+        <h2>Test [[${clientDetailsDto.clientId}]]</h2>
+
+        <p>
+            针对不同的<code>grant_type</code>提供不同的测试URL,
+            完整的OAuth测试请访问<a href="https://gitee.com/mkk/spring-oauth-client" target="_blank">spring-oauth-client</a>项目.
+        </p>
+
+        <div ng-controller="TestClientCtrl">
+            <!--            <c:if test="${clientDetailsDto.containsAuthorizationCode}">-->
+            <div class="panel panel-default" th:if="${clientDetailsDto.containsAuthorizationCode}">
+                <div class="panel-heading">Test [authorization_code]</div>
+                <div class="panel-body">
+                    <p class="text-muted">输入每一步必要的信息后点击其下面的链接地址.</p>
+                    <ol>
+                        <li>
+                            <div>
+                                <code>从 oauth-shiro 获取 'code'</code>
+                                <br/>
+                                redirect_uri: <input type="text" value="" ng-model="redirectUri" size="70"
+                                                     required="required"/>
+                                <br/>
+                                <form th:action="@{/oauth/authorize}" method="get" target="_blank">
+                                    <input type="hidden" name="client_id" value="{{clientId}}"/>
+                                    <input type="hidden" name="redirect_uri" value="{{redirectUri}}"/>
+                                    <input type="hidden" name="response_type" value="code"/>
+                                    <input type="hidden" name="scope" value="{{scope}}"/>
+                                    <!--  state 最佳随机生成  -->
+                                    <input type="hidden" name="state" value="123456"/>
+                                    <button class="btn btn-link" type="submit">
+                                        /oauth/authorize?client_id={{clientId}}&redirect_uri={{redirectUri}}&response_type=code&scope={{scope}}&state=123456
+                                    </button>
+                                </form>
+                                <span class="label label-info">GET</span>
+                            </div>
+                        </li>
+                        <li>
+                            <code>用 'code' 换取 'access_token'</code>
+                            <br/>
+                            输入第一步获取的code: <input type="text" name="code" value="" ng-model="code"
+                                                 required="required"/>
+                            <br/>
+
+                            <form th:action="@{/oauth/token}" method="post" target="_blank">
+                                <input type="hidden" name="client_id" value="{{clientId}}"/>
+                                <input type="hidden" name="client_secret" value="{{clientSecret}}"/>
+                                <input type="hidden" name="grant_type" value="authorization_code"/>
+                                <input type="hidden" name="code" value="{{code}}"/>
+                                <input type="hidden" name="redirect_uri" value="{{redirectUri}}"/>
+                                <button class="btn btn-link" type="submit">
+                                    /oauth/token?client_id={{clientId}}&client_secret={{clientSecret}}&grant_type=authorization_code&code={{code}}&redirect_uri={{redirectUri}}
+                                </button>
+                                <span class="label label-warning">POST</span>
+                            </form>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+            <!--            </c:if>-->
+
+            <!--            <c:if test="${clientDetailsDto.containsPassword}">-->
+            <div class="panel panel-default" th:if="${clientDetailsDto.containsPassword}">
+                <div class="panel-heading">Test [password]</div>
+                <div class="panel-body">
+                    <p class="text-muted">输入username, password 后点击链接地址.</p>
+                    username: <input type="text" required="required" ng-model="username"/>
+                    <br/>
+                    password: <input type="text" required="required" ng-model="password"/>
+
+                    <br/>
+
+                    <form th:action="@{/oauth/token}" method="post" target="_blank">
+                        <input type="hidden" name="client_id" value="{{clientId}}"/>
+                        <input type="hidden" name="client_secret" value="{{clientSecret}}"/>
+                        <input type="hidden" name="grant_type" value="password"/>
+                        <input type="hidden" name="scope" value="{{scope}}"/>
+                        <input type="hidden" name="username" value="{{username}}"/>
+                        <input type="hidden" name="password" value="{{password}}"/>
+                        <button class="btn btn-link" type="submit">
+                            /oauth/token?client_id={{clientId}}&client_secret={{clientSecret}}&grant_type=password&scope={{scope}}&username={{username}}&password={{password}}
+                        </button>
+                        <span class="label label-warning">POST</span>
+                    </form>
+                    <p class="text-warning">注意：password模式在OAuth2.1中已不推荐使用（安全系数差）</p>
+                </div>
+            </div>
+            <!--            </c:if>-->
+
+            <!--            <c:if test="${clientDetailsDto.containsImplicit}">-->
+            <div class="panel panel-default" th:if="${clientDetailsDto.containsImplicit}">
+                <div class="panel-heading">Test [implicit]</div>
+                <div class="panel-body">
+                    <p class="text-muted">输入redirect_uri 后点击链接地址. 获取access_token后注意查看redirect_uri的hash部分(#号后边部分)</p>
+                    redirect_uri: <input type="text" value="" ng-model="implicitRedirectUri" size="70"
+                                         required="required"/>
+
+                    <div>
+                        <form th:action="@{/oauth/authorize}" method="get" target="_blank">
+                            <input type="hidden" name="client_id" value="{{clientId}}"/>
+                            <input type="hidden" name="redirect_uri" value="{{implicitRedirectUri}}"/>
+                            <input type="hidden" name="response_type" value="token"/>
+                            <input type="hidden" name="scope" value="{{scope}}"/>
+                            <button class="btn btn-link" type="submit">
+                                /oauth/authorize?client_id={{clientId}}&response_type=token&scope={{scope}}&redirect_uri={{implicitRedirectUri}}
+                            </button>
+                        </form>
+                        <span class="label label-info">GET</span>
+                    </div>
+                </div>
+            </div>
+            <!--            </c:if>-->
+
+            <!--            <c:if test="${clientDetailsDto.containsClientCredentials}">-->
+            <div class="panel panel-default" th:if="${clientDetailsDto.containsClientCredentials}">
+                <div class="panel-heading">Test [client_credentials]</div>
+                <div class="panel-body">
+                    <p class="text-muted">点击链接地址即可测试</p>
+
+
+                    <form th:action="@{/oauth/token}" method="post" target="_blank">
+                        <input type="hidden" name="client_id" value="{{clientId}}"/>
+                        <input type="hidden" name="client_secret" value="{{clientSecret}}"/>
+                        <input type="hidden" name="grant_type" value="client_credentials"/>
+                        <input type="hidden" name="scope" value="{{scope}}"/>
+                        <button class="btn btn-link" type="submit">
+                            /oauth/token?client_id={{clientId}}&client_secret={{clientSecret}}&grant_type=client_credentials&scope={{scope}}
+                        </button>
+                        <span class="label label-warning">POST</span>
+                    </form>
+                </div>
+            </div>
+            <!--            </c:if>-->
+
+            <!--            <c:if test="${clientDetailsDto.containsRefreshToken}">-->
+            <div class="panel panel-default" th:if="${clientDetailsDto.containsRefreshToken}">
+                <div class="panel-heading">Test [refresh_token]</div>
+                <div class="panel-body">
+                    <p class="text-muted">输入refresh_token 后点击链接地址.</p>
+                    refresh_token: <input type="text" ng-model="refreshToken" required="required" size="70"/>
+
+                    <br/>
+
+                    <form th:action="@{/oauth/token}" method="post" target="_blank">
+                        <input type="hidden" name="client_id" value="{{clientId}}"/>
+                        <input type="hidden" name="client_secret" value="{{clientSecret}}"/>
+                        <input type="hidden" name="grant_type" value="refresh_token"/>
+                        <input type="hidden" name="refresh_token" value="{{refreshToken}}"/>
+                        <button class="btn btn-link" type="submit">
+                            /oauth/token?client_id={{clientId}}&client_secret={{clientSecret}}&grant_type=refresh_token&refresh_token={{refreshToken}}
+                        </button>
+                        <span class="label label-warning">POST</span>
+                    </form>
+                </div>
+            </div>
+            <!--            </c:if>-->
+
+            <div class="text-center">
+                <a href="/client_details" th:href="@{/client_details}" class="btn btn-default">Back</a>
+            </div>
+        </div>
+    </div>
+
+    <script th:inline="javascript">
+        var TestClientCtrl = ["$scope", function ($scope) {
+            $scope.clientId = [[${clientDetailsDto.clientId}]];
+            $scope.clientSecret = [[${clientDetailsDto.clientSecret}]];
+            $scope.scope = [[${clientDetailsDto.scope}]];
+
+            var redUri = [[${clientDetailsDto.redirectUri}]];
+            if ('' === redUri) {
+                $scope.implicitRedirectUri = location.href;
+                $scope.redirectUri = "";
+            } else {
+                $scope.implicitRedirectUri = [[${clientDetailsDto.redirectUri}]];
+                $scope.redirectUri = [[${clientDetailsDto.redirectUri}]];
+            }
+            // <c:if test="${empty clientDetailsDto.redirectUri}" var="eptRedUri">
+            //     $scope.implicitRedirectUri = location.href;
+            //     $scope.redirectUri = "";
+            // </c:if>
+            // <c:if test="${not eptRedUri}">
+            //     $scope.implicitRedirectUri = "${clientDetailsDto.redirectUri}";
+            //     $scope.redirectUri = "${clientDetailsDto.redirectUri}";
+            // </c:if>
+
+            $scope.username = "test";
+            $scope.password = "Test@2015#";
+            //a temp value
+            $scope.refreshToken = "1156ebfe-e303-4572-9fb5-4459a5d46610";
+
+        }];
+    </script>
+
+    <div th:replace="fragments/main :: footer"/>
+</div>
+</body>
+</html>

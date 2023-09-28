@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,user-scalable=no"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <link rel="shortcut icon" href="../static/favicon.ico" th:href="@{/favicon.ico}"/>
+
+    <title>OAuth2-Shiro[resources]</title>
+
+    <th:block th:include="fragments/main::header-css"/>
+</head>
+<body>
+<div class="container">
+
+    <h2 class="page-header">OAuth2-Shiro [resources]
+        <small class="badge">2.0.0</small>
+    </h2>
+
+    <div>
+        <p class="text-muted">
+            [resources]模块用于提供资源(resource), 是 access_token 的消费者, 在实际应用中, 属于业务系统(认证,安全交给 authz 模块处理), 对其API的调用需要<code>access_token</code>;
+            需要先从authz模块获取access_token.
+        </p>
+
+        <strong>操作说明</strong>
+
+        <ol>
+            <li>
+                <p>resources 模块提供了两个API接口,需要不同权限的access_token才可以访问, API分别为:</p>
+
+                <p>
+                    a. <a th:href="@{/mobile/system_time}">/mobile/system_time</a> -- 获取系统时间
+                </p>
+
+                <p>
+                    b. <a th:href="@{/rs/username}">/rs/username</a> -- 获取用户信息
+                </p>
+
+                <p>
+                    对API的详细使用请查看文档 <a th:href="@{/html/OS_API-2.0.html}" target="_blank">OS_API</a>
+                </p>
+            </li>
+            <li>
+                <p>对于每一类资源(resource), 需要定义一个 resource-id, 并且需要在 RsSecurityConfig.java 中配置一个<code>OAuth2Filter</code>, 然后在
+                    shiroFilter 中添加该 Filter与配置URL Pattern; 详细请参数项目中 RsSecurityConfig.java 的配置</p>
+            </li>
+            <li>
+                <p>
+                    <strong>注意</strong> [resources]模块的配置文件 <em>application.properties</em>(位于src/main/resources目录)
+                    中数据库连接配置信息必须与 [authz]模块中的配置一致. 因为[authz]模块获取token后存入数据库, [resources]模块在调用时从数据库中查询获取.
+                </p>
+            </li>
+        </ol>
+    </div>
+
+    <div th:replace="fragments/main :: footer"/>
+</div>
+</body>
+</html>

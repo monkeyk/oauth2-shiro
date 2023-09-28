@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+    <contextName>${spring.application.name}</contextName>
+
+    <!--为了防止进程退出时，内存中的数据丢失，请加上此选项-->
+<!--    <shutdownHook class="ch.qos.logback.core.hook.DefaultShutdownHook"/>-->
+
+    <!--输出到控制台-->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%-5level] [%.80c{10}][%L] -%m%n</pattern>
+        </encoder>
+    </appender>
+
+
+    <!--按天生成日志-->
+        <appender name="defaultAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <prudent>true</prudent>
+
+            <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+                <fileNamePattern>logs/%d{yyyy-MM-dd}/authz-%i.log</fileNamePattern>
+                <maxFileSize>10MB</maxFileSize>
+                <maxHistory>15</maxHistory>
+                <timeBasedFileNamingAndTriggeringPolicy
+                        class="ch.qos.logback.core.rolling.DefaultTimeBasedFileNamingAndTriggeringPolicy">
+                </timeBasedFileNamingAndTriggeringPolicy>
+            </rollingPolicy>
+            <encoder>
+                <pattern>%d{yyyy-MM-dd HH:mm:ss} [%-5level] [%.80c{10}][%L] -%m%n</pattern>
+            </encoder>
+        </appender>
+
+
+    <logger name="org.springframework" level="WARN" additivity="false"/>
+
+
+    <logger name="com.monkeyk.os" level="DEBUG" additivity="false">
+        <appender-ref ref="defaultAppender"/>
+    </logger>
+
+
+    <!--  root配置放最后 -->
+    <root level="INFO">
+        <appender-ref ref="console"/>
+    </root>
+
+</configuration>

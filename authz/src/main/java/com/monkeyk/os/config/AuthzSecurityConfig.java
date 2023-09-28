@@ -5,16 +5,18 @@ import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.cache.AbstractCacheManager;
 import org.apache.shiro.cache.MemoryConstrainedCacheManager;
+import org.apache.shiro.crypto.hash.Sha256Hash;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.realm.Realm;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import javax.sql.DataSource;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -34,14 +36,27 @@ public class AuthzSecurityConfig {
      *
      * */
 
+    /**
+     * 存储凭证（如密码）的加密算法（如 MD5,SHA-256,SHA-384,SHA-512）
+     * 默认 SHA-256
+     * <p>
+     * 若是旧版本升级后继续使用MD5，请将配置值更新为MD5
+     * <code>
+     * authz.store.credentials.alg=MD5
+     * </code>
+     *
+     * @since 2.0.0
+     */
+    @Value("${authz.store.credentials.alg:" + Sha256Hash.ALGORITHM_NAME + "}")
+    private String storeCredentialsAlg;
 
     /**
-     * 使用MD5 进行密码的加密
+     * 使用指定算法 进行密码的加密与匹配
      */
     @Bean
     public CredentialsMatcher credentialsMatcher() {
         HashedCredentialsMatcher credentialsMatcher = new HashedCredentialsMatcher();
-        credentialsMatcher.setHashAlgorithmName("MD5");
+        credentialsMatcher.setHashAlgorithmName(this.storeCredentialsAlg);
 //        credentialsMatcher.setStoredCredentialsHexEncoded(false);
         return credentialsMatcher;
     }
@@ -90,11 +105,12 @@ public class AuthzSecurityConfig {
         factoryBean.setLoginUrl("/login");
         factoryBean.setSuccessUrl("/index");
         factoryBean.setUnauthorizedUrl("/unauthorized");
-        //权限控制
-        Map<String, String> map = new HashMap<>();
+        //权限控制, map必须要有顺序
+        Map<String, String> map = new LinkedHashMap<>();
         map.put("/favicon.ico", "anon");
-        map.put("/static/**", "anon");
-        map.put("/resources/**", "anon");
+        map.put("/css/**", "anon");
+        map.put("/js/**", "anon");
+        map.put("/html/**", "anon");
         map.put("/login", "anon");
         map.put("/unauthorized", "anon");
         // # OAuth anon

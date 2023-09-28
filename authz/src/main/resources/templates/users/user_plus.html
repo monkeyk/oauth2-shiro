@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,user-scalable=no"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <link rel="shortcut icon" href="../../static/favicon.ico" th:href="@{/favicon.ico}"/>
+
+    <title>Add User . OAuth2-Shiro[authz]</title>
+
+    <th:block th:include="fragments/main::header-css"/>
+</head>
+<body>
+<div class="container">
+    <a href="../" th:href="@{/}">Home</a>
+
+    <h2>Add User</h2>
+
+    <form method="post" th:object="${formDto}" action="" class="form-horizontal">
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="username">Username<em class="text-danger">*</em></label>
+
+            <div class="col-sm-10">
+                <input id="username" name="username" class="form-control" placeholder="Type username, length >= 5"
+                       required="required" autocomplete="off" minlength="5"/>
+
+                <p class="help-block">Username, unique.</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="password">Password<em class="text-danger">*</em></label>
+
+            <div class="col-sm-10">
+                <input type="password" id="password" name="password" class="form-control" placeholder="Type password, length >= 10"
+                       required="required" minlength="10" autocomplete="off"/>
+
+                <p class="help-block">Password should include upper and lower case letters, numbers, and special characters, with a minimum length of 10 characters, required.</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Roles<em class="text-danger">*</em></label>
+
+            <div class="col-sm-10">
+                <!--                <c:forEach items="${formDto.rolesDtos}" varStatus="vs" var="role">-->
+                <div th:each="role, vs : ${formDto.rolesDtos}">
+                    <input type="hidden" th:name="'rolesDtos['+${vs.index}+'].guid'" th:value="${role.guid}"/>
+                    <input type="hidden" th:name="'rolesDtos['+${vs.index}+'].roleName'" th:value="${role.roleName}"/>
+
+                    <label class="checkbox">
+                        <!--                        <form:checkbox path="roleGuids" value="${role.guid}"/> [[${role.roleName}]] ${role.permissions}-->
+                        <input type="checkbox" name="roleGuids" th:value="${role.guid}"/> <span
+                            th:text="${role.roleName}+' '+${role.permissions}"></span>
+                    </label>
+                </div>
+                <!--                </c:forEach>-->
+
+                <p class="help-block">Select Roles</p>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-10">
+                <span th:errors="*" class="label label-warning"></span>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-10">
+                <button type="submit" class="btn btn-success">Save</button>
+                <a href="../overview">Cancel</a>
+            </div>
+        </div>
+    </form>
+
+
+    <div th:replace="fragments/main :: footer"/>
+</div>
+</body>
+</html>

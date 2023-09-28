@@ -9,7 +9,9 @@ import javax.servlet.ServletContextEvent;
 
 /**
  * @author Shengzhao Li
+ * @deprecated Use BeanContextAware.java replaced from 2.0.0
  */
+@Deprecated
 public class BeanContextLoaderListener extends ContextLoaderListener {
 
 

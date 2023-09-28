@@ -1,5 +1,6 @@
 package com.monkeyk.os.config;
 
+import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 import com.monkeyk.os.web.context.MkkCharacterEncodingFilter;
 import com.monkeyk.os.web.context.OAuthShiroHandlerExceptionResolver;
 import org.apache.shiro.mgt.SecurityManager;
@@ -80,6 +81,17 @@ public class AuthzWebConfig {
         AuthorizationAttributeSourceAdvisor sourceAdvisor = new AuthorizationAttributeSourceAdvisor();
         sourceAdvisor.setSecurityManager(securityManager);
         return sourceAdvisor;
+    }
+
+
+    /**
+     * shiro with thymeleaf ext
+     *
+     * @since 2.0.0
+     */
+    @Bean
+    public ShiroDialect shiroDialect() {
+        return new ShiroDialect();
     }
 
 }

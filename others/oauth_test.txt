@@ -1,43 +1,99 @@
 
-Make sure project modules context path as below:
-authz -> authz
-resources -> rs
+Make sure project modules setting as below:
+authz -> port: 8080
+resources -> port: 8083
 
 
--- Test grant_type = 'authorization_code' ,  get code
+-- Test grant_type = 'authorization_code' ,  get code    [GET]
 
-http://localhost:8080/authz/oauth/authorize?response_type=code&scope=read write&client_id=test&redirect_uri=http%3A%2F%2Flocalhost%3A7777%2Fspring-oauth-client%2Fauthorization_code_callback&state=09876999
+http://localhost:8080/oauth/authorize?response_type=code&scope=read write&client_id=test-client&redirect_uri=http%3A%2F%2Flocalhost%3A7777%2Fspring-oauth-client%2Fauthorization_code_callback&state=09876999
 
-http://localhost:8080/authz/oauth/authorize?response_type=code&scope=read%20write&client_id=test&redirect_uri=http%3A%2F%2Flocalhost%3A7777%2Fspring-oauth-client%2Fauthorization_code_callback&state=swss58522555
+http://localhost:8080/oauth/authorize?response_type=code&scope=read%20write&client_id=test-client&redirect_uri=http%3A%2F%2Flocalhost%3A7777%2Fspring-oauth-client%2Fauthorization_code_callback&state=swss58522555
 
 
--- Test grant_type = 'token'
--- implicit
+-- Test grant_type = 'token'  [GET]
+-- implicit  [deprecated]
 
-http://localhost:8080/authz/oauth/authorize?response_type=token&scope=read write&client_id=test&redirect_uri=http%3A%2F%2Flocalhost%3A7777%2Fspring-oauth-client%2Fauthorization_code_callback
+http://localhost:8080/oauth/authorize?response_type=token&scope=read write&client_id=test-client&redirect_uri=http%3A%2F%2Flocalhost%3A7777%2Fspring-oauth-client%2Fauthorization_code_callback
 
 
 -- Test from 'code' get 'token'   [POST]
-http://localhost:8080/authz/oauth/token?client_id=test&client_secret=test&grant_type=authorization_code&code=ac0bd18863b07adfb518cc6e6dfcfcab&redirect_uri=http://localhost:8080/os/oauth/authorize?response_type=code&scope=read%20write&client_id=test&redirect_uri=http%3A%2F%2Flocalhost%3A7777%2Fspring-oauth-client%2Fauthorization_code_callback&state=09876999
+http://localhost:8080/oauth/token?client_id=test-client&client_secret=Test@2015$$&grant_type=authorization_code&code=ac0bd18863b07adfb518cc6e6dfcfcab&redirect_uri=http%3A%2F%2Flocalhost%3A7777%2Fspring-oauth-client%2Fauthorization_code_callback
 
+curl --location 'http://localhost:8080/oauth/token' \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--data-urlencode 'client_id=test-client' \
+--data-urlencode 'client_secret=Test@2015$$' \
+--data-urlencode 'grant_type=authorization_code' \
+--data-urlencode 'redirect_uri=http://localhost:7777/spring-oauth-client/authorization_code_callback' \
+--data-urlencode 'code=52aa9d9cb8e62649e887e745fda94fa7'
 
+response
+{
+    "access_token": "eyJraWQiOiJvYXV0aDItc2hpcm8ta2V5aWQiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwianRpIjoiY2I2ZmIzYTFmNzA0OGU3NDYxZjcwYWI2OGNkYTk1ZjUiLCJpYXQiOjE2OTU4NjYzODIsImV4cCI6MTY5NTkwOTU4MiwiYXVkIjoidGVzdC1jbGllbnQifQ.NqJe-j7p3UC2gJlBJ-tKB4GrFsW9OR-GyxMfm4LIfwQ",
+    "refresh_token": "019b043ddcf5994220617b6795c5216a",
+    "token_type": "Bearer",
+    "expires_in": 43199
+}
 
 -- Test grant_type='password'   [POST]
-http://localhost:8080/authz/oauth/token?client_id=test&client_secret=test&grant_type=password&scope=read write&username=test&password=test
+http://localhost:8080/oauth/token?client_id=test-client&client_secret=Test@2015$$&grant_type=password&scope=read write&username=test&password=Test@2015#
 
+curl --location 'http://localhost:8080/oauth/token' \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--data-urlencode 'client_id=mobile-client' \
+--data-urlencode 'client_secret=Mobile@2015$$' \
+--data-urlencode 'grant_type=password' \
+--data-urlencode 'username=test' \
+--data-urlencode 'password=Test@2015#' \
+--data-urlencode 'scope=read'
+
+response
+{
+    "access_token": "eyJraWQiOiJvYXV0aDItc2hpcm8ta2V5aWQiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwianRpIjoiNDllOTQ0N2E2ZGJlMTUyZTBkMmE2YjYzNDRmZmQyNWQiLCJpYXQiOjE2OTU4NjY1NDAsImV4cCI6MTY5NTkwOTc0MCwiYXVkIjoibW9iaWxlLWNsaWVudCJ9.WjB1lvsccXXBJiOeHMuvo-kZmpfpi1YQgU8NuGYmR70",
+    "refresh_token": "46a2017568aee3875a42f7c2234f4b3d",
+    "token_type": "Bearer",
+    "expires_in": 43199
+}
 
 
 -- Test grant_type='client_credentials'  [POST]
-http://localhost:8080/authz/oauth/token?client_id=test&client_secret=test&grant_type=client_credentials&scope=read
+http://localhost:8080/oauth/token?client_id=test-client&client_secret=Test@2015$$&grant_type=client_credentials&scope=read
 
+curl --location 'http://localhost:8080/oauth/token' \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--data-urlencode 'client_id=test-client' \
+--data-urlencode 'client_secret=Test@2015$$' \
+--data-urlencode 'grant_type=client_credentials' \
+--data-urlencode 'scope=read'
+
+response
+{
+    "access_token": "eyJraWQiOiJvYXV0aDItc2hpcm8ta2V5aWQiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0LWNsaWVudCIsImp0aSI6IjlkNTZhMjFhYzNhZGMzMWQyYzRjZDJlOWEyNTNkY2RmIiwiaWF0IjoxNjk1ODY2NjA5LCJleHAiOjE2OTU5MDk4MDksImF1ZCI6InRlc3QtY2xpZW50In0.brapFTd_HiPfrlKZWOK9MXOFKrDRD7v2dqXnGU7nkjI",
+    "token_type": "Bearer",
+    "expires_in": 43199
+}
 
 -- Test grant_type='refresh_token'  [POST]
-http://localhost:8080/authz/oauth/token?client_id=test&client_secret=test&grant_type=refresh_token&refresh_token=b36f4978a1724aa8af8960f58abe3ba1
+http://localhost:8080/oauth/token?client_id=test-client&client_secret=Test@2015$$&grant_type=refresh_token&refresh_token=b36f4978a1724aa8af8960f58abe3ba1
 
+curl --location 'http://localhost:8080/oauth/token' \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--data-urlencode 'client_id=test-client' \
+--data-urlencode 'client_secret=Test@2015$$' \
+--data-urlencode 'grant_type=refresh_token' \
+--data-urlencode 'refresh_token=8c46797a0101800626270ce6579c84fa'
 
+response
+{
+    "access_token": "eyJraWQiOiJvYXV0aDItc2hpcm8ta2V5aWQiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwianRpIjoiZTUyYTExZGU4Y2EwNGUwOTI1Y2RhNDMxNDYwN2NmZGUiLCJpYXQiOjE2OTU4NjY2NzksImV4cCI6MTY5NTkwOTg3OSwiYXVkIjoidGVzdC1jbGllbnQifQ.qLkvnAartpxkiFfeMwnzrK61ihJtXAu6ml5tFU8O-NU",
+    "refresh_token": "bb277d6ba38bbf5d6facae92eb29e286",
+    "token_type": "Bearer",
+    "expires_in": 43199
+}
 
 --
-Test-Page URL: http://localhost:8080/authz/resources/oauth_test.html
+Test-Page URL: http://localhost:8080/html/oauth_test.html
 --
 
 
@@ -46,7 +102,16 @@ Test-Page URL: http://localhost:8080/authz/resources/oauth_test.html
 
 
 -- Test resource
-http://localhost:8080/rs/rs/username?access_token=6b7b0726e603cd04c797d5b28c7be4c4
+http://localhost:8083/rs/username   [GET]
+
+curl --location 'http://localhost:8083/rs/username' \
+--header 'Authorization: Bearer eyJraWQiOiJvYXV0aDItc2hpcm8ta2V5aWQiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwianRpIjoiZTUyYTExZGU4Y2EwNGUwOTI1Y2RhNDMxNDYwN2NmZGUiLCJpYXQiOjE2OTU4NjY2NzksImV4cCI6MTY5NTkwOTg3OSwiYXVkIjoidGVzdC1jbGllbnQifQ.qLkvnAartpxkiFfeMwnzrK61ihJtXAu6ml5tFU8O-NU'
+
+response
+{
+    "clientId": "test-client",
+    "username": "test"
+}
 
 
 --
@@ -54,11 +119,34 @@ http://localhost:8080/rs/rs/username?access_token=6b7b0726e603cd04c797d5b28c7be4
 --
 
 -- Test grant_type='password'   [POST]
-http://localhost:8080/authz/oauth/token?client_id=mobile&client_secret=mobile&grant_type=password&scope=read write&username=test&password=test
+http://localhost:8080/oauth/token?client_id=mobile-client&client_secret=Mobile@2015$$&grant_type=password&scope=read write&username=test&password=Test@2015#
+
+curl --location 'http://localhost:8080/oauth/token' \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--data-urlencode 'client_id=mobile-client' \
+--data-urlencode 'client_secret=Mobile@2015$$' \
+--data-urlencode 'grant_type=password' \
+--data-urlencode 'username=test' \
+--data-urlencode 'password=Test@2015#' \
+--data-urlencode 'scope=read'
 
 
+response
+{
+    "access_token": "eyJraWQiOiJvYXV0aDItc2hpcm8ta2V5aWQiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwianRpIjoiNDllOTQ0N2E2ZGJlMTUyZTBkMmE2YjYzNDRmZmQyNWQiLCJpYXQiOjE2OTU4NjY1NDAsImV4cCI6MTY5NTkwOTc0MCwiYXVkIjoibW9iaWxlLWNsaWVudCJ9.WjB1lvsccXXBJiOeHMuvo-kZmpfpi1YQgU8NuGYmR70",
+    "refresh_token": "46a2017568aee3875a42f7c2234f4b3d",
+    "token_type": "Bearer",
+    "expires_in": 43199
+}
 
 -- Test mobile resource
-http://qc8.cc:8080/rs/mobile/system_time?access_token=b69c2f61212780c901e69cebd6854667
+http://localhost:8083/mobile/system_time  [GET]
 
+curl --location 'http://localhost:8083/mobile/system_time' \
+--header 'Authorization: Bearer eyJraWQiOiJvYXV0aDItc2hpcm8ta2V5aWQiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwianRpIjoiNDllOTQ0N2E2ZGJlMTUyZTBkMmE2YjYzNDRmZmQyNWQiLCJpYXQiOjE2OTU4NjY1NDAsImV4cCI6MTY5NTkwOTc0MCwiYXVkIjoibW9iaWxlLWNsaWVudCJ9.WjB1lvsccXXBJiOeHMuvo-kZmpfpi1YQgU8NuGYmR70'
+
+response
+{
+    "time": 1695628213913
+}
 

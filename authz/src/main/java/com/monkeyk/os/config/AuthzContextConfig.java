@@ -53,7 +53,7 @@ public class AuthzContextConfig {
     }
 
     /**
-     * 使用MD5 OAuthIssuer, 生成随机值,如 access_token, refresh_token
+     * 默认使用MD5 OAuthIssuer, 生成随机值,如 access_token, refresh_token
      * 可根据需要扩展使用其他的实现
      */
     @Bean

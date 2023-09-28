@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,user-scalable=no"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <link rel="shortcut icon" href="../../static/favicon.ico" th:href="@{/favicon.ico}"/>
+
+    <title>OAuth Approval . OAuth2-Shiro[authz]</title>
+
+    <th:block th:include="fragments/main::header-css"/>
+
+</head>
+<body>
+<div class="container">
+    <h1>OAuth Approval</h1>
+
+    <p>Do you authorize '<em th:text="${param.get('client_id')}"></em>' to access your protected resources?</p>
+
+    <form id='confirmationForm' name='confirmationForm' th:action='@{/oauth/authorize}'
+          method='post'>
+        <input type="hidden" name="client_id" th:value="${param.get('client_id')}"/>
+        <input type="hidden" name="scope" th:value="${param.get('scope')}"/>
+        <input type="hidden" name="response_type" th:value="${param.get('response_type')}"/>
+        <input type="hidden" name="redirect_uri" th:value="${param.get('redirect_uri')}"/>
+        <input type="hidden" name="state" th:value="${param.get('state')}"/>
+        <input type="hidden" name="client_secret" th:value="${param.get('client_secret')}"/>
+
+        <input name='user_oauth_approval' value='true' type='hidden'/>
+        <label> <input value='Authorize' type='submit' class="btn btn-success"/></label>
+    </form>
+
+    <form id='denialForm' name='denialForm' th:action='@{/oauth/authorize}' method='post'>
+        <input type="hidden" name="client_id" th:value="${param.get('client_id')}"/>
+        <input type="hidden" name="scope" th:value="${param.get('scope')}"/>
+        <input type="hidden" name="response_type" th:value="${param.get('response_type')}"/>
+        <input type="hidden" name="redirect_uri" th:value="${param.get('redirect_uri')}"/>
+        <input type="hidden" name="state" th:value="${param.get('state')}"/>
+        <input type="hidden" name="client_secret" th:value="${param.get('client_secret')}"/>
+
+        <input name='user_oauth_approval' value='false' type='hidden'/>
+        <label><input value='Deny' type='submit' class="btn btn-warning"/></label>
+    </form>
+
+    <div th:replace="fragments/main :: footer"/>
+</div>
+</body>
+</html>

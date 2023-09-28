@@ -1,1 +1,0 @@
-All static resources in here.

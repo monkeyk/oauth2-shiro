@@ -1,6 +1,7 @@
 package com.monkeyk.os.service.impl;
 
 import com.monkeyk.os.domain.oauth.*;
+import com.monkeyk.os.oauth.token.JwtTokenEnhancer;
 import com.monkeyk.os.service.OauthService;
 import org.apache.oltu.oauth2.as.issuer.OAuthIssuer;
 import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
@@ -9,6 +10,7 @@ import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
@@ -30,6 +32,29 @@ public class OauthServiceImpl implements OauthService {
     private AuthenticationIdGenerator authenticationIdGenerator;
     @Autowired
     private OAuthIssuer oAuthIssuer;
+
+
+    /**
+     * 生成token的类型是 jwt 还是 md5
+     *
+     * <p>
+     * 根据配置参数<code>authz.token.generator.type</code> 来决定是用 jwt 还是 md5值
+     * 可选值：md5 或 jwt (默认)
+     *
+     * @since 2.0.0
+     */
+    @Value("${authz.token.generator.type:jwt}")
+    private String tokenGeneratorType;
+
+
+    /**
+     * 增加 token 为 jwt 格式
+     *
+     * @since 2.0.0
+     */
+    @Autowired
+    private JwtTokenEnhancer jwtTokenEnhancer;
+
 
     @Override
     public ClientDetails loadClientDetails(String clientId) {
@@ -210,12 +235,12 @@ public class OauthServiceImpl implements OauthService {
         return oauthRepository.findAccessTokenByRefreshToken(refreshToken, clientId);
     }
 
-    /*
-    * Get AccessToken
-    * Generate a new AccessToken from existed(exclude token,refresh_token)
-    * Update access_token,refresh_token, expired.
-    * Save and remove old
-    * */
+    /**
+     * Get AccessToken
+     * Generate a new AccessToken from existed(exclude token,refresh_token)
+     * Update access_token,refresh_token, expired.
+     * Save and remove old
+     */
     @Override
     public AccessToken changeAccessTokenByRefreshToken(String refreshToken, String clientId) throws OAuthSystemException {
         final AccessToken oldToken = loadAccessTokenByRefreshToken(refreshToken, clientId);
@@ -227,8 +252,12 @@ public class OauthServiceImpl implements OauthService {
         newAccessToken.updateByClientDetails(details);
 
         final String authId = authenticationIdGenerator.generate(clientId, oldToken.username(), null);
+        String tokenId = oAuthIssuer.accessToken();
+        if (needEnhanceJwt()) {
+            tokenId = jwtTokenEnhancer.enhance(tokenId, oldToken.username(), clientId, newAccessToken.tokenExpiredSeconds());
+        }
         newAccessToken.authenticationId(authId)
-                .tokenId(oAuthIssuer.accessToken())
+                .tokenId(tokenId)
                 .refreshToken(oAuthIssuer.refreshToken());
 
         oauthRepository.deleteAccessToken(oldToken);
@@ -246,13 +275,21 @@ public class OauthServiceImpl implements OauthService {
         return clientDetails != null;
     }
 
-    private AccessToken createAndSaveAccessToken(ClientDetails clientDetails, boolean includeRefreshToken, String username, String authenticationId) throws OAuthSystemException {
+    private AccessToken createAndSaveAccessToken(ClientDetails clientDetails, boolean includeRefreshToken, String username, String authenticationId)
+            throws OAuthSystemException {
+
         AccessToken accessToken = new AccessToken()
                 .clientId(clientDetails.getClientId())
                 .username(username)
-                .tokenId(oAuthIssuer.accessToken())
+//                .tokenId(tokenId)
                 .authenticationId(authenticationId)
                 .updateByClientDetails(clientDetails);
+
+        String tokenId = oAuthIssuer.accessToken();
+        if (needEnhanceJwt()) {
+            tokenId = jwtTokenEnhancer.enhance(tokenId, username, clientDetails.getClientId(), accessToken.tokenExpiredSeconds());
+        }
+        accessToken.tokenId(tokenId);
 
         if (includeRefreshToken) {
             accessToken.refreshToken(oAuthIssuer.refreshToken());
@@ -270,6 +307,17 @@ public class OauthServiceImpl implements OauthService {
         LOG.debug("Save authorizationCode '{}' of ClientDetails '{}'", authCode, clientDetails);
         oauthCode = this.saveAuthorizationCode(authCode, clientDetails);
         return oauthCode;
+    }
+
+
+    /**
+     * 判断是否需要增强token 用 jwt
+     *
+     * @return true yes
+     * @since 2.0.0
+     */
+    private boolean needEnhanceJwt() {
+        return Constants.JWT.equalsIgnoreCase(this.tokenGeneratorType);
     }
 
 

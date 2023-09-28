@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * 2020/7/13
  *
  * @author Shengzhao Li
+ * @since 2.0.0
  */
 @SpringBootTest
 class ResourcesApplicationTest {
