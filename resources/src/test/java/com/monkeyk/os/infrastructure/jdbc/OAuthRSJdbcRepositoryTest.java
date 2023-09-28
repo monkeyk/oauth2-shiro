@@ -5,10 +5,11 @@ import com.monkeyk.os.domain.oauth.AccessToken;
 import com.monkeyk.os.domain.oauth.ClientDetails;
 import com.monkeyk.os.domain.oauth.OauthCode;
 import com.monkeyk.os.domain.shared.GuidGenerator;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.annotations.Test;
 
-import static org.testng.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 
 /**
  * 15-6-13

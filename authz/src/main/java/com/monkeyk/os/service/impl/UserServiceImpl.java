@@ -24,6 +24,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UsersAuthzRepository usersAuthzRepository;
 
+    @Autowired
+    private UsersFormSaver usersFormSaver;
+
     @Override
     public UsersOverviewDto loadUsersOverviewDto(String username) {
         List<Users> usersList = usersAuthzRepository.findUsersByUsername(username);
@@ -44,7 +47,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String saveUsers(UsersFormDto formDto) {
-        UsersFormSaver saver = new UsersFormSaver(formDto);
-        return saver.save();
+        return this.usersFormSaver.save(formDto);
     }
 }

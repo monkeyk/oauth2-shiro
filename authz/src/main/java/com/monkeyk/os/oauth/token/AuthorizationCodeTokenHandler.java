@@ -40,10 +40,9 @@ public class AuthorizationCodeTokenHandler extends AbstractOAuthTokenHandler {
         return GrantType.AUTHORIZATION_CODE.toString().equalsIgnoreCase(grantType);
     }
 
-    /*
-    *
-    * /oauth/token?client_id=unity-client&client_secret=unity&grant_type=authorization_code&code=zLl170&redirect_uri=redirect_uri
-    * */
+    /**
+     * /oauth/token?client_id=unity-client&client_secret=unity&grant_type=authorization_code&code=zLl170&redirect_uri=redirect_uri
+     */
     @Override
     public void handleAfterValidation() throws OAuthProblemException, OAuthSystemException {
 

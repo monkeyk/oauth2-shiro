@@ -23,10 +23,10 @@ import java.util.List;
 public class OauthJdbcRepository extends AbstractJdbcRepository implements OauthRepository {
 
 
-    private static ClientDetailsRowMapper clientDetailsRowMapper = new ClientDetailsRowMapper();
-    private static OauthCodeRowMapper oauthCodeRowMapper = new OauthCodeRowMapper();
+    private final ClientDetailsRowMapper clientDetailsRowMapper = new ClientDetailsRowMapper();
+    private final OauthCodeRowMapper oauthCodeRowMapper = new OauthCodeRowMapper();
 
-    private static AccessTokenRowMapper accessTokenRowMapper = new AccessTokenRowMapper();
+    private final AccessTokenRowMapper accessTokenRowMapper = new AccessTokenRowMapper();
 
 
     @Override
@@ -41,42 +41,36 @@ public class OauthJdbcRepository extends AbstractJdbcRepository implements Oauth
         final String sql = " insert into oauth_client_details(client_id,client_secret,client_name, client_uri,client_icon_uri,resource_ids, scope,grant_types, " +
                 "redirect_uri,roles,access_token_validity,refresh_token_validity,description,archived,trusted) values (?,?,?, ?,?,?,?,?, ?,?, ?,? ,?,?,?)";
 
-        return jdbcTemplate.update(sql, new PreparedStatementSetter() {
-            @Override
-            public void setValues(PreparedStatement ps) throws SQLException {
-                ps.setString(1, clientDetails.getClientId());
-                ps.setString(2, clientDetails.getClientSecret());
-                ps.setString(3, clientDetails.getName());
+        return jdbcTemplate.update(sql, ps -> {
+            ps.setString(1, clientDetails.getClientId());
+            ps.setString(2, clientDetails.getClientSecret());
+            ps.setString(3, clientDetails.getName());
 
-                ps.setString(4, clientDetails.getClientUri());
-                ps.setString(5, clientDetails.getIconUri());
-                ps.setString(6, clientDetails.resourceIds());
+            ps.setString(4, clientDetails.getClientUri());
+            ps.setString(5, clientDetails.getIconUri());
+            ps.setString(6, clientDetails.resourceIds());
 
-                ps.setString(7, clientDetails.scope());
-                ps.setString(8, clientDetails.grantTypes());
-                ps.setString(9, clientDetails.getRedirectUri());
+            ps.setString(7, clientDetails.scope());
+            ps.setString(8, clientDetails.grantTypes());
+            ps.setString(9, clientDetails.getRedirectUri());
 
-                ps.setString(10, clientDetails.roles());
-                ps.setInt(11, clientDetails.accessTokenValidity() == null ? -1 : clientDetails.accessTokenValidity());
-                ps.setInt(12, clientDetails.refreshTokenValidity() == null ? -1 : clientDetails.refreshTokenValidity());
+            ps.setString(10, clientDetails.roles());
+            ps.setInt(11, clientDetails.accessTokenValidity() == null ? -1 : clientDetails.accessTokenValidity());
+            ps.setInt(12, clientDetails.refreshTokenValidity() == null ? -1 : clientDetails.refreshTokenValidity());
 
-                ps.setString(13, clientDetails.getDescription());
-                ps.setBoolean(14, clientDetails.archived());
-                ps.setBoolean(15, clientDetails.trusted());
-            }
+            ps.setString(13, clientDetails.getDescription());
+            ps.setBoolean(14, clientDetails.archived());
+            ps.setBoolean(15, clientDetails.trusted());
         });
     }
 
     @Override
     public int saveOauthCode(final OauthCode oauthCode) {
         final String sql = " insert into oauth_code(code,username,client_id) values (?,?,?)";
-        return jdbcTemplate.update(sql, new PreparedStatementSetter() {
-            @Override
-            public void setValues(PreparedStatement ps) throws SQLException {
-                ps.setString(1, oauthCode.code());
-                ps.setString(2, oauthCode.username());
-                ps.setString(3, oauthCode.clientId());
-            }
+        return jdbcTemplate.update(sql, ps -> {
+            ps.setString(1, oauthCode.code());
+            ps.setString(2, oauthCode.username());
+            ps.setString(3, oauthCode.clientId());
         });
     }
 
@@ -97,13 +91,10 @@ public class OauthJdbcRepository extends AbstractJdbcRepository implements Oauth
     @Override
     public int deleteOauthCode(final OauthCode oauthCode) {
         final String sql = " delete from oauth_code where code = ? and client_id = ? and username = ?";
-        return jdbcTemplate.update(sql, new PreparedStatementSetter() {
-            @Override
-            public void setValues(PreparedStatement ps) throws SQLException {
-                ps.setString(1, oauthCode.code());
-                ps.setString(2, oauthCode.clientId());
-                ps.setString(3, oauthCode.username());
-            }
+        return jdbcTemplate.update(sql, ps -> {
+            ps.setString(1, oauthCode.code());
+            ps.setString(2, oauthCode.clientId());
+            ps.setString(3, oauthCode.username());
         });
     }
 
@@ -117,13 +108,10 @@ public class OauthJdbcRepository extends AbstractJdbcRepository implements Oauth
     @Override
     public int deleteAccessToken(final AccessToken accessToken) {
         final String sql = " delete from oauth_access_token where client_id = ? and username = ? and authentication_id = ?";
-        return jdbcTemplate.update(sql, new PreparedStatementSetter() {
-            @Override
-            public void setValues(PreparedStatement ps) throws SQLException {
-                ps.setString(1, accessToken.clientId());
-                ps.setString(2, accessToken.username());
-                ps.setString(3, accessToken.authenticationId());
-            }
+        return jdbcTemplate.update(sql, ps -> {
+            ps.setString(1, accessToken.clientId());
+            ps.setString(2, accessToken.username());
+            ps.setString(3, accessToken.authenticationId());
         });
     }
 
@@ -132,20 +120,17 @@ public class OauthJdbcRepository extends AbstractJdbcRepository implements Oauth
         final String sql = "insert into oauth_access_token(token_id,token_expired_seconds,authentication_id," +
                 "username,client_id,token_type,refresh_token_expired_seconds,refresh_token) values (?,?,?,?,?,?,?,?) ";
 
-        return jdbcTemplate.update(sql, new PreparedStatementSetter() {
-            @Override
-            public void setValues(PreparedStatement ps) throws SQLException {
-                ps.setString(1, accessToken.tokenId());
-                ps.setInt(2, accessToken.tokenExpiredSeconds());
-                ps.setString(3, accessToken.authenticationId());
+        return jdbcTemplate.update(sql, ps -> {
+            ps.setString(1, accessToken.tokenId());
+            ps.setInt(2, accessToken.tokenExpiredSeconds());
+            ps.setString(3, accessToken.authenticationId());
 
-                ps.setString(4, accessToken.username());
-                ps.setString(5, accessToken.clientId());
-                ps.setString(6, accessToken.tokenType());
+            ps.setString(4, accessToken.username());
+            ps.setString(5, accessToken.clientId());
+            ps.setString(6, accessToken.tokenType());
 
-                ps.setInt(7, accessToken.refreshTokenExpiredSeconds());
-                ps.setString(8, accessToken.refreshToken());
-            }
+            ps.setInt(7, accessToken.refreshTokenExpiredSeconds());
+            ps.setString(8, accessToken.refreshToken());
         });
     }
 

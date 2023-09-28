@@ -11,9 +11,10 @@
  */
 package com.monkeyk.os.domain.oauth;
 
-import org.testng.annotations.Test;
 
-import static org.testng.Assert.assertNotNull;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * 15-6-20
@@ -29,7 +30,7 @@ public class AuthenticationIdGeneratorTest {
         final String generate = generator.generate("clientid", "username", "authid");
 
         assertNotNull(generate);
-        System.out.println(generate);
+//        System.out.println(generate);
 
     }
 }

@@ -65,7 +65,7 @@ public class OAuth2JdbcRealm extends MkkJdbcRealm {
         OAuth2Token upToken = (OAuth2Token) token;
         final String accessToken = (String) upToken.getCredentials();
 
-        if (StringUtils.isEmpty(accessToken)) {
+        if (!StringUtils.hasLength(accessToken)) {
             throw new OAuth2AuthenticationException("Invalid access_token: " + accessToken);
         }
         //Validate access token
@@ -135,6 +135,6 @@ public class OAuth2JdbcRealm extends MkkJdbcRealm {
     public void afterPropertiesSet() throws Exception {
         super.afterPropertiesSet();
 
-        Assert.notNull(this.rsService);
+        Assert.notNull(this.rsService, "rsService is required");
     }
 }

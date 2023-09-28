@@ -14,7 +14,7 @@ import org.springframework.beans.factory.InitializingBean;
  */
 public class MkkJdbcRealm extends JdbcRealm implements InitializingBean {
 
-    public static final String AUTHENTICATION_QUERY = "select password from users where archived = 0 and username = ?";
+    public static final String AUTHENTICATION_QUERY = "select password, password_salt from users where archived = 0 and username = ?";
 
     public static final String USER_ROLES_QUERY = "select r.role_name from user_roles ur,users u,roles r  where ur.users_id = u.id and ur.roles_id = r.id and u.username = ?";
 
@@ -23,13 +23,15 @@ public class MkkJdbcRealm extends JdbcRealm implements InitializingBean {
 
     public MkkJdbcRealm() {
         super();
+        //support salt since 2.0.0
+        setSaltStyle(SaltStyle.COLUMN);
     }
 
 
     /**
      * 根据实现的需要, 可以修改具体使用时的查询语句
      *
-     * @throws Exception
+     * @throws Exception e
      */
     @Override
     public void afterPropertiesSet() throws Exception {

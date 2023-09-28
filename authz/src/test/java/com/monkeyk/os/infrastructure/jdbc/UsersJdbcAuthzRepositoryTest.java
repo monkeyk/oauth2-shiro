@@ -15,12 +15,14 @@ import com.monkeyk.os.ContextTest;
 import com.monkeyk.os.domain.shared.GuidGenerator;
 import com.monkeyk.os.domain.users.Roles;
 import com.monkeyk.os.domain.users.Users;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.annotations.Test;
+
 
 import java.util.List;
 
-import static org.testng.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
+
 
 /*
   * @author Shengzhao Li

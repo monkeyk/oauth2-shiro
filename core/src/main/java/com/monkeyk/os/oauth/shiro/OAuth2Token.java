@@ -13,13 +13,19 @@ public class OAuth2Token implements RememberMeAuthenticationToken {
     private static final long serialVersionUID = 8587854556973099598L;
 
 
-    // the service access_token
+    /**
+     * the service access_token
+     */
     private String accessToken;
 
-    // the user identifier, username
+    /**
+     * the user identifier, username
+     */
     private String userId;
 
-    // is the user in a remember me mode ?
+    /**
+     * is the user in a remember me mode ?
+     */
     private boolean rememberMe = false;
 
 

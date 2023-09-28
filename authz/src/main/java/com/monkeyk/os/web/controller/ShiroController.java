@@ -36,7 +36,7 @@ public class ShiroController {
     }
 
 
-    /*
+    /**
      * Go login page
      */
     @RequestMapping(value = "login", method = RequestMethod.GET)

@@ -35,6 +35,7 @@ public class ClientDetailsFormDto extends ClientDetailsDto {
 
     public ClientDetailsFormDto(List<Roles> rolesList) {
         this();
+        this.setGrantTypes("");
         this.rolesDtoList = RolesDto.toDtos(rolesList);
     }
 

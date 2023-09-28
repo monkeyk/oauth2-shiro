@@ -1,13 +1,14 @@
 package com.monkeyk.os.domain.oauth;
 
 import com.monkeyk.os.infrastructure.DateUtils;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
+
 
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
+
 
 /**
  * @author Shengzhao Li

@@ -1,7 +1,6 @@
 package com.monkeyk.os.service.dto;
 
 import com.monkeyk.os.domain.shared.GuidGenerator;
-import com.monkeyk.os.domain.users.PasswordHandler;
 import com.monkeyk.os.domain.users.Users;
 
 import java.util.ArrayList;
@@ -39,7 +38,9 @@ public class UsersFormDto extends UsersDto {
     public Users newUsers() {
         return new Users()
                 .username(getUsername())
-                .password(PasswordHandler.md5(getPassword()))
+//                .password(PasswordHandler.md5(getPassword()))
+                // salt, since 2.0.0
+                .passwordSalt(GuidGenerator.nextSaltHex())
                 .guid(GuidGenerator.generate());
     }
 }

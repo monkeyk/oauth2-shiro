@@ -8,6 +8,7 @@ import org.apache.oltu.oauth2.common.exception.OAuthProblemException;
 import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
 import org.apache.oltu.oauth2.common.message.OAuthResponse;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -35,9 +36,9 @@ public class OauthTokenController {
      *
      * @param request  HttpServletRequest
      * @param response HttpServletResponse
-     * @throws OAuthSystemException
+     * @throws OAuthSystemException e
      */
-    @RequestMapping("token")
+    @PostMapping("token")
     public void authorize(HttpServletRequest request, HttpServletResponse response) throws OAuthSystemException {
         try {
             OAuthTokenxRequest tokenRequest = new OAuthTokenxRequest(request);

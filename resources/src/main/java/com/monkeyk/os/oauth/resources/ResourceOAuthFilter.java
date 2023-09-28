@@ -11,6 +11,7 @@ import org.apache.oltu.oauth2.rs.response.OAuthRSResponse;
 import org.apache.oltu.oauth2.rsfilter.OAuthDecision;
 import org.apache.oltu.oauth2.rsfilter.OAuthRSProvider;
 import org.apache.oltu.oauth2.rsfilter.OAuthUtils;
+import org.apache.shiro.web.util.WebUtils;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -90,8 +91,8 @@ public class ResourceOAuthFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
-        HttpServletRequest req = (HttpServletRequest) request;
-        HttpServletResponse res = (HttpServletResponse) response;
+        HttpServletRequest req = WebUtils.toHttp(request);
+        HttpServletResponse res = WebUtils.toHttp(response);
 
         try {
 
@@ -137,7 +138,7 @@ public class ResourceOAuthFilter implements Filter {
         //nothing
     }
 
-    /*
+    /**
      * 默认的 ERROR 返回信息在header中,
      * 可根据实际需要修改为JSON或XML数据格式返回
      */
