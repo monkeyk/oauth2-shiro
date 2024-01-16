@@ -19,7 +19,7 @@
 
         <spring.version>5.3.13</spring.version>
         <oltu.version>1.0.2</oltu.version>
-        <shiro.version>1.11.0</shiro.version>
+        <shiro.version>1.13.0</shiro.version>
 
     </properties>
 
